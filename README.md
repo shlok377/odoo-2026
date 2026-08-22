@@ -376,6 +376,3 @@ Itinera avoids generic interface paradigms in favor of an intentional, editorial
 
 ---
 
-## License
-
-This project is developed for the **Odoo Hackathon 2026**. All rights reserved.
