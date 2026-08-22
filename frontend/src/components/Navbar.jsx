@@ -66,6 +66,14 @@ export default function Navbar({ onNavigate, currentPage }) {
             My Trips
           </button>
 
+          <button 
+            onClick={() => onNavigate('community')}
+            className={`btn btn-sm text-nowrap ${currentPage === 'community' ? 'btn-pill-cream' : 'btn-pill-outline'}`}
+            style={{ borderRadius: '9999px', padding: '0.45rem 1.25rem', whiteSpace: 'nowrap' }}
+          >
+            Community
+          </button>
+
           {/* Sleek User Account / Insights Dropdown */}
           <div className="position-relative" ref={dropdownRef}>
             <button 

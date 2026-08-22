@@ -9,10 +9,11 @@ import MyTripsPage from './pages/MyTripsPage';
 import BudgetCostPage from './pages/BudgetCostPage';
 import ProfileSettingsPage from './pages/ProfileSettingsPage';
 import AnalyticsDashboardPage from './pages/AnalyticsDashboardPage';
+import CommunityPage from './pages/CommunityPage';
 import { useAuthStore } from './store/useAuthStore';
 
 export default function App() {
-  const [currentPage, setCurrentPage] = useState('home'); // 'home', 'planner-flow', 'trips', 'itinerary-builder', 'auth-login', 'auth-register', 'budget', 'profile', 'analytics'
+  const [currentPage, setCurrentPage] = useState('home'); // 'home', 'planner-flow', 'trips', 'itinerary-builder', 'auth-login', 'auth-register', 'budget', 'profile', 'analytics', 'community'
   const [activePlannedTrip, setActivePlannedTrip] = useState(null);
   const { user } = useAuthStore();
 
@@ -49,6 +50,13 @@ export default function App() {
 
         {currentPage === 'trips' && (
           <MyTripsPage 
+            onNavigate={handleNavigate}
+            onStartItinerary={handleStartItinerary}
+          />
+        )}
+
+        {currentPage === 'community' && (
+          <CommunityPage 
             onNavigate={handleNavigate}
             onStartItinerary={handleStartItinerary}
           />

@@ -1,0 +1,2483 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Itinera — Community</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Neuton:wght@400;600;700;800&family=Pangolin&display=swap" rel="stylesheet">
+
+<style>
+
+/* =========================================================
+   ITINERA COMMUNITY
+   Repository theme:
+   Burgundy #591d26
+   Cream #f5efe9
+   No glassmorphism
+========================================================= */
+
+:root {
+    --burgundy: #591d26;
+    --burgundy-dark: #42151c;
+    --burgundy-deep: #351116;
+    --burgundy-panel: #48171f;
+    --burgundy-light: #6a2b35;
+
+    --cream: #c9b7ac;
+    --cream-dark: #b7a49a;
+    --cream-soft: #a38d85;
+
+    --paper: #c5b3a9;
+    --paper-dark: #b8a59b;
+
+    --text-dark: #40272c;
+
+    --border: #70404a;
+    --border-soft: #80535b;
+
+    --blue: #6e8fa3;
+}
+
+
+/* =========================================================
+   RESET
+========================================================= */
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    margin: 0;
+
+    min-height: 100vh;
+
+    font-family: "Neuton", serif;
+
+    background:
+        linear-gradient(
+            180deg,
+            #591d26 0%,
+            #4d1921 48%,
+            #42151c 100%
+        );
+
+    color: var(--cream);
+}
+
+
+/* =========================================================
+   NAVBAR
+========================================================= */
+
+.navbar {
+    height: 72px;
+
+    padding: 0 5%;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    background: #42151c;
+
+    border-bottom: 1px solid var(--border);
+
+    position: sticky;
+    top: 0;
+
+    z-index: 100;
+}
+
+.logo {
+    font-family: "Pangolin", cursive;
+
+    font-size: 30px;
+
+    color: var(--cream);
+}
+
+.nav-links {
+    display: flex;
+
+    gap: 30px;
+}
+
+.nav-links a {
+    text-decoration: none;
+
+    color: #a9928b;
+
+    transition:
+        color .2s ease,
+        transform .2s ease;
+}
+
+.nav-links a:hover {
+    color: var(--cream);
+
+    transform: translateY(-1px);
+}
+
+.nav-links a.active {
+    color: var(--cream);
+}
+
+
+/* PROFILE */
+
+.profile-button {
+    width: 40px;
+    height: 40px;
+
+    border-radius: 50%;
+
+    border: 1px solid var(--border-soft);
+
+    background: #6a2b35;
+
+    color: var(--cream);
+
+    font-family: "Pangolin", cursive;
+
+    font-size: 18px;
+}
+
+
+/* =========================================================
+   PAGE
+========================================================= */
+
+.page {
+    width: min(1250px, 92%);
+
+    margin: auto;
+
+    padding:
+        50px 0 80px;
+}
+
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.community-header {
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: end;
+
+    gap: 30px;
+
+    margin-bottom: 30px;
+}
+
+.kicker {
+    font-family: "Pangolin", cursive;
+
+    color: #a9938b;
+
+    font-size: 18px;
+}
+
+.community-header h1 {
+    margin: 5px 0;
+
+    font-size:
+        clamp(3rem, 6vw, 5.5rem);
+
+    line-height: .9;
+
+    color: var(--cream);
+
+    font-weight: 700;
+}
+
+.community-header p {
+    margin: 10px 0 0;
+
+    max-width: 650px;
+
+    color: #a99189;
+
+    font-size: 18px;
+
+    line-height: 1.45;
+}
+
+.create-post {
+    white-space: nowrap;
+
+    padding: 12px 18px;
+
+    background: var(--cream);
+
+    color: var(--burgundy-dark);
+
+    border: 1px solid var(--cream);
+
+    border-radius: 5px;
+
+    font-family: "Neuton", serif;
+
+    font-size: 16px;
+
+    cursor: pointer;
+
+    transition:
+        transform .2s ease,
+        background .2s ease;
+}
+
+.create-post:hover {
+    background: #b6a49a;
+
+    transform: translateY(-2px);
+}
+
+
+/* =========================================================
+   SEARCH + FILTER BAR
+========================================================= */
+
+.controls {
+    padding: 13px;
+
+    background: var(--burgundy-deep);
+
+    border: 1px solid var(--border);
+
+    display: grid;
+
+    grid-template-columns: 1fr auto auto auto;
+
+    gap: 8px;
+
+    margin-bottom: 28px;
+}
+
+.search {
+    position: relative;
+}
+
+.search input {
+    width: 100%;
+
+    height: 42px;
+
+    padding: 0 13px 0 40px;
+
+    background: #3d141a;
+
+    border: 1px solid var(--border);
+
+    color: var(--cream);
+
+    outline: none;
+
+    font-family: "Neuton", serif;
+
+    font-size: 15px;
+
+    border-radius: 4px;
+}
+
+.search input::placeholder {
+    color: #80676b;
+}
+
+.search-icon {
+    position: absolute;
+
+    left: 14px;
+    top: 10px;
+
+    color: #927b76;
+}
+
+
+.control-button {
+    height: 42px;
+
+    padding: 0 15px;
+
+    background: #3f141b;
+
+    color: var(--cream-dark);
+
+    border: 1px solid var(--border);
+
+    border-radius: 4px;
+
+    font-family: "Neuton", serif;
+
+    cursor: pointer;
+
+    transition: .2s ease;
+}
+
+.control-button:hover {
+    background: #612731;
+
+    color: var(--cream);
+}
+
+
+/* =========================================================
+   CATEGORY TABS
+========================================================= */
+
+.tabs {
+    display: flex;
+
+    gap: 25px;
+
+    margin-bottom: 25px;
+
+    border-bottom:
+        1px solid var(--border);
+}
+
+.tab {
+    padding:
+        0 0 12px;
+
+    color: #a48d86;
+
+    background: transparent;
+
+    border: 0;
+
+    font-family: "Neuton", serif;
+
+    font-size: 17px;
+
+    cursor: pointer;
+
+    position: relative;
+}
+
+.tab.active {
+    color: var(--cream);
+}
+
+.tab.active::after {
+    content: "";
+
+    position: absolute;
+
+    bottom: -1px;
+
+    left: 0;
+
+    width: 100%;
+
+    height: 2px;
+
+    background: var(--cream);
+}
+
+
+/* =========================================================
+   COMMUNITY LAYOUT
+========================================================= */
+
+.community-layout {
+    display: grid;
+
+    grid-template-columns:
+        minmax(0, 1fr)
+        290px;
+
+    gap: 20px;
+
+    align-items: start;
+}
+
+
+/* =========================================================
+   FEED
+========================================================= */
+
+.feed {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 18px;
+}
+
+
+/* =========================================================
+   POST
+========================================================= */
+
+.post {
+    background: #bba89e;
+
+    color: var(--text-dark);
+
+    border:
+        1px solid #957b72;
+
+    transition:
+        transform .2s ease,
+        background .2s ease,
+        border-color .2s ease;
+}
+
+.post:hover {
+    background: #c1afa5;
+
+    transform: translateY(-2px);
+
+    border-color: #a18b81;
+}
+
+
+/* POST HEADER */
+
+.post-header {
+    padding: 15px 17px;
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+}
+
+.user {
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+}
+
+.avatar {
+    width: 42px;
+    height: 42px;
+
+    display: grid;
+
+    place-items: center;
+
+    border-radius: 50%;
+
+    background: var(--burgundy);
+
+    color: var(--cream);
+
+    font-family: "Pangolin", cursive;
+
+    font-size: 18px;
+}
+
+.user-name {
+    font-weight: 700;
+
+    font-size: 17px;
+}
+
+.user-meta {
+    color: #705b5d;
+
+    font-size: 13px;
+}
+
+.follow {
+    padding: 6px 12px;
+
+    background: transparent;
+
+    border:
+        1px solid #806760;
+
+    color: var(--burgundy);
+
+    border-radius: 4px;
+
+    cursor: pointer;
+
+    font-family: "Neuton", serif;
+
+    transition: .2s ease;
+}
+
+.follow:hover {
+    background: var(--burgundy);
+
+    color: var(--cream);
+}
+
+
+/* =========================================================
+   POST CONTENT
+========================================================= */
+
+.post-content {
+    padding: 0 17px 16px;
+}
+
+.post-type {
+    display: inline-block;
+
+    color: var(--burgundy);
+
+    font-size: 12px;
+
+    font-weight: 700;
+
+    letter-spacing: .08em;
+
+    text-transform: uppercase;
+
+    margin-bottom: 6px;
+}
+
+.post-title {
+    margin: 0;
+
+    font-size: 27px;
+
+    color: var(--burgundy);
+
+    line-height: 1.05;
+}
+
+.post-description {
+    margin: 8px 0 15px;
+
+    color: #665457;
+
+    line-height: 1.4;
+
+    font-size: 16px;
+}
+
+
+/* =========================================================
+   DESTINATION TAGS
+========================================================= */
+
+.tags {
+    display: flex;
+
+    flex-wrap: wrap;
+
+    gap: 6px;
+}
+
+.tag {
+    padding: 5px 8px;
+
+    background: #aa978d;
+
+    border:
+        1px solid #917970;
+
+    color: #59373e;
+
+    font-size: 12px;
+}
+
+
+/* =========================================================
+   PHOTOS
+   Compact gallery, NOT slideshow
+========================================================= */
+
+.photo-grid {
+    display: grid;
+
+    grid-template-columns:
+        2fr 1fr 1fr;
+
+    gap: 3px;
+
+    height: 260px;
+
+    overflow: hidden;
+}
+
+.photo {
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+
+    display: block;
+
+    filter:
+        saturate(.82)
+        contrast(.94);
+
+    transition:
+        transform .3s ease,
+        filter .3s ease;
+}
+
+.photo:hover {
+    transform: scale(1.025);
+
+    filter:
+        saturate(.95)
+        contrast(1);
+}
+
+
+/* =========================================================
+   POST FOOTER
+========================================================= */
+
+.post-footer {
+    padding:
+        12px 17px;
+
+    border-top:
+        1px solid #a08b82;
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+}
+
+.post-actions {
+    display: flex;
+
+    gap: 15px;
+}
+
+.action {
+    border: 0;
+
+    background: transparent;
+
+    color: #665255;
+
+    font-family: "Neuton", serif;
+
+    cursor: pointer;
+
+    transition:
+        color .2s ease,
+        transform .2s ease;
+}
+
+.action:hover {
+    color: var(--burgundy);
+
+    transform: translateY(-1px);
+}
+
+.action.liked {
+    color: var(--burgundy);
+
+    font-weight: 700;
+}
+
+.save {
+    border: 0;
+
+    background: transparent;
+
+    color: var(--burgundy);
+
+    cursor: pointer;
+
+    font-family: "Neuton", serif;
+}
+
+
+/* =========================================================
+   USE ITINERARY
+========================================================= */
+
+.use-itinerary {
+    width: 100%;
+
+    margin-top: 15px;
+
+    padding: 10px;
+
+    background: var(--burgundy);
+
+    color: var(--cream);
+
+    border:
+        1px solid var(--burgundy);
+
+    border-radius: 4px;
+
+    font-family: "Neuton", serif;
+
+    cursor: pointer;
+
+    transition:
+        background .2s ease,
+        transform .2s ease;
+}
+
+.use-itinerary:hover {
+    background: #6a2b35;
+
+    transform: translateY(-1px);
+}
+
+
+/* =========================================================
+   SIDEBAR
+========================================================= */
+
+.community-sidebar {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 15px;
+}
+
+.side-card {
+    background: #48171f;
+
+    border:
+        1px solid var(--border);
+
+    padding: 17px;
+}
+
+.side-card h3 {
+    margin:
+        0 0 5px;
+
+    color: var(--cream);
+
+    font-size: 21px;
+}
+
+.side-card > p {
+    margin:
+        0 0 15px;
+
+    color: #987f79;
+
+    font-size: 14px;
+
+    line-height: 1.4;
+}
+
+
+/* =========================================================
+   POPULAR DESTINATIONS
+========================================================= */
+
+.destination {
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+    padding:
+        9px 0;
+
+    border-bottom:
+        1px solid #64303a;
+}
+
+.destination:last-child {
+    border-bottom: 0;
+}
+
+.destination img {
+    width: 48px;
+    height: 48px;
+
+    object-fit: cover;
+
+    border-radius: 3px;
+}
+
+.destination-name {
+    color: var(--cream);
+
+    font-weight: 700;
+}
+
+.destination-count {
+    color: #907771;
+
+    font-size: 12px;
+}
+
+
+/* =========================================================
+   TRAVEL STYLES
+========================================================= */
+
+.style-list {
+    display: flex;
+
+    flex-wrap: wrap;
+
+    gap: 7px;
+}
+
+.style {
+    padding:
+        6px 9px;
+
+    border:
+        1px solid var(--border);
+
+    background: #3f141b;
+
+    color: #aa948d;
+
+    cursor: pointer;
+
+    transition: .2s ease;
+}
+
+.style:hover {
+    background: #622831;
+
+    color: var(--cream);
+}
+
+
+/* =========================================================
+   CONTRIBUTOR CARD
+========================================================= */
+
+.contributor {
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+    padding:
+        9px 0;
+
+    border-bottom:
+        1px solid #64303a;
+}
+
+.contributor:last-child {
+    border: 0;
+}
+
+.contributor-avatar {
+    width: 34px;
+    height: 34px;
+
+    display: grid;
+
+    place-items: center;
+
+    border-radius: 50%;
+
+    background: #6a2b35;
+
+    color: var(--cream);
+
+    font-family: "Pangolin", cursive;
+}
+
+.contributor-name {
+    color: var(--cream);
+
+    font-weight: 600;
+}
+
+.contributor-trips {
+    color: #907771;
+
+    font-size: 12px;
+}
+
+
+/* =========================================================
+   COMMUNITY STATS
+========================================================= */
+
+.stats {
+    display: grid;
+
+    grid-template-columns:
+        repeat(3,1fr);
+
+    gap: 8px;
+
+    margin-top: 25px;
+}
+
+.stat {
+    padding: 14px;
+
+    background: #351116;
+
+    border:
+        1px solid var(--border);
+}
+
+.stat strong {
+    display: block;
+
+    color: var(--cream);
+
+    font-size: 22px;
+}
+
+.stat span {
+    color: #8f7773;
+
+    font-size: 12px;
+}
+
+
+/* =========================================================
+   EMPTY / SEARCH STATE
+========================================================= */
+
+.empty {
+    display: none;
+
+    padding: 50px;
+
+    text-align: center;
+
+    border:
+        1px dashed var(--border);
+
+    color: #9c857e;
+}
+
+
+/* =========================================================
+   TOAST
+========================================================= */
+
+.toast {
+    position: fixed;
+
+    right: 20px;
+    bottom: 20px;
+
+    padding: 12px 17px;
+
+    background: var(--cream);
+
+    color: var(--burgundy-dark);
+
+    border:
+        1px solid #9d887e;
+
+    border-radius: 4px;
+
+    opacity: 0;
+
+    transform:
+        translateY(20px);
+
+    pointer-events: none;
+
+    transition: .25s ease;
+
+    z-index: 500;
+}
+
+.toast.show {
+    opacity: 1;
+
+    transform:
+        translateY(0);
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media(max-width:950px) {
+
+    .community-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .community-sidebar {
+        display: grid;
+
+        grid-template-columns:
+            repeat(2,1fr);
+    }
+
+}
+
+@media(max-width:700px) {
+
+    .nav-links {
+        display: none;
+    }
+
+    .community-header {
+        display: block;
+    }
+
+    .create-post {
+        margin-top: 18px;
+    }
+
+    .controls {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .search {
+        grid-column: 1 / -1;
+    }
+
+    .photo-grid {
+        height: 210px;
+    }
+
+    .community-sidebar {
+        display: flex;
+    }
+
+    .stats {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media(max-width:500px) {
+
+    .page {
+        width: 94%;
+    }
+
+    .community-header h1 {
+        font-size: 3.2rem;
+    }
+
+    .photo-grid {
+        grid-template-columns: 1fr 1fr;
+
+        height: 190px;
+    }
+
+    .photo:first-child {
+        grid-column: 1 / -1;
+    }
+
+}
+
+</style>
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     NAVIGATION
+===================================================== -->
+
+<header class="navbar">
+
+    <div class="logo">
+        itinera.
+    </div>
+
+    <nav class="nav-links">
+
+        <a href="#">
+            Home
+        </a>
+
+        <a href="#">
+            My Trips
+        </a>
+
+        <a href="#">
+            Explore
+        </a>
+
+        <a
+            href="#"
+            class="active"
+        >
+            Community
+        </a>
+
+        <a href="#">
+            Analytics
+        </a>
+
+    </nav>
+
+    <button class="profile-button">
+        N
+    </button>
+
+</header>
+
+
+<!-- =====================================================
+     PAGE
+===================================================== -->
+
+<main class="page">
+
+
+    <!-- HEADER -->
+
+    <section class="community-header">
+
+        <div>
+
+            <div class="kicker">
+                TRAVEL TOGETHER
+            </div>
+
+            <h1>
+                Community
+            </h1>
+
+            <p>
+                Discover real itineraries, travel stories
+                and ideas shared by people who have
+                actually been there.
+            </p>
+
+        </div>
+
+
+        <button
+            class="create-post"
+            onclick="createPost()"
+        >
+            + Share your journey
+        </button>
+
+    </section>
+
+
+    <!-- SEARCH / FILTER -->
+
+    <section class="controls">
+
+        <div class="search">
+
+            <span class="search-icon">
+                ⌕
+            </span>
+
+            <input
+                id="search"
+                placeholder="Search destinations, stories, people..."
+                oninput="searchPosts()"
+            >
+
+        </div>
+
+
+        <button
+            class="control-button"
+            onclick="groupByDestination()"
+        >
+            Group by
+        </button>
+
+
+        <button
+            class="control-button"
+            onclick="filterPosts()"
+        >
+            Filter
+        </button>
+
+
+        <button
+            class="control-button"
+            onclick="sortPosts()"
+        >
+            Sort by...
+        </button>
+
+    </section>
+
+
+    <!-- TABS -->
+
+    <div class="tabs">
+
+        <button
+            class="tab active"
+            onclick="switchTab(this,'all')"
+        >
+            Community
+        </button>
+
+        <button
+            class="tab"
+            onclick="switchTab(this,'popular')"
+        >
+            Popular
+        </button>
+
+        <button
+            class="tab"
+            onclick="switchTab(this,'recent')"
+        >
+            Recent
+        </button>
+
+        <button
+            class="tab"
+            onclick="switchTab(this,'following')"
+        >
+            Following
+        </button>
+
+    </div>
+
+
+    <!-- =================================================
+         COMMUNITY LAYOUT
+    ================================================= -->
+
+    <div class="community-layout">
+
+
+        <!-- FEED -->
+
+        <section>
+
+            <div
+                class="feed"
+                id="feed"
+            >
+
+
+                <!-- POST 1 -->
+
+                <article
+                    class="post"
+                    data-destination="Bali"
+                    data-popular="95"
+                    data-time="3"
+                >
+
+                    <div class="post-header">
+
+                        <div class="user">
+
+                            <div class="avatar">
+                                M
+                            </div>
+
+                            <div>
+
+                                <div class="user-name">
+                                    Maya Kapoor
+                                </div>
+
+                                <div class="user-meta">
+                                    Travel storyteller · Bali
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        <button
+                            class="follow"
+                            onclick="follow(this)"
+                        >
+                            Follow
+                        </button>
+
+                    </div>
+
+
+                    <div class="post-content">
+
+                        <div class="post-type">
+                            TRAVEL STORY · BALI
+                        </div>
+
+                        <h2 class="post-title">
+                            “I stopped rushing through Bali.”
+                        </h2>
+
+                        <p class="post-description">
+                            A five-day route built around slow
+                            mornings, local food, temples and
+                            quiet places away from the busiest
+                            tourist streets.
+                        </p>
+
+
+                        <div class="tags">
+
+                            <span class="tag">
+                                Nature
+                            </span>
+
+                            <span class="tag">
+                                Food
+                            </span>
+
+                            <span class="tag">
+                                5 Days
+                            </span>
+
+                            <span class="tag">
+                                Relaxed
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="photo-grid">
+
+                        <img
+                            class="photo"
+                            src="https://images.unsplash.com/photo-1537996194471-e657df975ab4?auto=format&fit=crop&w=1000&q=80"
+                            alt="Bali temple"
+                        >
+
+                        <img
+                            class="photo"
+                            src="https://images.unsplash.com/photo-1518548419970-58e3b4079ab2?auto=format&fit=crop&w=600&q=80"
+                            alt="Bali landscape"
+                        >
+
+                        <img
+                            class="photo"
+                            src="https://images.unsplash.com/photo-1539367628448-4bc5c9d171c8?auto=format&fit=crop&w=600&q=80"
+                            alt="Bali beach"
+                        >
+
+                    </div>
+
+
+                    <div class="post-content">
+
+                        <button
+                            class="use-itinerary"
+                            onclick="useItinerary('Bali')"
+                        >
+                            Use this itinerary
+                        </button>
+
+                    </div>
+
+
+                    <div class="post-footer">
+
+                        <div class="post-actions">
+
+                            <button
+                                class="action"
+                                onclick="like(this)"
+                            >
+                                ♡ 128
+                            </button>
+
+                            <button
+                                class="action"
+                                onclick="comment()"
+                            >
+                                ○ 24
+                            </button>
+
+                            <button
+                                class="action"
+                                onclick="sharePost()"
+                            >
+                                ↗ Share
+                            </button>
+
+                        </div>
+
+                        <button
+                            class="save"
+                            onclick="savePost(this)"
+                        >
+                            ♧ Save
+                        </button>
+
+                    </div>
+
+                </article>
+
+
+                <!-- POST 2 -->
+
+                <article
+                    class="post"
+                    data-destination="Paris"
+                    data-popular="88"
+                    data-time="2"
+                >
+
+                    <div class="post-header">
+
+                        <div class="user">
+
+                            <div class="avatar">
+                                R
+                            </div>
+
+                            <div>
+
+                                <div class="user-name">
+                                    Riya Shah
+                                </div>
+
+                                <div class="user-meta">
+                                    City explorer · Paris
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        <button
+                            class="follow"
+                            onclick="follow(this)"
+                        >
+                            Follow
+                        </button>
+
+                    </div>
+
+
+                    <div class="post-content">
+
+                        <div class="post-type">
+                            CITY GUIDE · PARIS
+                        </div>
+
+                        <h2 class="post-title">
+                            “Paris beyond the postcard.”
+                        </h2>
+
+                        <p class="post-description">
+                            What changed when I traded a checklist
+                            of landmarks for neighbourhood walks,
+                            small cafés and slower afternoons.
+                        </p>
+
+
+                        <div class="tags">
+
+                            <span class="tag">
+                                Culture
+                            </span>
+
+                            <span class="tag">
+                                Food
+                            </span>
+
+                            <span class="tag">
+                                4 Days
+                            </span>
+
+                            <span class="tag">
+                                Walking
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="photo-grid">
+
+                        <img
+                            class="photo"
+                            src="https://images.unsplash.com/photo-1502602898657-3e91760cbb34?auto=format&fit=crop&w=1000&q=80"
+                            alt="Paris"
+                        >
+
+                        <img
+                            class="photo"
+                            src="https://images.unsplash.com/photo-1508057198894-247b23fe5ade?auto=format&fit=crop&w=600&q=80"
+                            alt="Paris street"
+                        >
+
+                        <img
+                            class="photo"
+                            src="https://images.unsplash.com/photo-1499856871958-5b9627545d1a?auto=format&fit=crop&w=600&q=80"
+                            alt="Paris cafe"
+                        >
+
+                    </div>
+
+
+                    <div class="post-content">
+
+                        <button
+                            class="use-itinerary"
+                            onclick="useItinerary('Paris')"
+                        >
+                            Use this itinerary
+                        </button>
+
+                    </div>
+
+
+                    <div class="post-footer">
+
+                        <div class="post-actions">
+
+                            <button
+                                class="action"
+                                onclick="like(this)"
+                            >
+                                ♡ 94
+                            </button>
+
+                            <button
+                                class="action"
+                                onclick="comment()"
+                            >
+                                ○ 17
+                            </button>
+
+                            <button
+                                class="action"
+                                onclick="sharePost()"
+                            >
+                                ↗ Share
+                            </button>
+
+                        </div>
+
+                        <button
+                            class="save"
+                            onclick="savePost(this)"
+                        >
+                            ♧ Save
+                        </button>
+
+                    </div>
+
+                </article>
+
+
+                <!-- POST 3 -->
+
+                <article
+                    class="post"
+                    data-destination="Tokyo"
+                    data-popular="81"
+                    data-time="1"
+                >
+
+                    <div class="post-header">
+
+                        <div class="user">
+
+                            <div class="avatar">
+                                A
+                            </div>
+
+                            <div>
+
+                                <div class="user-name">
+                                    Aarav Mehta
+                                </div>
+
+                                <div class="user-meta">
+                                    Night explorer · Tokyo
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        <button
+                            class="follow"
+                            onclick="follow(this)"
+                        >
+                            Follow
+                        </button>
+
+                    </div>
+
+
+                    <div class="post-content">
+
+                        <div class="post-type">
+                            TRAVEL NOTES · JAPAN
+                        </div>
+
+                        <h2 class="post-title">
+                            “The quiet side of Tokyo.”
+                        </h2>
+
+                        <p class="post-description">
+                            Three neighbourhoods, one tiny ramen
+                            bar and a walking route I would happily
+                            repeat.
+                        </p>
+
+
+                        <div class="tags">
+
+                            <span class="tag">
+                                Food
+                            </span>
+
+                            <span class="tag">
+                                Nightlife
+                            </span>
+
+                            <span class="tag">
+                                6 Days
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="photo-grid">
+
+                        <img
+                            class="photo"
+                            src="https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?auto=format&fit=crop&w=1000&q=80"
+                            alt="Tokyo"
+                        >
+
+                        <img
+                            class="photo"
+                            src="https://images.unsplash.com/photo-1513407030348-c983a97b98d8?auto=format&fit=crop&w=600&q=80"
+                            alt="Tokyo street"
+                        >
+
+                        <img
+                            class="photo"
+                            src="https://images.unsplash.com/photo-1536098561742-ca998e48cbcc?auto=format&fit=crop&w=600&q=80"
+                            alt="Tokyo"
+                        >
+
+                    </div>
+
+
+                    <div class="post-content">
+
+                        <button
+                            class="use-itinerary"
+                            onclick="useItinerary('Tokyo')"
+                        >
+                            Use this itinerary
+                        </button>
+
+                    </div>
+
+
+                    <div class="post-footer">
+
+                        <div class="post-actions">
+
+                            <button
+                                class="action"
+                                onclick="like(this)"
+                            >
+                                ♡ 76
+                            </button>
+
+                            <button
+                                class="action"
+                                onclick="comment()"
+                            >
+                                ○ 12
+                            </button>
+
+                            <button
+                                class="action"
+                                onclick="sharePost()"
+                            >
+                                ↗ Share
+                            </button>
+
+                        </div>
+
+                        <button
+                            class="save"
+                            onclick="savePost(this)"
+                        >
+                            ♧ Save
+                        </button>
+
+                    </div>
+
+                </article>
+
+
+            </div>
+
+
+            <div
+                class="empty"
+                id="empty"
+            >
+                No journeys found.
+                Try another destination or keyword.
+            </div>
+
+
+            <!-- STATS -->
+
+            <div class="stats">
+
+                <div class="stat">
+
+                    <strong>
+                        12.8K
+                    </strong>
+
+                    <span>
+                        Travellers
+                    </span>
+
+                </div>
+
+                <div class="stat">
+
+                    <strong>
+                        4.2K
+                    </strong>
+
+                    <span>
+                        Shared trips
+                    </span>
+
+                </div>
+
+                <div class="stat">
+
+                    <strong>
+                        86
+                    </strong>
+
+                    <span>
+                        Countries
+                    </span>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             SIDEBAR
+        ================================================= -->
+
+        <aside class="community-sidebar">
+
+
+            <!-- POPULAR -->
+
+            <div class="side-card">
+
+                <h3>
+                    Popular destinations
+                </h3>
+
+                <p>
+                    Places the Itinera community
+                    is exploring right now.
+                </p>
+
+
+                <div class="destination">
+
+                    <img
+                        src="https://images.unsplash.com/photo-1537996194471-e657df975ab4?auto=format&fit=crop&w=200&q=80"
+                        alt="Bali"
+                    >
+
+                    <div>
+
+                        <div class="destination-name">
+                            Bali
+                        </div>
+
+                        <div class="destination-count">
+                            1,284 trips
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="destination">
+
+                    <img
+                        src="https://images.unsplash.com/photo-1502602898657-3e91760cbb34?auto=format&fit=crop&w=200&q=80"
+                        alt="Paris"
+                    >
+
+                    <div>
+
+                        <div class="destination-name">
+                            Paris
+                        </div>
+
+                        <div class="destination-count">
+                            1,042 trips
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="destination">
+
+                    <img
+                        src="https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?auto=format&fit=crop&w=200&q=80"
+                        alt="Tokyo"
+                    >
+
+                    <div>
+
+                        <div class="destination-name">
+                            Tokyo
+                        </div>
+
+                        <div class="destination-count">
+                            918 trips
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="destination">
+
+                    <img
+                        src="https://images.unsplash.com/photo-1525625293386-3f8f99389edd?auto=format&fit=crop&w=200&q=80"
+                        alt="Singapore"
+                    >
+
+                    <div>
+
+                        <div class="destination-name">
+                            Singapore
+                        </div>
+
+                        <div class="destination-count">
+                            764 trips
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- TRAVEL STYLES -->
+
+            <div class="side-card">
+
+                <h3>
+                    Travel styles
+                </h3>
+
+                <p>
+                    Find people travelling
+                    the way you like to travel.
+                </p>
+
+                <div class="style-list">
+
+                    <button
+                        class="style"
+                        onclick="styleFilter('Solo')"
+                    >
+                        Solo
+                    </button>
+
+                    <button
+                        class="style"
+                        onclick="styleFilter('Family')"
+                    >
+                        Family
+                    </button>
+
+                    <button
+                        class="style"
+                        onclick="styleFilter('Food')"
+                    >
+                        Food
+                    </button>
+
+                    <button
+                        class="style"
+                        onclick="styleFilter('Nature')"
+                    >
+                        Nature
+                    </button>
+
+                    <button
+                        class="style"
+                        onclick="styleFilter('Budget')"
+                    >
+                        Budget
+                    </button>
+
+                    <button
+                        class="style"
+                        onclick="styleFilter('Luxury')"
+                    >
+                        Luxury
+                    </button>
+
+                    <button
+                        class="style"
+                        onclick="styleFilter('Adventure')"
+                    >
+                        Adventure
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <!-- TOP CONTRIBUTORS -->
+
+            <div class="side-card">
+
+                <h3>
+                    Top contributors
+                </h3>
+
+                <p>
+                    Travellers whose itineraries
+                    are helping others.
+                </p>
+
+
+                <div class="contributor">
+
+                    <div class="contributor-avatar">
+                        M
+                    </div>
+
+                    <div>
+
+                        <div class="contributor-name">
+                            Maya Kapoor
+                        </div>
+
+                        <div class="contributor-trips">
+                            28 shared trips
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="contributor">
+
+                    <div class="contributor-avatar">
+                        R
+                    </div>
+
+                    <div>
+
+                        <div class="contributor-name">
+                            Riya Shah
+                        </div>
+
+                        <div class="contributor-trips">
+                            21 shared trips
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="contributor">
+
+                    <div class="contributor-avatar">
+                        A
+                    </div>
+
+                    <div>
+
+                        <div class="contributor-name">
+                            Aarav Mehta
+                        </div>
+
+                        <div class="contributor-trips">
+                            18 shared trips
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </aside>
+
+    </div>
+
+</main>
+
+
+<!-- TOAST -->
+
+<div
+    class="toast"
+    id="toast"
+></div>
+
+
+<script>
+
+/* =========================================================
+   TOAST
+========================================================= */
+
+function showToast(message) {
+
+    const toast =
+        document.getElementById("toast");
+
+    toast.textContent = message;
+
+    toast.classList.add("show");
+
+    setTimeout(() => {
+
+        toast.classList.remove("show");
+
+    }, 2200);
+
+}
+
+
+/* =========================================================
+   LIKE
+========================================================= */
+
+function like(button) {
+
+    button.classList.toggle("liked");
+
+    const current =
+        button.textContent;
+
+    if (button.classList.contains("liked")) {
+
+        button.textContent =
+            current
+                .replace("♡", "♥");
+
+        showToast("Journey liked");
+
+    } else {
+
+        button.textContent =
+            current
+                .replace("♥", "♡");
+
+    }
+
+}
+
+
+/* =========================================================
+   FOLLOW
+========================================================= */
+
+function follow(button) {
+
+    if (
+        button.textContent.trim()
+        === "Follow"
+    ) {
+
+        button.textContent =
+            "Following";
+
+        showToast("Now following traveller");
+
+    } else {
+
+        button.textContent =
+            "Follow";
+
+    }
+
+}
+
+
+/* =========================================================
+   SAVE
+========================================================= */
+
+function savePost(button) {
+
+    if (
+        button.textContent.includes("Save")
+    ) {
+
+        button.textContent =
+            "✓ Saved";
+
+        showToast(
+            "Journey saved to your collection"
+        );
+
+    } else {
+
+        button.textContent =
+            "♧ Save";
+
+    }
+
+}
+
+
+/* =========================================================
+   SHARE
+========================================================= */
+
+function sharePost() {
+
+    if (
+        navigator.clipboard
+    ) {
+
+        navigator.clipboard.writeText(
+            window.location.href
+        );
+
+    }
+
+    showToast(
+        "Journey link copied"
+    );
+
+}
+
+
+/* =========================================================
+   COMMENT
+========================================================= */
+
+function comment() {
+
+    showToast(
+        "Comments panel coming next"
+    );
+
+}
+
+
+/* =========================================================
+   USE ITINERARY
+========================================================= */
+
+function useItinerary(destination) {
+
+    showToast(
+        `${destination} itinerary added to My Trips`
+    );
+
+    /*
+       In the actual application this should:
+       1. Copy the public itinerary.
+       2. Create a private trip for the user.
+       3. Open the itinerary builder.
+    */
+
+}
+
+
+/* =========================================================
+   CREATE POST
+========================================================= */
+
+function createPost() {
+
+    showToast(
+        "Share Journey panel opened"
+    );
+
+}
+
+
+/* =========================================================
+   SEARCH
+========================================================= */
+
+function searchPosts() {
+
+    const query =
+        document
+            .getElementById("search")
+            .value
+            .toLowerCase()
+            .trim();
+
+
+    const posts =
+        document.querySelectorAll(".post");
+
+    let visible = 0;
+
+
+    posts.forEach(post => {
+
+        const text =
+            post.textContent
+                .toLowerCase();
+
+        const destination =
+            post.dataset.destination
+                .toLowerCase();
+
+
+        const match =
+            !query ||
+            text.includes(query) ||
+            destination.includes(query);
+
+
+        post.style.display =
+            match
+                ? ""
+                : "none";
+
+
+        if (match) {
+            visible++;
+        }
+
+    });
+
+
+    document
+        .getElementById("empty")
+        .style.display =
+            visible
+                ? "none"
+                : "block";
+
+}
+
+
+/* =========================================================
+   TAB SWITCH
+========================================================= */
+
+function switchTab(button,type) {
+
+    document
+        .querySelectorAll(".tab")
+        .forEach(tab =>
+            tab.classList.remove("active")
+        );
+
+    button.classList.add("active");
+
+
+    const posts =
+        Array.from(
+            document.querySelectorAll(".post")
+        );
+
+
+    if (type === "popular") {
+
+        posts.sort(
+            (a,b) =>
+                Number(b.dataset.popular)
+                -
+                Number(a.dataset.popular)
+        );
+
+    }
+
+
+    if (type === "recent") {
+
+        posts.sort(
+            (a,b) =>
+                Number(a.dataset.time)
+                -
+                Number(b.dataset.time)
+        );
+
+    }
+
+
+    const feed =
+        document.getElementById("feed");
+
+
+    posts.forEach(post =>
+        feed.appendChild(post)
+    );
+
+}
+
+
+/* =========================================================
+   FILTER
+========================================================= */
+
+function filterPosts() {
+
+    const posts =
+        document.querySelectorAll(".post");
+
+
+    posts.forEach(post => {
+
+        const tags =
+            post
+                .querySelector(".tags")
+                .textContent
+                .toLowerCase();
+
+
+        post.style.display =
+            tags.includes("nature") ||
+            tags.includes("food")
+                ? ""
+                : "none";
+
+    });
+
+
+    showToast(
+        "Showing food and nature journeys"
+    );
+
+}
+
+
+/* =========================================================
+   SORT
+========================================================= */
+
+function sortPosts() {
+
+    const feed =
+        document.getElementById("feed");
+
+
+    const posts =
+        Array.from(
+            document.querySelectorAll(".post")
+        );
+
+
+    posts.sort(
+        (a,b) =>
+            Number(b.dataset.popular)
+            -
+            Number(a.dataset.popular)
+    );
+
+
+    posts.forEach(post =>
+        feed.appendChild(post)
+    );
+
+
+    showToast(
+        "Sorted by popularity"
+    );
+
+}
+
+
+/* =========================================================
+   GROUP
+========================================================= */
+
+function groupByDestination() {
+
+    const posts =
+        Array.from(
+            document.querySelectorAll(".post")
+        );
+
+
+    posts.sort(
+        (a,b) =>
+            a.dataset.destination
+                .localeCompare(
+                    b.dataset.destination
+                )
+    );
+
+
+    const feed =
+        document.getElementById("feed");
+
+
+    posts.forEach(post =>
+        feed.appendChild(post)
+    );
+
+
+    showToast(
+        "Grouped by destination"
+    );
+
+}
+
+
+/* =========================================================
+   STYLE FILTER
+========================================================= */
+
+function styleFilter(style) {
+
+    showToast(
+        `Filtering ${style} journeys`
+    );
+
+}
+
+</script>
+
+</body>
+</html>
