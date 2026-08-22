@@ -462,7 +462,7 @@ export default function TripPlannerFlowPage({ onNavigate, onStartItinerary }) {
             </motion.div>
           )}
 
-          {/* STEP 3: ELEGANT TRIP PASSPORT & CONFIRMATION MASTER BOARD */}
+          {/* STEP 3: SPACIOUS & AIRY TRIP PASSPORT TICKET */}
           {wizardStep === 3 && (
             <motion.div
               key="step3"
@@ -470,129 +470,80 @@ export default function TripPlannerFlowPage({ onNavigate, onStartItinerary }) {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -15 }}
               transition={{ duration: 0.3 }}
-              className="d-flex flex-column gap-4 w-100"
+              className="d-flex flex-column align-items-center w-100"
             >
-              {/* HERO TRIP PASSPORT BANNER */}
               <div 
-                className="position-relative rounded-4 overflow-hidden p-4 p-md-5 d-flex flex-column justify-content-end"
+                className="p-4 p-md-5 rounded-5 w-100 position-relative overflow-hidden"
                 style={{ 
-                  minHeight: '260px', 
-                  backgroundImage: `linear-gradient(180deg, rgba(39, 20, 24, 0.4) 0%, rgba(28, 13, 16, 0.95) 100%), url(${cityData.cover})`,
-                  backgroundSize: 'cover',
-                  backgroundPosition: 'center',
-                  border: '1px solid #4a2027',
-                  boxShadow: '0 20px 40px rgba(0,0,0,0.4)'
+                  backgroundColor: '#271418', 
+                  border: '1px solid #4a2027', 
+                  boxShadow: '0 24px 50px rgba(0,0,0,0.35)' 
                 }}
               >
-                <div className="d-flex align-items-center gap-2 mb-2">
-                  <span className="badge px-3 py-1.5 rounded-pill" style={{ backgroundColor: '#6b262d', color: '#F5EFE9', fontSize: '0.82rem', letterSpacing: '0.05em' }}>
-                    <Compass size={13} className="me-1" /> READY FOR GENERATION
-                  </span>
-                  <span className="badge px-3 py-1.5 rounded-pill" style={{ backgroundColor: '#14291d', color: '#6ee7b7', border: '1px solid #6ee7b7', fontSize: '0.82rem' }}>
-                    <Sun size={13} className="me-1" /> Rain Check: Sunny 24°C
-                  </span>
+                {/* Top Meta Badges & City Banner Image */}
+                <div 
+                  className="rounded-4 p-4 p-md-5 mb-4 position-relative overflow-hidden text-center d-flex flex-column align-items-center justify-content-center"
+                  style={{ 
+                    minHeight: '220px', 
+                    backgroundImage: `linear-gradient(180deg, rgba(39, 20, 24, 0.5) 0%, rgba(28, 13, 16, 0.95) 100%), url(${cityData.cover})`,
+                    backgroundSize: 'cover',
+                    backgroundPosition: 'center',
+                    border: '1px solid #4a2027'
+                  }}
+                >
+                  <div className="d-flex align-items-center gap-2 mb-2 flex-wrap justify-content-center">
+                    <span className="badge px-3 py-1.5 rounded-pill" style={{ backgroundColor: '#6b262d', color: '#F5EFE9', fontSize: '0.8rem' }}>
+                      <Compass size={13} className="me-1" /> {selectedCity}, {cityData.country}
+                    </span>
+                    <span className="badge px-3 py-1.5 rounded-pill" style={{ backgroundColor: '#1c0d10', color: '#F5EFE9', border: '1px solid #4a2027', fontSize: '0.8rem' }}>
+                      <Calendar size={13} className="me-1" /> {daysCount} Days Stay
+                    </span>
+                    <span className="badge px-3 py-1.5 rounded-pill" style={{ backgroundColor: '#14291d', color: '#6ee7b7', border: '1px solid #6ee7b7', fontSize: '0.8rem' }}>
+                      <Sun size={13} className="me-1" /> Rain Check: Sunny 24°C
+                    </span>
+                  </div>
+
+                  <h2 className="display-4 display-heading text-cream mb-1" style={{ fontSize: '2.5rem' }}>
+                    {tripTitle}
+                  </h2>
                 </div>
 
-                <h1 className="display-4 display-heading text-cream mb-1" style={{ fontSize: '2.5rem' }}>
-                  {tripTitle}
-                </h1>
-                <p className="small text-cream-muted mb-0" style={{ color: '#D8C8C3', fontSize: '1rem' }}>
-                  {selectedCity}, {cityData.country} &bull; {daysCount} Days Stay &bull; {chosenAttractionsList.length} Sights &bull; {chosenFoodSpotsList.length} Dining Places
-                </p>
-              </div>
-
-              {/* TWO COLUMN MASTER BOARD: INCLUDED HIGHLIGHTS & READINESS CHECKLIST */}
-              <div className="row g-4">
-                
-                {/* Column 1: Included Attractions & Food Highlights */}
-                <div className="col-md-7">
-                  <div 
-                    className="p-4 rounded-4 h-100 d-flex flex-column justify-content-between"
-                    style={{ backgroundColor: '#271418', border: '1px solid #4a2027', boxShadow: '0 16px 36px rgba(0,0,0,0.35)' }}
-                  >
-                    <div>
-                      <h4 className="display-heading text-cream mb-3 d-flex align-items-center gap-2" style={{ fontSize: '1.3rem' }}>
-                        <Camera size={18} style={{ color: '#F5EFE9' }} />
-                        Selected Sights & Experiences
-                      </h4>
-
-                      <div className="d-flex flex-column gap-2 mb-4">
-                        {chosenAttractionsList.map(attr => (
-                          <div key={attr.id} className="p-2.5 rounded-3 d-flex align-items-center gap-3" style={{ backgroundColor: '#1c0d10', border: '1px solid #4a2027' }}>
-                            <img src={attr.image} alt={attr.title} className="rounded-2" style={{ width: '48px', height: '48px', objectFit: 'cover' }} />
-                            <div>
-                              <div className="fw-bold text-cream" style={{ fontSize: '0.95rem' }}>{attr.title}</div>
-                              <small style={{ color: '#D8C8C3', fontSize: '0.78rem' }}>{attr.category} &bull; {attr.duration}</small>
-                            </div>
-                          </div>
-                        ))}
-                      </div>
-
-                      <h4 className="display-heading text-cream mb-3 d-flex align-items-center gap-2" style={{ fontSize: '1.3rem' }}>
-                        <Utensils size={18} style={{ color: '#F5EFE9' }} />
-                        Selected Dining Places
-                      </h4>
-
-                      <div className="d-flex flex-column gap-2">
-                        {chosenFoodSpotsList.map(food => (
-                          <div key={food.id} className="p-2.5 rounded-3 d-flex align-items-center gap-3" style={{ backgroundColor: '#1c0d10', border: '1px solid #4a2027' }}>
-                            <img src={food.image} alt={food.title} className="rounded-2" style={{ width: '48px', height: '48px', objectFit: 'cover' }} />
-                            <div>
-                              <div className="fw-bold text-cream" style={{ fontSize: '0.95rem' }}>{food.title}</div>
-                              <small style={{ color: '#D8C8C3', fontSize: '0.78rem' }}>{food.cuisine} &bull; {food.price}</small>
-                            </div>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
+                {/* Selected Items Horizontal Pills */}
+                <div className="mb-5 text-center">
+                  <span className="small text-cream-muted d-block mb-3" style={{ color: '#D8C8C3', letterSpacing: '0.12em', fontSize: '0.78rem' }}>
+                    INCLUDED EXPERIENCES & DINING ({chosenAttractionsList.length + chosenFoodSpotsList.length} ITEMS)
+                  </span>
+                  <div className="d-flex align-items-center justify-content-center gap-2 flex-wrap">
+                    {chosenAttractionsList.map(attr => (
+                      <span key={attr.id} className="badge px-3 py-2 rounded-pill d-inline-flex align-items-center gap-2" style={{ backgroundColor: '#1c0d10', color: '#F5EFE9', border: '1px solid #4a2027', fontSize: '0.85rem' }}>
+                        <Camera size={13} /> {attr.title}
+                      </span>
+                    ))}
+                    {chosenFoodSpotsList.map(food => (
+                      <span key={food.id} className="badge px-3 py-2 rounded-pill d-inline-flex align-items-center gap-2" style={{ backgroundColor: '#1c0d10', color: '#F5EFE9', border: '1px solid #4a2027', fontSize: '0.85rem' }}>
+                        <Utensils size={13} /> {food.title}
+                      </span>
+                    ))}
                   </div>
                 </div>
 
-                {/* Column 2: Trip Readiness Checklist & Launch Trigger */}
-                <div className="col-md-5">
-                  <div 
-                    className="p-4 rounded-4 h-100 d-flex flex-column justify-content-between"
-                    style={{ backgroundColor: '#271418', border: '1px solid #4a2027', boxShadow: '0 16px 36px rgba(0,0,0,0.35)' }}
+                {/* Centered Spacious Primary Action Button */}
+                <div className="d-flex justify-content-center">
+                  <button 
+                    onClick={handleFinalSubmit}
+                    className="btn btn-pill-cream hover-lift d-inline-flex align-items-center justify-content-center gap-2 px-5 py-3"
+                    style={{ 
+                      backgroundColor: '#F5EFE9', 
+                      color: '#3e181c', 
+                      fontWeight: 700, 
+                      fontSize: '1.1rem', 
+                      borderRadius: '9999px',
+                      boxShadow: '0 8px 24px rgba(0,0,0,0.3)'
+                    }}
                   >
-                    <div>
-                      <h4 className="display-heading text-cream mb-3 d-flex align-items-center gap-2" style={{ fontSize: '1.3rem' }}>
-                        <ShieldCheck size={18} style={{ color: '#F5EFE9' }} />
-                        Trip Readiness Status
-                      </h4>
-
-                      <ul className="list-unstyled d-flex flex-column gap-3 mb-4">
-                        {[
-                          `Destination Locked: ${selectedCity}, ${cityData.country}`,
-                          `Duration Configured: ${daysCount} Days`,
-                          `Weather Sync: Rain Check Verified`,
-                          `Budget Engine: Multi-Currency Split Active`,
-                          `Interactive Schedule: ${chosenAttractionsList.length + chosenFoodSpotsList.length} Items Pre-loaded`
-                        ].map((checkItem, idx) => (
-                          <li key={idx} className="d-flex align-items-center gap-2.5 small text-cream" style={{ fontSize: '0.88rem' }}>
-                            <CheckCircle2 size={16} className="text-success flex-shrink-0" />
-                            <span>{checkItem}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-
-                    <div className="pt-3 border-top border-secondary-subtle">
-                      <button 
-                        onClick={handleFinalSubmit}
-                        className="btn btn-pill-cream hover-lift w-100 d-inline-flex align-items-center justify-content-center gap-2 py-3"
-                        style={{ 
-                          backgroundColor: '#F5EFE9', 
-                          color: '#3e181c', 
-                          fontWeight: 700, 
-                          fontSize: '1.05rem', 
-                          borderRadius: '9999px'
-                        }}
-                      >
-                        <span>Generate Day-Wise Itinerary</span>
-                        <ArrowRight size={18} />
-                      </button>
-                    </div>
-                  </div>
+                    <span>Generate Day-Wise Itinerary</span>
+                    <ArrowRight size={20} />
+                  </button>
                 </div>
 
               </div>
