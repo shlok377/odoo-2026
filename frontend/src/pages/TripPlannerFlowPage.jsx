@@ -119,7 +119,7 @@ export default function TripPlannerFlowPage({ onNavigate, onStartItinerary }) {
   };
 
   return (
-    <div className="w-100 min-vh-100 py-5 px-3 d-flex flex-column align-items-center" style={{ background: 'linear-gradient(180deg, #591D26 0%, #501A22 72%, #42141B 100%)', color: '#F5EFE9' }}>
+    <div className="w-100 min-vh-100 py-5 px-3 d-flex flex-column align-items-center" style={{ background: '#351215', color: '#F5EFE9' }}>
       
       <div className="container" style={{ maxWidth: '960px' }}>
         

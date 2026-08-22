@@ -113,7 +113,7 @@ export default function ItineraryBuilderPage({ plannedTrip, onNavigate }) {
   const totalCost = Object.values(daySchedules).flat().reduce((sum, item) => sum + (item.cost || 0), 0);
 
   return (
-    <div className="w-100 min-vh-100 py-4 px-3" style={{ background: 'linear-gradient(180deg, #591D26 0%, #501A22 72%, #42141B 100%)', color: '#F5EFE9' }}>
+    <div className="w-100 min-vh-100 py-4 px-3" style={{ background: '#351215', color: '#F5EFE9' }}>
       <div className="container" style={{ maxWidth: '1240px' }}>
         
         {/* TOP NAVIGATION & BACK BUTTON */}
