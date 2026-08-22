@@ -185,13 +185,47 @@ export default function ProfileSettingsPage({ onNavigate }) {
     };
     setProfiles(prev => ({ ...prev, [newId]: newProf }));
     setSelectedProfileId(newId);
-    setIsAddPersonModalOpen(false);
-    setNewPersonName('');
     showToast(`${newPersonName} profile created!`);
   };
 
   return (
-    <div style={{ background: 'linear-gradient(180deg, #591d26 0%, #42151c 100%)', color: '#dfd2c9', minHeight: '100vh', fontFamily: 'Neuton, serif' }}>
+    <div 
+      className="position-relative overflow-hidden"
+      style={{ 
+        backgroundColor: '#3e181c', 
+        background: 'radial-gradient(ellipse at 50% -10%, #6b262d 0%, #3e181c 45%, #220b0e 100%)', 
+        color: '#dfd2c9', 
+        minHeight: '100vh', 
+        fontFamily: "'Plus Jakarta Sans', system-ui, -apple-system, sans-serif" 
+      }}
+    >
+      {/* Floating Ambient Glowing Gradient Background Orbs */}
+      <div 
+        className="position-absolute rounded-circle pointer-events-none"
+        style={{
+          top: '-150px',
+          left: '20%',
+          width: '650px',
+          height: '650px',
+          background: 'radial-gradient(circle, rgba(217, 107, 116, 0.22) 0%, rgba(89, 29, 38, 0) 70%)',
+          filter: 'blur(70px)',
+          pointerEvents: 'none',
+          zIndex: 0
+        }}
+      />
+      <div 
+        className="position-absolute rounded-circle pointer-events-none"
+        style={{
+          top: '450px',
+          right: '-100px',
+          width: '550px',
+          height: '550px',
+          background: 'radial-gradient(circle, rgba(223, 210, 201, 0.1) 0%, rgba(66, 21, 28, 0) 70%)',
+          filter: 'blur(80px)',
+          pointerEvents: 'none',
+          zIndex: 0
+        }}
+      />
       
       {/* Toast Notification */}
       <AnimatePresence>
@@ -220,83 +254,79 @@ export default function ProfileSettingsPage({ onNavigate }) {
       <main className="container py-5" style={{ maxWidth: '1180px' }}>
         
         {/* Page Heading & Profile Switcher Header */}
-        <div className="d-flex flex-column flex-md-row justify-content-between align-items-md-end gap-3 mb-5">
-          <div>
-            <div className="text-uppercase fw-bold mb-2" style={{ color: '#dfd2c9', fontSize: '0.9rem', letterSpacing: '0.12em' }}>
+        <div className="d-flex flex-column flex-lg-row justify-content-between align-items-lg-center gap-4 mb-5 pb-4" style={{ borderBottom: '1px solid rgba(239, 226, 211, 0.15)' }}>
+          <div style={{ maxWidth: '580px' }}>
+            <div className="text-uppercase fw-bold mb-2" style={{ color: '#cbb8b0', fontSize: '0.85rem', letterSpacing: '0.12em' }}>
               12. PROFILE & SETTINGS
             </div>
-            <h1 className="display-3 display-heading text-cream m-0" style={{ fontSize: 'clamp(2.8rem, 5vw, 5rem)', fontWeight: 600, lineHeight: 0.9 }}>
-              Your space,<br />your way.
+            <h1 className="display-3 display-heading text-cream mb-3" style={{ fontSize: 'clamp(2.5rem, 5vw, 4.5rem)', fontWeight: 700, lineHeight: 0.95 }}>
+              Your space, your way.
             </h1>
-          </div>
-          
-          <div className="d-flex flex-column align-items-md-end gap-3">
-            <p className="m-0" style={{ color: '#ddc9c3', maxWidth: '420px', fontSize: '1.05rem', lineHeight: 1.4 }}>
+            <p className="m-0 text-cream-muted" style={{ color: '#ddc9c3', fontSize: '1.05rem', lineHeight: 1.5 }}>
               Manage your personal details, travel preferences, companion profiles, and saved destinations from one place.
             </p>
+          </div>
 
-            {/* Switch Profile Dropdown Button */}
-            <div className="position-relative">
-              <button 
-                onClick={() => setIsProfileMenuOpen(!isProfileMenuOpen)}
-                className="btn d-flex align-items-center gap-2 px-3 py-2 text-cream rounded-3 border-0"
-                style={{ backgroundColor: '#48171f', border: '1px solid #80545b' }}
+          {/* Switch Profile Dropdown Button */}
+          <div className="position-relative flex-shrink-0">
+            <button 
+              onClick={() => setIsProfileMenuOpen(!isProfileMenuOpen)}
+              className="btn d-flex align-items-center gap-3 px-3.5 py-2.5 text-cream rounded-3 border-0 shadow-sm"
+              style={{ backgroundColor: '#48171f', border: '1px solid #80545b' }}
+            >
+              <div className="rounded-circle d-grid place-items-center fw-bold" style={{ width: '38px', height: '38px', backgroundColor: '#dfd2c9', color: '#591d26', fontSize: '1rem' }}>
+                {currentProfile.initial}
+              </div>
+              <div className="text-start">
+                <div className="fw-bold text-cream" style={{ fontSize: '0.95rem' }}>{currentProfile.name}</div>
+                <div className="small text-cream-muted" style={{ color: '#cbb8b0', fontSize: '0.75rem' }}>{currentProfile.type}</div>
+              </div>
+              <ChevronDown size={18} className={`ms-1 transition-transform ${isProfileMenuOpen ? 'rotate-180' : ''}`} style={{ color: '#cbb8b0' }} />
+            </button>
+
+            {/* Profile Menu Dropdown */}
+            {isProfileMenuOpen && (
+              <div 
+                className="position-absolute end-0 mt-2 p-2 rounded-3 shadow-lg"
+                style={{ width: '280px', backgroundColor: '#591d26', border: '1px solid #80545b', zIndex: 100 }}
               >
-                <div className="rounded-circle d-grid place-items-center fw-bold" style={{ width: '34px', height: '34px', backgroundColor: '#dfd2c9', color: '#591d26' }}>
-                  {currentProfile.initial}
+                <div className="text-uppercase fw-bold px-2 py-1 mb-1" style={{ fontSize: '0.65rem', color: '#cbb8b0', letterSpacing: '0.1em' }}>
+                  SWITCH PROFILE
                 </div>
-                <div className="text-start">
-                  <div className="fw-bold small leading-none">{currentProfile.name}</div>
-                  <div className="small opacity-75" style={{ fontSize: '0.72rem' }}>{currentProfile.type}</div>
-                </div>
-                <ChevronDown size={16} className={`transition-transform ${isProfileMenuOpen ? 'rotate-180' : ''}`} />
-              </button>
-
-              {/* Profile Menu Dropdown */}
-              {isProfileMenuOpen && (
-                <div 
-                  className="position-absolute end-0 mt-2 p-2 rounded-3 shadow-lg"
-                  style={{ width: '280px', backgroundColor: '#591d26', border: '1px solid #80545b', zIndex: 100 }}
-                >
-                  <div className="text-uppercase fw-bold px-2 py-1 mb-1" style={{ fontSize: '0.65rem', color: '#cbb8b0', letterSpacing: '0.1em' }}>
-                    SWITCH PROFILE
-                  </div>
-                  {Object.values(profiles).map(p => (
-                    <button
-                      key={p.id}
-                      onClick={() => {
-                        setSelectedProfileId(p.id);
-                        setIsProfileMenuOpen(false);
-                        showToast(`${p.name} profile selected`);
-                      }}
-                      className={`w-100 btn text-start d-flex align-items-center gap-2 p-2 rounded-2 mb-1 ${selectedProfileId === p.id ? 'bg-burgundy-soft text-cream' : 'text-cream-muted'}`}
-                      style={{ backgroundColor: selectedProfileId === p.id ? '#71343d' : 'transparent', border: 0 }}
-                    >
-                      <div className="rounded-circle d-grid place-items-center fw-bold flex-shrink-0" style={{ width: '32px', height: '32px', backgroundColor: '#dfd2c9', color: '#591d26', fontSize: '0.85rem' }}>
-                        {p.initial}
-                      </div>
-                      <div className="flex-grow-1 min-w-0">
-                        <div className="fw-bold small text-truncate">{p.name}</div>
-                        <div className="small opacity-75" style={{ fontSize: '0.7rem' }}>{p.type}</div>
-                      </div>
-                      {selectedProfileId === p.id && <Check size={16} className="text-cream" />}
-                    </button>
-                  ))}
-                  <div style={{ height: '1px', backgroundColor: '#80545b', margin: '6px 0' }} />
-                  <button 
+                {Object.values(profiles).map(p => (
+                  <button
+                    key={p.id}
                     onClick={() => {
+                      setSelectedProfileId(p.id);
                       setIsProfileMenuOpen(false);
-                      setIsAddPersonModalOpen(true);
+                      showToast(`${p.name} profile selected`);
                     }}
-                    className="w-100 btn btn-sm border-dashed text-cream text-start p-2"
-                    style={{ border: '1px dashed #80545b', backgroundColor: 'transparent' }}
+                    className={`w-100 btn text-start d-flex align-items-center gap-2 p-2 rounded-2 mb-1 ${selectedProfileId === p.id ? 'bg-burgundy-soft text-cream' : 'text-cream-muted'}`}
+                    style={{ backgroundColor: selectedProfileId === p.id ? '#71343d' : 'transparent', border: 0 }}
                   >
-                    + Add another person
+                    <div className="rounded-circle d-grid place-items-center fw-bold flex-shrink-0" style={{ width: '32px', height: '32px', backgroundColor: '#dfd2c9', color: '#591d26', fontSize: '0.85rem' }}>
+                      {p.initial}
+                    </div>
+                    <div className="flex-grow-1 min-w-0">
+                      <div className="fw-bold small text-truncate">{p.name}</div>
+                      <div className="small opacity-75" style={{ fontSize: '0.7rem' }}>{p.type}</div>
+                    </div>
+                    {selectedProfileId === p.id && <Check size={16} className="text-cream" />}
                   </button>
-                </div>
-              )}
-            </div>
-
+                ))}
+                <div style={{ height: '1px', backgroundColor: '#80545b', margin: '6px 0' }} />
+                <button 
+                  onClick={() => {
+                    setIsProfileMenuOpen(false);
+                    setIsAddPersonModalOpen(true);
+                  }}
+                  className="w-100 btn btn-sm border-dashed text-cream text-start p-2"
+                  style={{ border: '1px dashed #80545b', backgroundColor: 'transparent' }}
+                >
+                  + Add another person
+                </button>
+              </div>
+            )}
           </div>
         </div>
 
