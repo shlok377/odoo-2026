@@ -1,7 +1,7 @@
 // Import Bootstrap SCSS
 @import "bootstrap/scss/bootstrap";
 
-// Design Tokens matching docs/design.img/background.png & font.png
+// Warm Cohesive Design Tokens matching docs/design.img/
 :root {
   --color-burgundy-top: #68252b;
   --color-burgundy-mid: #4c1a1f;
@@ -12,6 +12,7 @@
   --color-cream: #f5efe9;
   --color-cream-muted: #cbb8ac;
   --color-cream-light: #fcefe6;
+  --color-cream-warm: #fcf4ec;
   --font-display: 'Plus Jakarta Sans', 'Inter', sans-serif;
   --font-body: 'Inter', sans-serif;
 }
@@ -29,7 +30,7 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-/* Typography Rules */
+/* Typography Rules - Warm Cream Text (NO Harsh Pure White) */
 .display-heading {
   font-family: var(--font-display);
   font-weight: 700;
@@ -37,12 +38,25 @@ body {
   color: var(--color-cream);
 }
 
-h1, h2, h3, h4 {
-  font-family: var(--font-display);
-  letter-spacing: -0.02em;
+.text-cream {
+  color: var(--color-cream) !important;
 }
 
-/* Auth Container Card - SOLID MATTE SURFACE (STRICTLY NO GLASSMORPHISM) */
+.text-cream-light {
+  color: var(--color-cream-light) !important;
+}
+
+.text-cream-muted {
+  color: var(--color-cream-muted) !important;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-display);
+  letter-spacing: -0.02em;
+  color: var(--color-cream);
+}
+
+/* Auth Card - SOLID MATTE SURFACE (STRICTLY NO GLASSMORPHISM) */
 .auth-card-centered {
   background-color: var(--color-burgundy-card);
   border: 1px solid var(--color-burgundy-border);
@@ -54,7 +68,7 @@ h1, h2, h3, h4 {
   margin: 0 auto;
 }
 
-/* Input Fields - SOLID MATTE SURFACE */
+/* Input Fields - Warm Cream Focus Ring */
 .itinera-input {
   background-color: var(--color-burgundy-input);
   border: 1.5px solid var(--color-burgundy-border);
@@ -69,7 +83,7 @@ h1, h2, h3, h4 {
   background-color: #1f090b;
   border-color: var(--color-cream);
   color: var(--color-cream);
-  box-shadow: 0 0 0 3px rgba(245, 239, 233, 0.1);
+  box-shadow: 0 0 0 3px rgba(245, 239, 233, 0.12);
   outline: none;
 }
 
@@ -86,7 +100,7 @@ h1, h2, h3, h4 {
   display: block;
 }
 
-/* Tab Selector Buttons - SOLID SURFACE */
+/* Tab Selector Buttons */
 .auth-tab-group {
   background-color: var(--color-burgundy-input);
   padding: 4px;
@@ -114,7 +128,7 @@ h1, h2, h3, h4 {
   font-weight: 700;
 }
 
-/* Pill Buttons */
+/* Warm Cream Pill Buttons (No Harsh Pure White) */
 .btn-pill-cream {
   background-color: var(--color-cream);
   color: #3b1317;
@@ -129,9 +143,10 @@ h1, h2, h3, h4 {
 }
 
 .btn-pill-cream:hover {
-  background-color: #ffffff;
+  background-color: var(--color-cream-warm);
   transform: translateY(-1px);
   color: #2b0c0f;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
 }
 
 .btn-pill-outline {
@@ -149,6 +164,76 @@ h1, h2, h3, h4 {
   background-color: #521c22;
   border-color: var(--color-cream);
   color: var(--color-cream);
+}
+
+/* 3D ASSET SPRITE CROP CLASSES (Original Textures from ele1, ele2, ele3) */
+.asset-3d-box {
+  background-color: #3e181c;
+  border: 1.5px solid #63262c;
+  border-radius: 18px;
+  padding: 10px 16px;
+  box-shadow: 0 14px 28px rgba(0,0,0,0.45);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  pointer-events: none;
+  z-index: 15;
+}
+
+.crop-passport {
+  width: 58px;
+  height: 58px;
+  background: url('/assets/ele3.png') 3% 2% / 320% 320% no-repeat;
+  filter: drop-shadow(0 4px 8px rgba(0,0,0,0.3));
+}
+
+.crop-balloon {
+  width: 58px;
+  height: 58px;
+  background: url('/assets/ele3.png') 50% 2% / 320% 320% no-repeat;
+  filter: drop-shadow(0 4px 8px rgba(0,0,0,0.3));
+}
+
+.crop-camera {
+  width: 58px;
+  height: 58px;
+  background: url('/assets/ele3.png') 97% 2% / 320% 320% no-repeat;
+  filter: drop-shadow(0 4px 8px rgba(0,0,0,0.3));
+}
+
+.crop-plane {
+  width: 65px;
+  height: 58px;
+  background: url('/assets/ele3.png') 2% 50% / 320% 320% no-repeat;
+  filter: drop-shadow(0 4px 8px rgba(0,0,0,0.3));
+}
+
+.crop-suitcase {
+  width: 58px;
+  height: 58px;
+  background: url('/assets/ele3.png') 50% 50% / 320% 320% no-repeat;
+  filter: drop-shadow(0 4px 8px rgba(0,0,0,0.3));
+}
+
+.crop-map {
+  width: 58px;
+  height: 58px;
+  background: url('/assets/ele3.png') 98% 50% / 320% 320% no-repeat;
+  filter: drop-shadow(0 4px 8px rgba(0,0,0,0.3));
+}
+
+.crop-compass {
+  width: 58px;
+  height: 58px;
+  background: url('/assets/ele3.png') 50% 98% / 320% 320% no-repeat;
+  filter: drop-shadow(0 4px 8px rgba(0,0,0,0.3));
+}
+
+.crop-island {
+  width: 62px;
+  height: 58px;
+  background: url('/assets/ele2.png') center / contain no-repeat;
+  filter: drop-shadow(0 4px 8px rgba(0,0,0,0.3));
 }
 
 /* Custom Scrollbar */

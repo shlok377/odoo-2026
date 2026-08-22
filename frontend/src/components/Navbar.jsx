@@ -18,7 +18,7 @@ export default function Navbar({ onNavigate, currentPage }) {
           <img 
             src="/logo.png" 
             alt="Itinera Logo" 
-            style={{ height: '36px', objectFit: 'contain' }}
+            style={{ height: '38px', objectFit: 'contain' }}
           />
         </div>
 
@@ -41,7 +41,7 @@ export default function Navbar({ onNavigate, currentPage }) {
                   className="rounded-circle"
                   style={{ width: '28px', height: '28px', objectFit: 'cover' }}
                 />
-                <span className="small text-cream fw-medium" style={{ color: '#f5efe9' }}>{user.name}</span>
+                <span className="small text-cream fw-medium">{user.name}</span>
               </div>
               <button 
                 onClick={logout} 
@@ -50,7 +50,7 @@ export default function Navbar({ onNavigate, currentPage }) {
                 style={{ borderRadius: '9999px', padding: '0.45rem 1rem' }}
               >
                 <LogOut size={16} />
-                <span>Logout</span>
+                <span className="text-cream">Logout</span>
               </button>
             </div>
           ) : (
