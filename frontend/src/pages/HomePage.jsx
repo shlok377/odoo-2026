@@ -118,18 +118,22 @@ export default function HomePage({ onNavigate }) {
             </p>
           </motion.div>
 
-          {/* 3-Column Layout (01, 02, 03) with thin vertical burgundy dividers */}
+          {/* 3-Column Layout (01, 02, 03) */}
           <motion.div 
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true }}
             variants={staggerContainer}
-            className="row g-4"
+            className="row g-4 g-md-5"
           >
             {/* Step 01 */}
-            <motion.div variants={fadeInUp} className="col-md-4 d-flex flex-column justify-content-between pe-md-4" style={{ borderRight: '1px solid rgba(107, 38, 45, 0.45)' }}>
+            <motion.div 
+              variants={fadeInUp} 
+              className="col-md-4 d-flex flex-column justify-content-between pe-md-4"
+              style={{ borderRight: '1px solid rgba(239, 226, 211, 0.15)' }}
+            >
               <div>
-                <div className="display-1 display-heading mb-2" style={{ color: '#efe2d3', fontSize: '3.5rem', fontWeight: 800 }}>
+                <div className="display-1 display-heading mb-2" style={{ color: '#d96b74', fontSize: '3.5rem', fontWeight: 800 }}>
                   01
                 </div>
                 <h4 className="display-heading text-cream mb-2" style={{ fontSize: '1.4rem' }}>
@@ -160,9 +164,13 @@ export default function HomePage({ onNavigate }) {
             </motion.div>
 
             {/* Step 02 */}
-            <motion.div variants={fadeInUp} className="col-md-4 d-flex flex-column justify-content-between px-md-4" style={{ borderRight: '1px solid rgba(107, 38, 45, 0.45)' }}>
+            <motion.div 
+              variants={fadeInUp} 
+              className="col-md-4 d-flex flex-column justify-content-between px-md-4"
+              style={{ borderRight: '1px solid rgba(239, 226, 211, 0.15)' }}
+            >
               <div>
-                <div className="display-1 display-heading mb-2" style={{ color: '#efe2d3', fontSize: '3.5rem', fontWeight: 800 }}>
+                <div className="display-1 display-heading mb-2" style={{ color: '#d96b74', fontSize: '3.5rem', fontWeight: 800 }}>
                   02
                 </div>
                 <h4 className="display-heading text-cream mb-2" style={{ fontSize: '1.4rem' }}>
@@ -197,9 +205,12 @@ export default function HomePage({ onNavigate }) {
             </motion.div>
 
             {/* Step 03 */}
-            <motion.div variants={fadeInUp} className="col-md-4 d-flex flex-column justify-content-between ps-md-4">
+            <motion.div 
+              variants={fadeInUp} 
+              className="col-md-4 d-flex flex-column justify-content-between ps-md-4"
+            >
               <div>
-                <div className="display-1 display-heading mb-2" style={{ color: '#efe2d3', fontSize: '3.5rem', fontWeight: 800 }}>
+                <div className="display-1 display-heading mb-2" style={{ color: '#d96b74', fontSize: '3.5rem', fontWeight: 800 }}>
                   03
                 </div>
                 <h4 className="display-heading text-cream mb-2" style={{ fontSize: '1.4rem' }}>
