@@ -6,7 +6,7 @@ export default function Navbar({ onNavigate, currentPage }) {
   const { user, logout } = useAuthStore();
 
   return (
-    <nav className="navbar navbar-expand-lg px-4 py-3 sticky-top" style={{ background: '#3b1417', borderBottom: '1px solid #572227', zIndex: 1000 }}>
+    <nav className="navbar navbar-expand-lg px-4 py-2 sticky-top" style={{ background: '#591d26', borderBottom: '1px solid rgba(223, 210, 201, 0.15)', zIndex: 1000 }}>
       <div className="container-fluid d-flex align-items-center justify-content-between">
         
         {/* Brand Logo fetched from /logo.png */}
@@ -18,7 +18,7 @@ export default function Navbar({ onNavigate, currentPage }) {
           <img 
             src="/logo.png" 
             alt="Itinera Logo" 
-            style={{ height: '60px', objectFit: 'contain' }}
+            style={{ height: '92px', objectFit: 'contain', filter: 'drop-shadow(0 2px 8px rgba(0,0,0,0.3))' }}
           />
         </div>
 

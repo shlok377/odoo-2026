@@ -37,7 +37,7 @@ export default function HomePage({ onNavigate }) {
             <img 
               src="/logo.png" 
               alt="Itinera Logo" 
-              style={{ height: '170px', maxWidth: '90%', width: 'auto', objectFit: 'contain', filter: 'drop-shadow(0 6px 16px rgba(0,0,0,0.4))' }} 
+              style={{ height: '220px', maxWidth: '92%', width: 'auto', objectFit: 'contain', filter: 'drop-shadow(0 8px 24px rgba(0,0,0,0.5))' }} 
             />
           </div>
 
