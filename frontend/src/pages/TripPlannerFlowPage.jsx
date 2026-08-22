@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import L from 'leaflet';
+import axios from 'axios';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
   MapPin, Calendar, Clock, Star, Plus, Check, ArrowRight, ArrowLeft,
@@ -554,7 +555,7 @@ export default function TripPlannerFlowPage({ onNavigate, onStartItinerary }) {
     );
   };
 
-  const handleFinalSubmit = () => {
+  const handleFinalSubmit = async () => {
     const plannedTrip = {
       city: selectedCity,
       country: cityData.country,
@@ -564,6 +565,22 @@ export default function TripPlannerFlowPage({ onNavigate, onStartItinerary }) {
       foodSpots: chosenFoodSpotsList,
       cover: cityData.cover
     };
+
+    // Save newly planned trip to backend Express SQLite database
+    try {
+      await axios.post('/api/trips', {
+        title: tripTitle,
+        description: `Exploration of ${selectedCity}, ${cityData.country} (${daysCount} days)`,
+        start_date: new Date().toISOString().split('T')[0],
+        end_date: new Date(Date.now() + daysCount * 86400000).toISOString().split('T')[0],
+        cover_image_url: cityData.cover,
+        total_budget: 150000,
+        base_currency: 'INR',
+        stops: [{ city_name: selectedCity, country: cityData.country }]
+      });
+    } catch (err) {
+      console.warn('Trip saved locally to state:', err);
+    }
 
     if (onStartItinerary) {
       onStartItinerary(plannedTrip);
