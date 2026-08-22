@@ -3,16 +3,24 @@ import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import AuthPage from './pages/AuthPage';
 import HomePage from './pages/HomePage';
-import MyTripsPage from './pages/MyTripsPage';
+import TripPlannerFlowPage from './pages/TripPlannerFlowPage';
+import ItineraryBuilderPage from './pages/ItineraryBuilderPage';
 import BudgetCostPage from './pages/BudgetCostPage';
 import { useAuthStore } from './store/useAuthStore';
 
 export default function App() {
-  const [currentPage, setCurrentPage] = useState('home'); // 'home', 'trips', 'auth-login', 'auth-register', 'budget'
+  const [currentPage, setCurrentPage] = useState('home'); // 'home', 'planner-flow', 'itinerary-builder', 'auth-login', 'auth-register', 'budget'
+  const [activePlannedTrip, setActivePlannedTrip] = useState(null);
   const { user } = useAuthStore();
 
   const handleNavigate = (page) => {
     setCurrentPage(page);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const handleStartItinerary = (plannedTrip) => {
+    setActivePlannedTrip(plannedTrip);
+    setCurrentPage('itinerary-builder');
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
@@ -29,14 +37,24 @@ export default function App() {
           <HomePage onNavigate={handleNavigate} />
         )}
 
-        {currentPage === 'trips' && (
-          <MyTripsPage onNavigate={handleNavigate} />
+        {(currentPage === 'planner-flow' || currentPage === 'trips') && (
+          <TripPlannerFlowPage 
+            onNavigate={handleNavigate} 
+            onStartItinerary={handleStartItinerary}
+          />
+        )}
+
+        {currentPage === 'itinerary-builder' && (
+          <ItineraryBuilderPage 
+            plannedTrip={activePlannedTrip} 
+            onNavigate={handleNavigate} 
+          />
         )}
 
         {(currentPage === 'auth-login' || currentPage === 'auth-register') && (
           <AuthPage 
             initialTab={currentPage === 'auth-register' ? 'signup' : 'login'} 
-            onAuthSuccess={() => handleNavigate('trips')} 
+            onAuthSuccess={() => handleNavigate('planner-flow')} 
           />
         )}
 
