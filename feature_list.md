@@ -1,6 +1,6 @@
-1. Login/signup
-2. dashboard/ home screen
-3. create Trip screen
+1. Login/signup done
+2. dashboard/ home screen done
+3. create Trip screen done
 4. My trips(trip list) screen
 5. itinary builder screen
 6. ititnary view(day-wise)
