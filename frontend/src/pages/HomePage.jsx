@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { 
   ArrowRight, Compass, MapPin, Calendar, DollarSign, 
   Share2, CloudRain, Users, ShieldCheck, Sparkles, CheckCircle2, ChevronRight,
@@ -108,7 +108,7 @@ export default function HomePage({ onNavigate }) {
           </div>
         </motion.div>
 
-        {/* Masterpiece 3D Globe Container (Right-Tilted + Scroll-Driven Rotation & Clamped Zoom) */}
+        {/* Masterpiece 3D Globe Container with Real 3D Models (.glb) from /assets */}
         <div className="w-100 position-relative my-2" style={{ zIndex: 5, minHeight: '560px' }}>
           <Globe3D />
         </div>
@@ -116,7 +116,7 @@ export default function HomePage({ onNavigate }) {
       </section>
 
 
-      {/* SECTION 2: CREATIVE & EXCITING CONNECTED TIMELINE (BLACK ROW 1) */}
+      {/* SECTION 2: CONNECTED TIMELINE TUTORIAL SECTION */}
       <section className="py-5 px-3" style={{ background: '#120608', borderTop: '1px solid #2a0d10', borderBottom: '1px solid #2a0d10' }}>
         <div className="container py-4">
           
@@ -138,7 +138,7 @@ export default function HomePage({ onNavigate }) {
             </p>
           </motion.div>
 
-          {/* Interactive Step-by-Step Storyline Cards */}
+          {/* 4 Interactive Cards */}
           <motion.div 
             initial="hidden"
             whileInView="visible"
@@ -146,7 +146,7 @@ export default function HomePage({ onNavigate }) {
             variants={staggerContainer}
             className="row g-4"
           >
-            {/* Step 1 Card */}
+            {/* Step 1 */}
             <motion.div variants={fadeInUp} className="col-md-6 col-lg-3">
               <div 
                 className="p-4 rounded-4 h-100 hover-lift d-flex flex-column justify-content-between"
@@ -165,7 +165,6 @@ export default function HomePage({ onNavigate }) {
                   </p>
                 </div>
 
-                {/* Mini Interactive Preview Widget */}
                 <div className="p-2.5 rounded-3 mt-2 d-flex align-items-center justify-content-between" style={{ background: '#2d0e12', border: '1px solid #4a171c' }}>
                   <span className="small text-cream fw-semibold" style={{ fontSize: '0.78rem' }}>Paris &bull; $140/day</span>
                   <span className="badge rounded-pill" style={{ background: '#532328', color: '#f5efe9', fontSize: '0.7rem' }}>+ Add Stop</span>
@@ -173,7 +172,7 @@ export default function HomePage({ onNavigate }) {
               </div>
             </motion.div>
 
-            {/* Step 2 Card */}
+            {/* Step 2 */}
             <motion.div variants={fadeInUp} className="col-md-6 col-lg-3">
               <div 
                 className="p-4 rounded-4 h-100 hover-lift d-flex flex-column justify-content-between"
@@ -192,7 +191,6 @@ export default function HomePage({ onNavigate }) {
                   </p>
                 </div>
 
-                {/* Mini Interactive Preview Widget */}
                 <div className="p-2.5 rounded-3 mt-2 d-flex align-items-center justify-content-between" style={{ background: '#2d0e12', border: '1px solid #4a171c' }}>
                   <span className="small text-cream fw-semibold" style={{ fontSize: '0.78rem' }}>Day 1: Louvre Tour</span>
                   <span className="badge rounded-pill" style={{ background: '#532328', color: '#f5efe9', fontSize: '0.7rem' }}>2.5 Hrs</span>
@@ -200,7 +198,7 @@ export default function HomePage({ onNavigate }) {
               </div>
             </motion.div>
 
-            {/* Step 3 Card */}
+            {/* Step 3 */}
             <motion.div variants={fadeInUp} className="col-md-6 col-lg-3">
               <div 
                 className="p-4 rounded-4 h-100 hover-lift d-flex flex-column justify-content-between"
@@ -219,7 +217,6 @@ export default function HomePage({ onNavigate }) {
                   </p>
                 </div>
 
-                {/* Mini Interactive Preview Widget */}
                 <div className="p-2.5 rounded-3 mt-2 d-flex align-items-center justify-content-between" style={{ background: '#2d0e12', border: '1px solid #4a171c' }}>
                   <span className="small text-cream fw-semibold" style={{ fontSize: '0.78rem' }}>Weather: Clear 24°C</span>
                   <span className="badge rounded-pill" style={{ background: '#224833', color: '#a7f3d0', fontSize: '0.7rem' }}>Pass</span>
@@ -227,7 +224,7 @@ export default function HomePage({ onNavigate }) {
               </div>
             </motion.div>
 
-            {/* Step 4 Card */}
+            {/* Step 4 */}
             <motion.div variants={fadeInUp} className="col-md-6 col-lg-3">
               <div 
                 className="p-4 rounded-4 h-100 hover-lift d-flex flex-column justify-content-between"
@@ -246,7 +243,6 @@ export default function HomePage({ onNavigate }) {
                   </p>
                 </div>
 
-                {/* Mini Interactive Preview Widget */}
                 <div className="p-2.5 rounded-3 mt-2 d-flex align-items-center justify-content-between" style={{ background: '#2d0e12', border: '1px solid #4a171c' }}>
                   <span className="small text-cream fw-semibold" style={{ fontSize: '0.78rem' }}>PDF Schedule ready</span>
                   <span className="badge rounded-pill" style={{ background: '#532328', color: '#f5efe9', fontSize: '0.7rem' }}>Export</span>
@@ -256,7 +252,7 @@ export default function HomePage({ onNavigate }) {
 
           </motion.div>
 
-          {/* Thoughtful Stats Counter Section */}
+          {/* Stats Counter Section */}
           <motion.div 
             initial="hidden"
             whileInView="visible"
@@ -321,7 +317,7 @@ export default function HomePage({ onNavigate }) {
                 style={{ width: '100%', height: '100%', objectFit: 'cover', filter: 'brightness(0.75)' }} 
               />
 
-              {/* Solid Matte Overlay Content */}
+              {/* Overlay Content */}
               <div className="position-absolute inset-0 d-flex flex-column justify-content-between p-4" style={{ background: 'linear-gradient(180deg, rgba(30,9,12,0.4) 0%, rgba(20,6,8,0.85) 100%)' }}>
                 
                 <div className="d-flex justify-content-between align-items-center">

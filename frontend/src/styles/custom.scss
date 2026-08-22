@@ -29,7 +29,7 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-/* Typography Rules */
+/* Typography Rules - Warm Cream Text Colors (No Stark Whites) */
 .display-heading {
   font-family: var(--font-display);
   font-weight: 700;
@@ -37,9 +37,18 @@ body {
   color: var(--color-cream);
 }
 
-h1, h2, h3, h4 {
+h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-display);
   letter-spacing: -0.02em;
+  color: var(--color-cream);
+}
+
+.text-cream {
+  color: var(--color-cream) !important;
+}
+
+.text-cream-muted {
+  color: var(--color-cream-muted) !important;
 }
 
 /* Auth Container Card - SOLID MATTE SURFACE (STRICTLY NO GLASSMORPHISM) */
@@ -114,7 +123,7 @@ h1, h2, h3, h4 {
   font-weight: 700;
 }
 
-/* Pill Buttons */
+/* Warm Cream Pill Buttons */
 .btn-pill-cream {
   background-color: var(--color-cream);
   color: #3b1317;
@@ -129,7 +138,7 @@ h1, h2, h3, h4 {
 }
 
 .btn-pill-cream:hover {
-  background-color: var(--color-cream-light);
+  background-color: #fcefe6;
   transform: translateY(-1px);
   color: #2b0c0f;
 }
