@@ -262,10 +262,10 @@ export default function HomePage({ onNavigate }) {
             className="rounded-5 text-center p-5 mx-auto position-relative overflow-hidden"
             style={{
               maxWidth: '920px',
-              background: 'radial-gradient(circle at 50% 0%, #1f1a1c 0%, #141113 60%, #0a0a0a 100%)',
+              background: 'radial-gradient(circle at 50% 0%, #8c353f 0%, #5c1e27 50%, #3e1319 100%)',
               borderRadius: '36px',
-              border: '1px solid rgba(239, 226, 211, 0.18)',
-              boxShadow: '0 24px 60px rgba(0, 0, 0, 0.7)',
+              border: '1.5px solid #8e3943',
+              boxShadow: '0 24px 50px rgba(0, 0, 0, 0.45)',
               padding: '4.5rem 3rem'
             }}
           >
