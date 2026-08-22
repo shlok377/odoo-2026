@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
   MapPin, Calendar, Clock, Star, Plus, Check, ArrowRight, ArrowLeft,
-  Utensils, Camera, ChevronRight, Sparkles, Navigation, Globe
+  Utensils, Camera, ChevronRight, Sparkles, Navigation, Globe, Sun, CheckCircle2, Compass, ShieldCheck
 } from 'lucide-react';
 
 const CITY_DATABASE = {
@@ -78,6 +78,9 @@ export default function TripPlannerFlowPage({ onNavigate, onStartItinerary }) {
 
   const cityData = CITY_DATABASE[selectedCity] || CITY_DATABASE.Paris;
 
+  const chosenAttractionsList = cityData.attractions.filter(a => selectedAttractions.includes(a.id));
+  const chosenFoodSpotsList = cityData.foodSpots.filter(f => selectedFoodSpots.includes(f.id));
+
   const handleSelectCity = (cityKey) => {
     setSelectedCity(cityKey);
     setTripTitle(`${cityKey} Travel Exploration`);
@@ -106,8 +109,8 @@ export default function TripPlannerFlowPage({ onNavigate, onStartItinerary }) {
       country: cityData.country,
       title: tripTitle,
       days: daysCount,
-      attractions: cityData.attractions.filter(a => selectedAttractions.includes(a.id)),
-      foodSpots: cityData.foodSpots.filter(f => selectedFoodSpots.includes(f.id)),
+      attractions: chosenAttractionsList,
+      foodSpots: chosenFoodSpotsList,
       cover: cityData.cover
     };
 
@@ -459,7 +462,7 @@ export default function TripPlannerFlowPage({ onNavigate, onStartItinerary }) {
             </motion.div>
           )}
 
-          {/* STEP 3: ELEGANT CONFIRMATION CARD (EXACT HOMEPAGE SECTION 3 PRESENTATION) */}
+          {/* STEP 3: ELEGANT TRIP PASSPORT & CONFIRMATION MASTER BOARD */}
           {wizardStep === 3 && (
             <motion.div
               key="step3"
@@ -467,67 +470,131 @@ export default function TripPlannerFlowPage({ onNavigate, onStartItinerary }) {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -15 }}
               transition={{ duration: 0.3 }}
-              className="d-flex flex-column align-items-center w-100 p-3 p-md-4 rounded-5"
-              style={{ backgroundColor: '#0e0406', border: '1px solid #2a0d10' }}
+              className="d-flex flex-column gap-4 w-100"
             >
+              {/* HERO TRIP PASSPORT BANNER */}
               <div 
-                className="rounded-5 text-center position-relative overflow-hidden w-100"
-                style={{
-                  background: 'radial-gradient(circle at 50% 0%, #8c353f 0%, #5c1e27 50%, #3e1319 100%)',
-                  borderRadius: '36px',
-                  border: '1.5px solid #8e3943',
-                  boxShadow: '0 24px 50px rgba(0, 0, 0, 0.45)',
-                  padding: '4.5rem 2rem'
+                className="position-relative rounded-4 overflow-hidden p-4 p-md-5 d-flex flex-column justify-content-end"
+                style={{ 
+                  minHeight: '260px', 
+                  backgroundImage: `linear-gradient(180deg, rgba(39, 20, 24, 0.4) 0%, rgba(28, 13, 16, 0.95) 100%), url(${cityData.cover})`,
+                  backgroundSize: 'cover',
+                  backgroundPosition: 'center',
+                  border: '1px solid #4a2027',
+                  boxShadow: '0 20px 40px rgba(0,0,0,0.4)'
                 }}
               >
-                {/* Faint Watermark Text */}
-                <div 
-                  className="position-absolute top-50 start-50 translate-middle pointer-events-none select-none text-uppercase fw-bold"
-                  style={{
-                    fontSize: '11rem',
-                    color: '#ffffff',
-                    opacity: 0.05,
-                    letterSpacing: '0.1em',
-                    whiteSpace: 'nowrap',
-                    zIndex: 1
-                  }}
-                >
-                  ITINERA
+                <div className="d-flex align-items-center gap-2 mb-2">
+                  <span className="badge px-3 py-1.5 rounded-pill" style={{ backgroundColor: '#6b262d', color: '#F5EFE9', fontSize: '0.82rem', letterSpacing: '0.05em' }}>
+                    <Compass size={13} className="me-1" /> READY FOR GENERATION
+                  </span>
+                  <span className="badge px-3 py-1.5 rounded-pill" style={{ backgroundColor: '#14291d', color: '#6ee7b7', border: '1px solid #6ee7b7', fontSize: '0.82rem' }}>
+                    <Sun size={13} className="me-1" /> Rain Check: Sunny 24°C
+                  </span>
                 </div>
 
-                <div className="position-relative" style={{ zIndex: 2 }}>
-                  <h2 className="display-3 display-heading text-cream mb-3 mx-auto" style={{ fontSize: '3.2rem', maxWidth: '680px', lineHeight: 1.12 }}>
-                    Never miss a moment <br /> on your journey again.
-                  </h2>
+                <h1 className="display-4 display-heading text-cream mb-1" style={{ fontSize: '2.5rem' }}>
+                  {tripTitle}
+                </h1>
+                <p className="small text-cream-muted mb-0" style={{ color: '#D8C8C3', fontSize: '1rem' }}>
+                  {selectedCity}, {cityData.country} &bull; {daysCount} Days Stay &bull; {chosenAttractionsList.length} Sights &bull; {chosenFoodSpotsList.length} Dining Places
+                </p>
+              </div>
 
-                  <p className="lead mx-auto mb-4" style={{ color: '#f2e6dc', maxWidth: '620px', fontSize: '1.15rem', lineHeight: 1.65 }}>
-                    Itinera has configured your <strong style={{ color: '#F5EFE9' }}>{daysCount}-Day {selectedCity} Itinerary</strong> with {selectedAttractions.length} attractions, {selectedFoodSpots.length} dining spots, and live rain check forecast.
-                  </p>
+              {/* TWO COLUMN MASTER BOARD: INCLUDED HIGHLIGHTS & READINESS CHECKLIST */}
+              <div className="row g-4">
+                
+                {/* Column 1: Included Attractions & Food Highlights */}
+                <div className="col-md-7">
+                  <div 
+                    className="p-4 rounded-4 h-100 d-flex flex-column justify-content-between"
+                    style={{ backgroundColor: '#271418', border: '1px solid #4a2027', boxShadow: '0 16px 36px rgba(0,0,0,0.35)' }}
+                  >
+                    <div>
+                      <h4 className="display-heading text-cream mb-3 d-flex align-items-center gap-2" style={{ fontSize: '1.3rem' }}>
+                        <Camera size={18} style={{ color: '#F5EFE9' }} />
+                        Selected Sights & Experiences
+                      </h4>
 
-                  <div className="d-flex justify-content-center mb-4">
-                    <button 
-                      onClick={handleFinalSubmit}
-                      className="btn btn-pill-cream hover-lift d-inline-flex align-items-center justify-content-center gap-2"
-                      style={{ 
-                        padding: '0.85rem 2.6rem', 
-                        backgroundColor: '#fcefe6', 
-                        color: '#3e181c', 
-                        fontWeight: 700, 
-                        fontSize: '1.05rem', 
-                        borderRadius: '9999px',
-                        width: 'auto',
-                        whiteSpace: 'nowrap'
-                      }}
-                    >
-                      <span>Generate Day-Wise Itinerary</span>
-                      <ArrowRight size={18} />
-                    </button>
-                  </div>
+                      <div className="d-flex flex-column gap-2 mb-4">
+                        {chosenAttractionsList.map(attr => (
+                          <div key={attr.id} className="p-2.5 rounded-3 d-flex align-items-center gap-3" style={{ backgroundColor: '#1c0d10', border: '1px solid #4a2027' }}>
+                            <img src={attr.image} alt={attr.title} className="rounded-2" style={{ width: '48px', height: '48px', objectFit: 'cover' }} />
+                            <div>
+                              <div className="fw-bold text-cream" style={{ fontSize: '0.95rem' }}>{attr.title}</div>
+                              <small style={{ color: '#D8C8C3', fontSize: '0.78rem' }}>{attr.category} &bull; {attr.duration}</small>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
 
-                  <div className="small text-cream-muted" style={{ color: '#d8c8c3', fontSize: '0.88rem', letterSpacing: '0.05em' }}>
-                    Instant setup &bull; Automated rain check &bull; Multi-currency budget split
+                      <h4 className="display-heading text-cream mb-3 d-flex align-items-center gap-2" style={{ fontSize: '1.3rem' }}>
+                        <Utensils size={18} style={{ color: '#F5EFE9' }} />
+                        Selected Dining Places
+                      </h4>
+
+                      <div className="d-flex flex-column gap-2">
+                        {chosenFoodSpotsList.map(food => (
+                          <div key={food.id} className="p-2.5 rounded-3 d-flex align-items-center gap-3" style={{ backgroundColor: '#1c0d10', border: '1px solid #4a2027' }}>
+                            <img src={food.image} alt={food.title} className="rounded-2" style={{ width: '48px', height: '48px', objectFit: 'cover' }} />
+                            <div>
+                              <div className="fw-bold text-cream" style={{ fontSize: '0.95rem' }}>{food.title}</div>
+                              <small style={{ color: '#D8C8C3', fontSize: '0.78rem' }}>{food.cuisine} &bull; {food.price}</small>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
                   </div>
                 </div>
+
+                {/* Column 2: Trip Readiness Checklist & Launch Trigger */}
+                <div className="col-md-5">
+                  <div 
+                    className="p-4 rounded-4 h-100 d-flex flex-column justify-content-between"
+                    style={{ backgroundColor: '#271418', border: '1px solid #4a2027', boxShadow: '0 16px 36px rgba(0,0,0,0.35)' }}
+                  >
+                    <div>
+                      <h4 className="display-heading text-cream mb-3 d-flex align-items-center gap-2" style={{ fontSize: '1.3rem' }}>
+                        <ShieldCheck size={18} style={{ color: '#F5EFE9' }} />
+                        Trip Readiness Status
+                      </h4>
+
+                      <ul className="list-unstyled d-flex flex-column gap-3 mb-4">
+                        {[
+                          `Destination Locked: ${selectedCity}, ${cityData.country}`,
+                          `Duration Configured: ${daysCount} Days`,
+                          `Weather Sync: Rain Check Verified`,
+                          `Budget Engine: Multi-Currency Split Active`,
+                          `Interactive Schedule: ${chosenAttractionsList.length + chosenFoodSpotsList.length} Items Pre-loaded`
+                        ].map((checkItem, idx) => (
+                          <li key={idx} className="d-flex align-items-center gap-2.5 small text-cream" style={{ fontSize: '0.88rem' }}>
+                            <CheckCircle2 size={16} className="text-success flex-shrink-0" />
+                            <span>{checkItem}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+
+                    <div className="pt-3 border-top border-secondary-subtle">
+                      <button 
+                        onClick={handleFinalSubmit}
+                        className="btn btn-pill-cream hover-lift w-100 d-inline-flex align-items-center justify-content-center gap-2 py-3"
+                        style={{ 
+                          backgroundColor: '#F5EFE9', 
+                          color: '#3e181c', 
+                          fontWeight: 700, 
+                          fontSize: '1.05rem', 
+                          borderRadius: '9999px'
+                        }}
+                      >
+                        <span>Generate Day-Wise Itinerary</span>
+                        <ArrowRight size={18} />
+                      </button>
+                    </div>
+                  </div>
+                </div>
+
               </div>
             </motion.div>
           )}
