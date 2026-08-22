@@ -93,13 +93,13 @@ export default function Globe3D() {
       }
       ctx.closePath();
 
-      // Warm Cream Continent Fill
-      ctx.fillStyle = isIsland ? 'rgba(239, 226, 211, 0.52)' : 'rgba(239, 226, 211, 0.42)';
+      // Refined Vector Continent Fill (Subtle Rose Burgundy Tint)
+      ctx.fillStyle = isIsland ? 'rgba(217, 107, 116, 0.16)' : 'rgba(217, 107, 116, 0.10)';
       ctx.fill();
 
-      // Warm Cream Coastline Contour
-      ctx.strokeStyle = 'rgba(239, 226, 211, 0.85)';
-      ctx.lineWidth = 2.2;
+      // Refined Vector Coastline Contour (Subtle Warm Cream Gold Outline)
+      ctx.strokeStyle = 'rgba(239, 226, 211, 0.38)';
+      ctx.lineWidth = 1.0;
       ctx.stroke();
     };
 
@@ -216,18 +216,8 @@ export default function Globe3D() {
     const globeMesh = new THREE.Mesh(globeGeometry, globeMaterial);
     globeGroup.add(globeMesh);
 
-    // 4. Floating Animated Cloud Layer Mesh
-    const cloudTexture = createCloudTexture();
-    const cloudGeometry = new THREE.SphereGeometry(2.11, 64, 64);
-    const cloudMaterial = new THREE.MeshLambertMaterial({
-      map: cloudTexture,
-      transparent: true,
-      opacity: 0.35,
-      blending: THREE.AdditiveBlending
-    });
-    const cloudMesh = new THREE.Mesh(cloudGeometry, cloudMaterial);
-    globeGroup.add(cloudMesh);
-    cloudMeshRef.current = cloudMesh;
+    // 4. Clean Globe Surface (Cloud mesh removed for sleek theme alignment)
+    cloudMeshRef.current = null;
 
     // 5. Dual-Layer Atmospheric Glow
     const atmosphereGeometry = new THREE.SphereGeometry(2.19, 128, 128);
