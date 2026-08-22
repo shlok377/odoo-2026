@@ -67,7 +67,7 @@ export default function HomePage({ onNavigate }) {
             <motion.button 
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
-              onClick={() => onNavigate('planner-flow')} 
+              onClick={() => onNavigate('map')} 
               className="btn btn-pill-outline hover-lift d-inline-flex align-items-center gap-2"
               style={{ width: 'auto', padding: '0.9rem 2.2rem', borderColor: 'rgba(239, 226, 211, 0.3)', color: '#efe2d3', borderRadius: '9999px' }}
             >

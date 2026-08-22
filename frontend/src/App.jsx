@@ -9,6 +9,7 @@ import MyTripsPage from './pages/MyTripsPage';
 import BudgetCostPage from './pages/BudgetCostPage';
 import ProfileSettingsPage from './pages/ProfileSettingsPage';
 import AnalyticsDashboardPage from './pages/AnalyticsDashboardPage';
+import DestinationMapPage from './pages/DestinationMapPage';
 import { useAuthStore } from './store/useAuthStore';
 
 export default function App() {
@@ -67,6 +68,13 @@ export default function App() {
 
         {currentPage === 'analytics' && (
           <AnalyticsDashboardPage onNavigate={handleNavigate} />
+        )}
+
+        {currentPage === 'map' && (
+          <DestinationMapPage 
+            onNavigate={handleNavigate} 
+            onStartItinerary={handleStartItinerary}
+          />
         )}
 
         {(currentPage === 'auth-login' || currentPage === 'auth-register') && (

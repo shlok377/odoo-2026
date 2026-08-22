@@ -33,11 +33,19 @@ export default function Navbar({ onNavigate, currentPage }) {
           </button>
 
           <button 
+            onClick={() => onNavigate('map')}
+            className={`btn btn-sm text-nowrap ${currentPage === 'map' ? 'btn-pill-cream' : 'btn-pill-outline'}`}
+            style={{ borderRadius: '9999px', padding: '0.45rem 1.25rem', whiteSpace: 'nowrap' }}
+          >
+            Destination Map
+          </button>
+
+          <button 
             onClick={() => onNavigate('planner-flow')}
             className={`btn btn-sm text-nowrap ${currentPage === 'planner-flow' ? 'btn-pill-cream' : 'btn-pill-outline'}`}
             style={{ borderRadius: '9999px', padding: '0.45rem 1.25rem', whiteSpace: 'nowrap' }}
           >
-            Destination Explorer
+            Plan Trip
           </button>
 
           <button 
