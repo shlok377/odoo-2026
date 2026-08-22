@@ -77,33 +77,108 @@ const CITY_DATABASE = {
   }
 };
 
-function TripPlannerInteractiveMap({ selectedCity, onSelectCity }) {
+function createDynamicCityData(cityName, countryName, lat, lng) {
+  const cleanName = cityName || 'Destination';
+  const cleanCountry = countryName || 'Global';
+  return {
+    country: cleanCountry,
+    subtitle: `Explore famous sights & local dining of ${cleanName}`,
+    lat: lat || 48.8566,
+    lng: lng || 2.3522,
+    mapCoords: { top: '50%', left: '50%' },
+    cover: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1000&q=80',
+    attractions: [
+      {
+        id: `${cleanName.toLowerCase()}_attr1`,
+        title: `${cleanName} Historic Old Town & Heritage Walk`,
+        category: 'Landmark',
+        duration: '2.5 hrs',
+        rating: 4.9,
+        image: 'https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?auto=format&fit=crop&w=600&q=80'
+      },
+      {
+        id: `${cleanName.toLowerCase()}_attr2`,
+        title: `Grand ${cleanName} National Museum & Art Gallery`,
+        category: 'Museum',
+        duration: '3.0 hrs',
+        rating: 4.8,
+        image: 'https://images.unsplash.com/photo-1565099824688-e93eb20fe622?auto=format&fit=crop&w=600&q=80'
+      },
+      {
+        id: `${cleanName.toLowerCase()}_attr3`,
+        title: `${cleanName} Skyline Observatory & Viewpoint`,
+        category: 'Experience',
+        duration: '2.0 hrs',
+        rating: 4.9,
+        image: 'https://images.unsplash.com/photo-1503899036084-c55cdd92da26?auto=format&fit=crop&w=600&q=80'
+      },
+      {
+        id: `${cleanName.toLowerCase()}_attr4`,
+        title: `${cleanName} Botanical Gardens & Waterfront Park`,
+        category: 'Nature',
+        duration: '2.0 hrs',
+        rating: 4.7,
+        image: 'https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?auto=format&fit=crop&w=600&q=80'
+      }
+    ],
+    foodSpots: [
+      {
+        id: `${cleanName.toLowerCase()}_food1`,
+        title: `The ${cleanName} Signature Local Bistro`,
+        cuisine: 'Regional Specialities',
+        price: '$$$',
+        rating: 4.8,
+        image: 'https://images.unsplash.com/photo-1554118811-1e0d58224f24?auto=format&fit=crop&w=600&q=80'
+      },
+      {
+        id: `${cleanName.toLowerCase()}_food2`,
+        title: `${cleanName} Artisan Cafe & Bakery`,
+        cuisine: 'Coffee & Patisserie',
+        price: '$$',
+        rating: 4.7,
+        image: 'https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=600&q=80'
+      },
+      {
+        id: `${cleanName.toLowerCase()}_food3`,
+        title: `${cleanName} Rooftop Grill & Fine Dining`,
+        cuisine: 'Gourmet Dining',
+        price: '$$$$',
+        rating: 4.9,
+        image: 'https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=600&q=80'
+      }
+    ]
+  };
+}
+
+function TripPlannerInteractiveMap({ selectedCity, activeCityDatabase, onSelectCustomLocation, onSelectPresetCity }) {
   const mapRef = useRef(null);
   const mapInstanceRef = useRef(null);
   const markersRef = useRef([]);
 
   const [weatherData, setWeatherData] = useState(null);
-  const [isLoadingWeather, setIsLoadingWeather] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [searchResults, setSearchResults] = useState([]);
+  const [isSearching, setIsSearching] = useState(false);
+  const [isGeocoding, setIsGeocoding] = useState(false);
 
-  // Fetch Open-Meteo Weather Data for Selected City
+  const currentCityObj = activeCityDatabase[selectedCity] || CITY_DATABASE[selectedCity] || createDynamicCityData(selectedCity, 'Global', 48.8566, 2.3522);
+
+  // Fetch Open-Meteo Weather Data for Selected City coordinates
   useEffect(() => {
-    const city = CITY_DATABASE[selectedCity];
-    if (!city) return;
-    setIsLoadingWeather(true);
-    fetch(`https://api.open-meteo.com/v1/forecast?latitude=${city.lat}&longitude=${city.lng}&current=temperature_2m,relative_humidity_2m,precipitation,rain,weather_code,wind_speed_10m&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_sum,precipitation_probability_max&timezone=auto`)
+    if (!currentCityObj || !currentCityObj.lat || !currentCityObj.lng) return;
+    fetch(`https://api.open-meteo.com/v1/forecast?latitude=${currentCityObj.lat}&longitude=${currentCityObj.lng}&current=temperature_2m,relative_humidity_2m,precipitation,rain,weather_code,wind_speed_10m&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_sum,precipitation_probability_max&timezone=auto`)
       .then(res => res.json())
       .then(data => setWeatherData(data))
-      .catch(err => console.error('Error fetching Open-Meteo weather:', err))
-      .finally(() => setIsLoadingWeather(false));
-  }, [selectedCity]);
+      .catch(err => console.error('Error fetching Open-Meteo weather:', err));
+  }, [currentCityObj.lat, currentCityObj.lng, selectedCity]);
 
-  // Leaflet Map Init
+  // Leaflet Map Init & Map Click Listener
   useEffect(() => {
     if (!mapRef.current) return;
     if (!mapInstanceRef.current) {
       const map = L.map(mapRef.current, {
-        center: [30, 15],
-        zoom: 2.2,
+        center: [currentCityObj.lat || 30, currentCityObj.lng || 15],
+        zoom: 3,
         zoomControl: false
       });
       L.control.zoom({ position: 'bottomright' }).addTo(map);
@@ -112,6 +187,27 @@ function TripPlannerInteractiveMap({ selectedCity, onSelectCity }) {
         attribution: '&copy; OpenStreetMap &copy; CARTO',
         maxZoom: 18
       }).addTo(map);
+
+      // Handle map click anywhere on earth!
+      map.on('click', async (e) => {
+        const { lat, lng } = e.latlng;
+        setIsGeocoding(true);
+
+        try {
+          const res = await fetch(`https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lng}&format=json`);
+          const data = await res.json();
+          const addr = data.address || {};
+          const name = addr.city || addr.town || addr.village || addr.municipality || addr.county || addr.state || addr.country || 'Custom Location';
+          const country = addr.country || 'Global';
+
+          onSelectCustomLocation({ name, country, lat, lng });
+        } catch (err) {
+          console.error('Reverse geocode error:', err);
+          onSelectCustomLocation({ name: `Location (${lat.toFixed(2)}, ${lng.toFixed(2)})`, country: 'Worldwide', lat, lng });
+        } finally {
+          setIsGeocoding(false);
+        }
+      });
 
       mapInstanceRef.current = map;
     }
@@ -125,8 +221,9 @@ function TripPlannerInteractiveMap({ selectedCity, onSelectCity }) {
     markersRef.current.forEach(m => m.remove());
     markersRef.current = [];
 
-    Object.keys(CITY_DATABASE).forEach(cityName => {
-      const city = CITY_DATABASE[cityName];
+    // Render active cities
+    Object.keys(activeCityDatabase).forEach(cityName => {
+      const city = activeCityDatabase[cityName];
       const isSelected = selectedCity === cityName;
 
       const customIcon = L.divIcon({
@@ -151,21 +248,51 @@ function TripPlannerInteractiveMap({ selectedCity, onSelectCity }) {
             <span>${cityName}</span>
           </div>
         `,
-        iconSize: [100, 32],
-        iconAnchor: [50, 16]
+        iconSize: [110, 34],
+        iconAnchor: [55, 17]
       });
 
       const marker = L.marker([city.lat, city.lng], { icon: customIcon })
         .addTo(map)
-        .on('click', () => onSelectCity(cityName));
+        .on('click', () => onSelectPresetCity(cityName));
 
       markersRef.current.push(marker);
 
       if (isSelected) {
-        map.flyTo([city.lat, city.lng], 5, { duration: 1.2 });
+        map.flyTo([city.lat, city.lng], 6, { duration: 1.2 });
       }
     });
-  }, [selectedCity]);
+  }, [selectedCity, activeCityDatabase]);
+
+  // Global Search Handler
+  const handleSearchChange = async (e) => {
+    const query = e.target.value;
+    setSearchQuery(query);
+    if (query.trim().length < 2) {
+      setSearchResults([]);
+      return;
+    }
+    setIsSearching(true);
+    try {
+      const res = await fetch(`https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(query)}&count=5&language=en&format=json`);
+      const data = await res.json();
+      setSearchResults(data.results || []);
+    } catch (err) {
+      console.error('Search error:', err);
+    } finally {
+      setIsSearching(false);
+    }
+  };
+
+  const handleSelectSearchResult = (resItem) => {
+    const name = resItem.name;
+    const country = resItem.country || resItem.admin1 || 'Global';
+    const lat = resItem.latitude;
+    const lng = resItem.longitude;
+    setSearchQuery('');
+    setSearchResults([]);
+    onSelectCustomLocation({ name, country, lat, lng });
+  };
 
   const rainProb = weatherData?.daily?.precipitation_probability_max?.[0] ?? 0;
   const temp = weatherData?.current?.temperature_2m;
@@ -197,17 +324,69 @@ function TripPlannerInteractiveMap({ selectedCity, onSelectCity }) {
         </span>
       </div>
 
-      {/* Interactive Leaflet Map Box */}
-      <div className="rounded-4 overflow-hidden position-relative" style={{ height: '420px', border: '1.5px solid #4a2027', boxShadow: '0 12px 30px rgba(0,0,0,0.4)' }}>
+      {/* Interactive Leaflet Map Box with Floating Search Bar */}
+      <div className="rounded-4 overflow-hidden position-relative" style={{ height: '440px', border: '1.5px solid #4a2027', boxShadow: '0 12px 30px rgba(0,0,0,0.4)' }}>
+        
+        {/* Floating Global Search Overlay */}
+        <div className="position-absolute top-0 start-0 end-0 p-3" style={{ zIndex: 1000, pointerEvents: 'none' }}>
+          <div className="position-relative" style={{ maxWidth: '450px', pointerEvents: 'auto' }}>
+            <input 
+              type="text"
+              value={searchQuery}
+              onChange={handleSearchChange}
+              placeholder="🔍 Click map anywhere OR search any city/country..."
+              className="form-control rounded-pill px-4 py-2.5 shadow-lg border-0"
+              style={{ 
+                backgroundColor: 'rgba(28, 13, 16, 0.92)', 
+                backdropFilter: 'blur(12px)',
+                color: '#efe2d3',
+                fontSize: '0.88rem',
+                border: '1px solid #4a2027'
+              }}
+            />
+            {searchResults.length > 0 && (
+              <div 
+                className="position-absolute start-0 end-0 mt-2 rounded-4 overflow-hidden shadow-2xl"
+                style={{ backgroundColor: '#1c0d10', border: '1px solid #4a2027', zIndex: 1001 }}
+              >
+                {searchResults.map((item) => (
+                  <div
+                    key={`${item.id}-${item.name}`}
+                    onClick={() => handleSelectSearchResult(item)}
+                    className="p-3 border-bottom border-dark cursor-pointer d-flex align-items-center justify-content-between hover-bg-dark"
+                    style={{ cursor: 'pointer', transition: 'background-color 0.2s' }}
+                  >
+                    <div>
+                      <div className="fw-bold" style={{ color: '#efe2d3', fontSize: '0.88rem' }}>📍 {item.name}</div>
+                      <small style={{ color: '#ddc9c3', fontSize: '0.76rem' }}>{item.admin1 ? `${item.admin1}, ` : ''}{item.country || ''}</small>
+                    </div>
+                    <span className="badge rounded-pill" style={{ backgroundColor: '#3b1417', color: '#efe2d3', fontSize: '0.72rem' }}>Select</span>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* Map Canvas */}
         <div ref={mapRef} className="w-100 h-100" style={{ zIndex: 1 }} />
+
+        {isGeocoding && (
+          <div 
+            className="position-absolute bottom-0 start-0 m-3 px-3 py-2 rounded-pill bg-dark text-cream small shadow"
+            style={{ zIndex: 1000, backgroundColor: '#1c0d10', color: '#efe2d3', border: '1px solid #4a2027' }}
+          >
+            Locating spot... 📍
+          </div>
+        )}
       </div>
 
-      {/* Quick City Selection Buttons */}
+      {/* Quick Destination Pills */}
       <div className="d-flex flex-wrap gap-2 justify-content-center pt-1">
-        {Object.keys(CITY_DATABASE).map(cityName => (
+        {Object.keys(activeCityDatabase).map(cityName => (
           <button
             key={cityName}
-            onClick={() => onSelectCity(cityName)}
+            onClick={() => onSelectPresetCity(cityName)}
             className="btn btn-sm rounded-pill px-3.5 py-1.5 fw-semibold transition-all"
             style={{
               backgroundColor: selectedCity === cityName ? '#efe2d3' : '#1c0d10',
@@ -226,25 +405,45 @@ function TripPlannerInteractiveMap({ selectedCity, onSelectCity }) {
 
 export default function TripPlannerFlowPage({ onNavigate, onStartItinerary }) {
   const [wizardStep, setWizardStep] = useState(1);
+  const [activeCityDatabase, setActiveCityDatabase] = useState(CITY_DATABASE);
   const [selectedCity, setSelectedCity] = useState('Paris');
   const [daysCount, setDaysCount] = useState(5);
   const [tripTitle, setTripTitle] = useState('Parisian Dream Getaway');
   const [selectedAttractions, setSelectedAttractions] = useState(['p1', 'p2']);
   const [selectedFoodSpots, setSelectedFoodSpots] = useState(['pf1']);
 
-  const cityData = CITY_DATABASE[selectedCity] || CITY_DATABASE.Paris;
+  const cityData = activeCityDatabase[selectedCity] || CITY_DATABASE.Paris;
 
-  const chosenAttractionsList = cityData.attractions.filter(a => selectedAttractions.includes(a.id));
-  const chosenFoodSpotsList = cityData.foodSpots.filter(f => selectedFoodSpots.includes(f.id));
+  const chosenAttractionsList = (cityData.attractions || []).filter(a => selectedAttractions.includes(a.id));
+  const chosenFoodSpotsList = (cityData.foodSpots || []).filter(f => selectedFoodSpots.includes(f.id));
 
-  const handleSelectCity = (cityKey) => {
-    setSelectedCity(cityKey);
-    setTripTitle(`${cityKey} Travel Exploration`);
-    const data = CITY_DATABASE[cityKey];
-    if (data) {
+  const handleSelectPresetCity = (cityName) => {
+    setSelectedCity(cityName);
+    setTripTitle(`${cityName} Travel Exploration`);
+    const data = activeCityDatabase[cityName] || CITY_DATABASE[cityName];
+    if (data && data.attractions && data.foodSpots) {
       setSelectedAttractions(data.attractions.slice(0, 2).map(a => a.id));
       setSelectedFoodSpots(data.foodSpots.slice(0, 1).map(f => f.id));
     }
+  };
+
+  const handleSelectCustomLocation = ({ name, country, lat, lng }) => {
+    const existing = activeCityDatabase[name];
+    if (existing) {
+      handleSelectPresetCity(name);
+      return;
+    }
+
+    const newCityData = createDynamicCityData(name, country, lat, lng);
+    setActiveCityDatabase(prev => ({
+      ...prev,
+      [name]: newCityData
+    }));
+
+    setSelectedCity(name);
+    setTripTitle(`${name} Travel Exploration`);
+    setSelectedAttractions(newCityData.attractions.slice(0, 2).map(a => a.id));
+    setSelectedFoodSpots(newCityData.foodSpots.slice(0, 1).map(f => f.id));
   };
 
   const toggleAttraction = (id) => {
@@ -451,8 +650,9 @@ export default function TripPlannerFlowPage({ onNavigate, onStartItinerary }) {
 
                 <TripPlannerInteractiveMap 
                   selectedCity={selectedCity}
-                  onSelectCity={handleSelectCity}
-                  cityData={cityData}
+                  activeCityDatabase={activeCityDatabase}
+                  onSelectCustomLocation={handleSelectCustomLocation}
+                  onSelectPresetCity={handleSelectPresetCity}
                 />
               </div>
             </motion.div>
