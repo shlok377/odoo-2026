@@ -138,13 +138,13 @@ export default function ItineraryBuilderPage({ plannedTrip, onNavigate }) {
           </div>
         </div>
 
-        {/* TRIP HERO HEADER WITH RAIN CHECK STATUS (OBSIDIAN ONYX SURFACE #141113) */}
+        {/* TRIP HERO HEADER WITH RAIN CHECK STATUS (VELVET MULBERRY SURFACE #271418) */}
         <div 
           className="p-4 mb-4 position-relative overflow-hidden rounded-4"
           style={{ 
-            backgroundColor: '#141113', 
-            border: '1px solid rgba(245, 239, 233, 0.15)', 
-            boxShadow: '0 16px 36px rgba(0,0,0,0.5)' 
+            backgroundColor: '#271418', 
+            border: '1px solid #4a2027', 
+            boxShadow: '0 16px 36px rgba(0,0,0,0.35)' 
           }}
         >
           <div className="row g-4 align-items-center">
@@ -154,7 +154,7 @@ export default function ItineraryBuilderPage({ plannedTrip, onNavigate }) {
                 <span className="badge px-3 py-1 rounded-pill" style={{ backgroundColor: '#6b262d', color: '#F5EFE9' }}>
                   <MapPin size={12} className="me-1" /> {tripData.city}, {tripData.country}
                 </span>
-                <span className="badge px-3 py-1 rounded-pill" style={{ backgroundColor: '#211b1f', border: '1px solid rgba(245, 239, 233, 0.2)', color: '#F5EFE9' }}>
+                <span className="badge px-3 py-1 rounded-pill" style={{ backgroundColor: '#1c0d10', border: '1px solid #4a2027', color: '#F5EFE9' }}>
                   <Calendar size={12} className="me-1" /> {tripData.days} Days Duration
                 </span>
               </div>
@@ -180,7 +180,7 @@ export default function ItineraryBuilderPage({ plannedTrip, onNavigate }) {
                 ₹ {totalCost.toLocaleString()}
               </h2>
 
-              <div className="d-inline-flex align-items-center gap-2 p-1.5 rounded-pill" style={{ backgroundColor: '#211b1f', border: '1px solid rgba(245, 239, 233, 0.2)' }}>
+              <div className="d-inline-flex align-items-center gap-2 p-1.5 rounded-pill" style={{ backgroundColor: '#1c0d10', border: '1px solid #4a2027' }}>
                 <span className="small text-cream ms-2 me-1" style={{ fontSize: '0.8rem' }}>Currency:</span>
                 {['INR', 'USD', 'EUR', 'GBP'].map(curr => (
                   <button
@@ -189,9 +189,9 @@ export default function ItineraryBuilderPage({ plannedTrip, onNavigate }) {
                     style={{ 
                       fontSize: '0.75rem', 
                       padding: '0.25rem 0.65rem',
-                      backgroundColor: currency === curr ? '#F5EFE9' : '#141113',
+                      backgroundColor: currency === curr ? '#F5EFE9' : '#271418',
                       color: currency === curr ? '#3e181c' : '#F5EFE9',
-                      border: currency === curr ? 'none' : '1px solid rgba(245, 239, 233, 0.2)'
+                      border: currency === curr ? 'none' : '1px solid #4a2027'
                     }}
                     onClick={() => setCurrency(curr)}
                   >
@@ -218,9 +218,9 @@ export default function ItineraryBuilderPage({ plannedTrip, onNavigate }) {
                 style={{ 
                   borderRadius: '16px', 
                   minWidth: '140px',
-                  backgroundColor: isSelected ? '#F5EFE9' : '#141113',
+                  backgroundColor: isSelected ? '#F5EFE9' : '#271418',
                   color: isSelected ? '#3e181c' : '#F5EFE9',
-                  border: isSelected ? 'none' : '1px solid rgba(245, 239, 233, 0.2)'
+                  border: isSelected ? 'none' : '1px solid #4a2027'
                 }}
               >
                 <div className="text-start">
@@ -232,13 +232,13 @@ export default function ItineraryBuilderPage({ plannedTrip, onNavigate }) {
           })}
         </div>
 
-        {/* DAY TIMELINE & ACTIVITY SCHEDULE (OBSIDIAN ONYX CARDS #141113) */}
+        {/* DAY TIMELINE & ACTIVITY SCHEDULE (VELVET MULBERRY CARDS #271418) */}
         <div 
           className="p-4 mb-5 rounded-4" 
           style={{ 
-            backgroundColor: '#141113', 
-            border: '1px solid rgba(245, 239, 233, 0.15)',
-            boxShadow: '0 16px 36px rgba(0,0,0,0.5)'
+            backgroundColor: '#271418', 
+            border: '1px solid #4a2027',
+            boxShadow: '0 16px 36px rgba(0,0,0,0.35)'
           }}
         >
           <div className="d-flex align-items-center justify-content-between mb-4">
@@ -257,7 +257,7 @@ export default function ItineraryBuilderPage({ plannedTrip, onNavigate }) {
           </div>
 
           {currentDayActivities.length === 0 ? (
-            <div className="text-center py-5 rounded-3" style={{ backgroundColor: '#211b1f', border: '1px dashed rgba(245, 239, 233, 0.2)' }}>
+            <div className="text-center py-5 rounded-3" style={{ backgroundColor: '#1c0d10', border: '1px dashed #4a2027' }}>
               <Clock size={40} className="text-cream-muted mb-2" />
               <h5 className="display-heading text-cream mb-1">No Activities Scheduled for Day {activeDay}</h5>
               <p className="small text-cream-muted mb-3">Click "+ Add Activity" to schedule sightseeing, meals, or experiences.</p>
@@ -275,7 +275,7 @@ export default function ItineraryBuilderPage({ plannedTrip, onNavigate }) {
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, x: -15 }}
                   className="p-3.5 rounded-4 d-flex align-items-center justify-content-between gap-3"
-                  style={{ backgroundColor: '#211b1f', border: '1px solid rgba(245, 239, 233, 0.15)' }}
+                  style={{ backgroundColor: '#1c0d10', border: '1px solid #4a2027' }}
                 >
                   <div className="d-flex align-items-center gap-3">
                     <img 
@@ -289,7 +289,7 @@ export default function ItineraryBuilderPage({ plannedTrip, onNavigate }) {
                         <span className="badge px-2.5 py-1 rounded-pill" style={{ backgroundColor: '#6b262d', color: '#F5EFE9', fontSize: '0.72rem' }}>
                           <Clock size={12} className="me-1" /> {act.time}
                         </span>
-                        <span className="badge px-2.5 py-1 rounded-pill" style={{ backgroundColor: '#141113', color: '#F5EFE9', fontSize: '0.72rem', border: '1px solid rgba(245, 239, 233, 0.2)' }}>
+                        <span className="badge px-2.5 py-1 rounded-pill" style={{ backgroundColor: '#271418', color: '#F5EFE9', fontSize: '0.72rem', border: '1px solid #4a2027' }}>
                           {act.category}
                         </span>
                       </div>
@@ -341,17 +341,17 @@ export default function ItineraryBuilderPage({ plannedTrip, onNavigate }) {
                 <div 
                   className="p-3.5 rounded-4 h-100 hover-lift d-flex flex-column justify-content-between"
                   style={{ 
-                    backgroundColor: '#141113', 
+                    backgroundColor: '#271418', 
                     borderRadius: '24px',
-                    border: '1px solid rgba(245, 239, 233, 0.15)',
-                    boxShadow: '0 16px 36px rgba(0,0,0,0.5)'
+                    border: '1px solid #4a2027',
+                    boxShadow: '0 16px 36px rgba(0,0,0,0.35)'
                   }}
                 >
                   <div>
                     <div className="position-relative mb-3 overflow-hidden rounded-3" style={{ height: '160px' }}>
                       <img src={item.cover} alt={item.title} className="w-100 h-100" style={{ objectFit: 'cover' }} />
                       <div className="position-absolute top-0 end-0 m-2">
-                        <span className="badge px-2.5 py-1 rounded-pill" style={{ backgroundColor: '#211b1f', color: '#F5EFE9', fontSize: '0.75rem', border: '1px solid rgba(245, 239, 233, 0.2)' }}>
+                        <span className="badge px-2.5 py-1 rounded-pill" style={{ backgroundColor: '#1c0d10', color: '#F5EFE9', fontSize: '0.75rem', border: '1px solid #4a2027' }}>
                           <Star size={11} fill="#F5EFE9" className="me-1" /> {item.rating}
                         </span>
                       </div>
@@ -367,7 +367,7 @@ export default function ItineraryBuilderPage({ plannedTrip, onNavigate }) {
                     </h5>
 
                     <div className="d-flex align-items-center gap-2 mb-3">
-                      <span className="badge px-2.5 py-1 rounded-pill" style={{ backgroundColor: '#211b1f', color: '#F5EFE9', fontSize: '0.72rem', border: '1px solid rgba(245, 239, 233, 0.2)' }}>
+                      <span className="badge px-2.5 py-1 rounded-pill" style={{ backgroundColor: '#1c0d10', color: '#F5EFE9', fontSize: '0.72rem', border: '1px solid #4a2027' }}>
                         <MapPin size={10} className="me-1" /> {item.city}
                       </span>
                       <span className="badge px-2.5 py-1 rounded-pill" style={{ backgroundColor: '#6b262d', color: '#F5EFE9', fontSize: '0.72rem' }}>
