@@ -7,42 +7,15 @@ export default function AnalyticsDashboardPage({ onNavigate }) {
 
   return (
     <div 
-      className="position-relative overflow-hidden"
       style={{ 
-        backgroundColor: '#381318', 
-        background: 'radial-gradient(ellipse at 50% -10%, #632228 0%, #381318 45%, #1e090b 100%)', 
+        backgroundColor: '#591d26', 
+        background: 'linear-gradient(180deg, #591d26 0%, #42151c 100%)', 
         color: '#f5efe9', 
         minHeight: '100vh', 
         fontFamily: "'Plus Jakarta Sans', system-ui, -apple-system, sans-serif" 
       }}
     >
-      {/* Ambient Glowing Background Orbs */}
-      <div 
-        className="position-absolute rounded-circle pointer-events-none"
-        style={{
-          top: '-150px',
-          left: '20%',
-          width: '650px',
-          height: '650px',
-          background: 'radial-gradient(circle, rgba(217, 107, 116, 0.2) 0%, rgba(89, 29, 38, 0) 70%)',
-          filter: 'blur(80px)',
-          zIndex: 0
-        }}
-      />
-      <div 
-        className="position-absolute rounded-circle pointer-events-none"
-        style={{
-          top: '500px',
-          right: '-100px',
-          width: '550px',
-          height: '550px',
-          background: 'radial-gradient(circle, rgba(223, 210, 201, 0.08) 0%, rgba(66, 21, 28, 0) 70%)',
-          filter: 'blur(90px)',
-          zIndex: 0
-        }}
-      />
-      
-      <main className="container py-5" style={{ maxWidth: '1220px', position: 'relative', zIndex: 1 }}>
+      <main className="container py-5" style={{ maxWidth: '1220px' }}>
         
         {/* Spacious Hero Banner Header */}
         <div className="mb-5 pb-2">

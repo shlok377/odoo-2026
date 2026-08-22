@@ -190,42 +190,14 @@ export default function ProfileSettingsPage({ onNavigate }) {
 
   return (
     <div 
-      className="position-relative overflow-hidden"
       style={{ 
-        backgroundColor: '#3e181c', 
-        background: 'radial-gradient(ellipse at 50% -10%, #6b262d 0%, #3e181c 45%, #220b0e 100%)', 
+        backgroundColor: '#591d26', 
+        background: 'linear-gradient(180deg, #591d26 0%, #42151c 100%)', 
         color: '#dfd2c9', 
         minHeight: '100vh', 
         fontFamily: "'Plus Jakarta Sans', system-ui, -apple-system, sans-serif" 
       }}
     >
-      {/* Floating Ambient Glowing Gradient Background Orbs */}
-      <div 
-        className="position-absolute rounded-circle pointer-events-none"
-        style={{
-          top: '-150px',
-          left: '20%',
-          width: '650px',
-          height: '650px',
-          background: 'radial-gradient(circle, rgba(217, 107, 116, 0.22) 0%, rgba(89, 29, 38, 0) 70%)',
-          filter: 'blur(70px)',
-          pointerEvents: 'none',
-          zIndex: 0
-        }}
-      />
-      <div 
-        className="position-absolute rounded-circle pointer-events-none"
-        style={{
-          top: '450px',
-          right: '-100px',
-          width: '550px',
-          height: '550px',
-          background: 'radial-gradient(circle, rgba(223, 210, 201, 0.1) 0%, rgba(66, 21, 28, 0) 70%)',
-          filter: 'blur(80px)',
-          pointerEvents: 'none',
-          zIndex: 0
-        }}
-      />
       
       {/* Toast Notification */}
       <AnimatePresence>
