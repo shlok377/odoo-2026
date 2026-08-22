@@ -123,7 +123,7 @@ export default function TripPlannerFlowPage({ onNavigate, onStartItinerary }) {
       
       <div className="container" style={{ maxWidth: '960px' }}>
         
-        {/* STEPPER PROGRESS NAVIGATION HEADER (STRICT FLEX ALIGNMENT) */}
+        {/* STEPPER PROGRESS NAVIGATION HEADER */}
         <div className="d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-3 mb-5 pb-3" style={{ borderBottom: '1px solid rgba(245, 239, 233, 0.2)' }}>
           <div>
             <span className="small text-cream-muted display-heading" style={{ letterSpacing: '0.12em', color: '#D8C8C3', fontSize: '0.8rem' }}>
@@ -146,13 +146,13 @@ export default function TripPlannerFlowPage({ onNavigate, onStartItinerary }) {
                 onClick={() => st.num <= wizardStep && setWizardStep(st.num)}
                 className="btn btn-sm d-inline-flex align-items-center justify-content-center px-3.5 py-2 rounded-pill"
                 style={{ 
-                  backgroundColor: wizardStep === st.num ? '#F5EFE9' : '#3b1417', 
+                  backgroundColor: wizardStep === st.num ? '#F5EFE9' : '#161214', 
                   color: wizardStep === st.num ? '#3e181c' : '#F5EFE9',
-                  border: '1px solid #572227',
+                  border: wizardStep === st.num ? 'none' : '1px solid rgba(245, 239, 233, 0.2)',
                   fontSize: '0.82rem',
                   fontWeight: 700,
                   cursor: st.num <= wizardStep ? 'pointer' : 'default',
-                  boxShadow: wizardStep === st.num ? '0 4px 12px rgba(0,0,0,0.2)' : 'none',
+                  boxShadow: wizardStep === st.num ? '0 4px 12px rgba(0,0,0,0.3)' : 'none',
                   transition: 'all 0.2s ease'
                 }}
               >
@@ -165,7 +165,7 @@ export default function TripPlannerFlowPage({ onNavigate, onStartItinerary }) {
         {/* WIZARD CONTENT ANIMATION */}
         <AnimatePresence mode="wait">
           
-          {/* STEP 1: DESTINATION & DAYS SELECTOR (SOLID FLAT MATTE #3b1417) */}
+          {/* STEP 1: DESTINATION & DAYS SELECTOR (OBSIDIAN ONYX CARDS #141113) */}
           {wizardStep === 1 && (
             <motion.div
               key="step1"
@@ -175,13 +175,13 @@ export default function TripPlannerFlowPage({ onNavigate, onStartItinerary }) {
               transition={{ duration: 0.3 }}
               className="d-flex flex-column gap-4"
             >
-              {/* Trip Title & Duration Box (SOLID FLAT MATTE SURFACE) */}
+              {/* Trip Title & Duration Box (OBSIDIAN ONYX SURFACE #141113) */}
               <div 
                 className="p-4 rounded-4" 
                 style={{ 
-                  backgroundColor: '#3b1417', 
-                  border: '1px solid #572227', 
-                  boxShadow: '0 12px 30px rgba(0,0,0,0.35)' 
+                  backgroundColor: '#141113', 
+                  border: '1px solid rgba(245, 239, 233, 0.15)', 
+                  boxShadow: '0 16px 36px rgba(0,0,0,0.5)' 
                 }}
               >
                 <div className="row g-4 align-items-center">
@@ -190,7 +190,7 @@ export default function TripPlannerFlowPage({ onNavigate, onStartItinerary }) {
                     <input 
                       type="text"
                       className="itinera-input fw-bold w-100"
-                      style={{ fontSize: '1.15rem', backgroundColor: '#290d10', color: '#F5EFE9', border: '1px solid #572227' }}
+                      style={{ fontSize: '1.15rem', backgroundColor: '#211b1f', color: '#F5EFE9', border: '1px solid rgba(245, 239, 233, 0.2)' }}
                       value={tripTitle}
                       onChange={(e) => setTripTitle(e.target.value)}
                     />
@@ -198,13 +198,24 @@ export default function TripPlannerFlowPage({ onNavigate, onStartItinerary }) {
 
                   <div className="col-md-6">
                     <label className="itinera-label text-cream mb-2">Duration of Stay</label>
-                    <div className="d-flex align-items-center gap-2">
+                    <div className="d-flex align-items-center gap-2 flex-wrap">
                       {[3, 5, 7, 10, 14].map((d) => (
                         <button
                           key={d}
                           type="button"
-                          className={`btn btn-sm ${daysCount === d ? 'btn-pill-cream' : 'btn-pill-outline'} flex-grow-1`}
-                          style={{ fontSize: '0.85rem', padding: '0.55rem 0.5rem' }}
+                          className="btn btn-sm flex-grow-1 text-nowrap"
+                          style={{ 
+                            fontSize: '0.88rem', 
+                            fontWeight: daysCount === d ? 700 : 500,
+                            padding: '0.65rem 0.9rem',
+                            borderRadius: '9999px',
+                            backgroundColor: daysCount === d ? '#F5EFE9' : '#211b1f',
+                            color: daysCount === d ? '#3e181c' : '#F5EFE9',
+                            border: daysCount === d ? 'none' : '1px solid rgba(245, 239, 233, 0.2)',
+                            boxShadow: daysCount === d ? '0 4px 14px rgba(0,0,0,0.3)' : 'none',
+                            whiteSpace: 'nowrap',
+                            transition: 'all 0.2s ease'
+                          }}
                           onClick={() => setDaysCount(d)}
                         >
                           {d} Days
@@ -215,13 +226,13 @@ export default function TripPlannerFlowPage({ onNavigate, onStartItinerary }) {
                 </div>
               </div>
 
-              {/* Clean Interactive Map Container (SOLID FLAT MATTE SURFACE) */}
+              {/* Clean Interactive Map Container (OBSIDIAN ONYX SURFACE #141113) */}
               <div 
                 className="p-4 rounded-4" 
                 style={{ 
-                  backgroundColor: '#3b1417', 
-                  border: '1px solid #572227',
-                  boxShadow: '0 12px 30px rgba(0,0,0,0.35)'
+                  backgroundColor: '#141113', 
+                  border: '1px solid rgba(245, 239, 233, 0.15)',
+                  boxShadow: '0 16px 36px rgba(0,0,0,0.5)'
                 }}
               >
                 <div className="d-flex align-items-center justify-content-between mb-3">
@@ -229,7 +240,7 @@ export default function TripPlannerFlowPage({ onNavigate, onStartItinerary }) {
                     <h4 className="display-heading text-cream mb-1" style={{ fontSize: '1.35rem' }}>Select Destination City</h4>
                     <small style={{ color: '#D8C8C3' }}>Click a location pin on the map to set your destination.</small>
                   </div>
-                  <span className="badge px-3 py-2 rounded-pill" style={{ backgroundColor: '#290d10', color: '#F5EFE9', fontSize: '0.82rem', border: '1px solid #572227' }}>
+                  <span className="badge px-3 py-2 rounded-pill" style={{ backgroundColor: '#211b1f', color: '#F5EFE9', fontSize: '0.82rem', border: '1px solid rgba(245, 239, 233, 0.2)' }}>
                     Selected: {selectedCity}, {cityData.country}
                   </span>
                 </div>
@@ -238,13 +249,13 @@ export default function TripPlannerFlowPage({ onNavigate, onStartItinerary }) {
                   className="rounded-4 position-relative overflow-hidden p-4 d-flex align-items-center justify-content-center"
                   style={{ 
                     height: '380px', 
-                    backgroundColor: '#290d10', 
-                    border: '1px solid #572227',
-                    backgroundImage: 'radial-gradient(#45181d 1.5px, transparent 1.5px)',
+                    backgroundColor: '#1c1619', 
+                    border: '1px solid rgba(245, 239, 233, 0.15)',
+                    backgroundImage: 'radial-gradient(rgba(245, 239, 233, 0.15) 1.5px, transparent 1.5px)',
                     backgroundSize: '24px 24px'
                   }}
                 >
-                  <svg viewBox="0 0 1000 500" className="w-100 h-100 position-absolute inset-0" style={{ opacity: 0.22 }}>
+                  <svg viewBox="0 0 1000 500" className="w-100 h-100 position-absolute inset-0" style={{ opacity: 0.18 }}>
                     <path fill="#F5EFE9" d="M150,120 Q200,80 300,110 T400,200 T250,300 Z M500,100 Q650,50 800,120 T850,250 T650,350 Z M750,320 Q850,300 900,380 Z" />
                   </svg>
 
@@ -267,7 +278,7 @@ export default function TripPlannerFlowPage({ onNavigate, onStartItinerary }) {
                         <div 
                           className="p-2 rounded-circle d-flex align-items-center justify-content-center shadow-lg"
                           style={{ 
-                            backgroundColor: isSelected ? '#F5EFE9' : '#591D26', 
+                            backgroundColor: isSelected ? '#F5EFE9' : '#6b262d', 
                             color: isSelected ? '#3e181c' : '#F5EFE9',
                             border: '2px solid #F5EFE9',
                             width: isSelected ? '44px' : '36px',
@@ -279,11 +290,11 @@ export default function TripPlannerFlowPage({ onNavigate, onStartItinerary }) {
                         <span 
                           className="badge rounded-pill mt-1.5 px-2.5 py-1"
                           style={{ 
-                            backgroundColor: isSelected ? '#F5EFE9' : '#1e090c', 
+                            backgroundColor: isSelected ? '#F5EFE9' : '#141113', 
                             color: isSelected ? '#3e181c' : '#F5EFE9',
                             fontSize: '0.78rem',
                             fontWeight: 700,
-                            border: '1px solid #572227'
+                            border: '1px solid rgba(245, 239, 233, 0.2)'
                           }}
                         >
                           {cityName}
@@ -296,7 +307,7 @@ export default function TripPlannerFlowPage({ onNavigate, onStartItinerary }) {
             </motion.div>
           )}
 
-          {/* STEP 2: SIGHTS & FOOD SELECTION (SOLID FLAT MATTE #3b1417) */}
+          {/* STEP 2: SIGHTS & FOOD SELECTION (OBSIDIAN ONYX CARDS #141113) */}
           {wizardStep === 2 && (
             <motion.div
               key="step2"
@@ -310,9 +321,9 @@ export default function TripPlannerFlowPage({ onNavigate, onStartItinerary }) {
               <div 
                 className="p-4 rounded-4" 
                 style={{ 
-                  backgroundColor: '#3b1417', 
-                  border: '1px solid #572227',
-                  boxShadow: '0 12px 30px rgba(0,0,0,0.35)'
+                  backgroundColor: '#141113', 
+                  border: '1px solid rgba(245, 239, 233, 0.15)',
+                  boxShadow: '0 16px 36px rgba(0,0,0,0.5)'
                 }}
               >
                 <div className="d-flex align-items-center justify-content-between mb-4">
@@ -320,7 +331,7 @@ export default function TripPlannerFlowPage({ onNavigate, onStartItinerary }) {
                     <h4 className="display-heading text-cream mb-1" style={{ fontSize: '1.35rem' }}>Select Sights & Attractions in {selectedCity}</h4>
                     <small style={{ color: '#D8C8C3' }}>Choose what sights you want to visit during your {daysCount}-day stay.</small>
                   </div>
-                  <span className="badge px-3 py-2 rounded-pill" style={{ backgroundColor: '#290d10', color: '#F5EFE9', fontSize: '0.82rem', border: '1px solid #572227' }}>
+                  <span className="badge px-3 py-2 rounded-pill" style={{ backgroundColor: '#211b1f', color: '#F5EFE9', fontSize: '0.82rem', border: '1px solid rgba(245, 239, 233, 0.2)' }}>
                     {selectedAttractions.length} Selected
                   </span>
                 </div>
@@ -334,8 +345,8 @@ export default function TripPlannerFlowPage({ onNavigate, onStartItinerary }) {
                           onClick={() => toggleAttraction(attr.id)}
                           className="p-3 rounded-4 d-flex align-items-center justify-content-between gap-3 cursor-pointer"
                           style={{
-                            backgroundColor: isSelected ? '#532328' : '#290d10',
-                            border: isSelected ? '2px solid #F5EFE9' : '1px solid #572227',
+                            backgroundColor: isSelected ? '#2d1f23' : '#211b1f',
+                            border: isSelected ? '2px solid #F5EFE9' : '1px solid rgba(245, 239, 233, 0.15)',
                             cursor: 'pointer'
                           }}
                         >
@@ -343,7 +354,7 @@ export default function TripPlannerFlowPage({ onNavigate, onStartItinerary }) {
                             <img src={attr.image} alt={attr.title} className="rounded-3" style={{ width: '75px', height: '75px', objectFit: 'cover' }} />
                             <div>
                               <div className="d-flex align-items-center gap-2 mb-1">
-                                <span className="badge px-2.5 py-0.5 rounded-pill" style={{ backgroundColor: '#591D26', color: '#F5EFE9', fontSize: '0.72rem' }}>
+                                <span className="badge px-2.5 py-0.5 rounded-pill" style={{ backgroundColor: '#6b262d', color: '#F5EFE9', fontSize: '0.72rem' }}>
                                   {attr.category}
                                 </span>
                                 <span className="small text-cream d-flex align-items-center gap-1" style={{ fontSize: '0.78rem' }}>
@@ -362,7 +373,7 @@ export default function TripPlannerFlowPage({ onNavigate, onStartItinerary }) {
                             style={{ 
                               backgroundColor: isSelected ? '#F5EFE9' : 'transparent', 
                               color: isSelected ? '#3e181c' : '#F5EFE9',
-                              border: isSelected ? 'none' : '1px solid #572227',
+                              border: isSelected ? 'none' : '1px solid rgba(245, 239, 233, 0.2)',
                               width: '34px',
                               height: '34px'
                             }}
@@ -380,9 +391,9 @@ export default function TripPlannerFlowPage({ onNavigate, onStartItinerary }) {
               <div 
                 className="p-4 rounded-4" 
                 style={{ 
-                  backgroundColor: '#3b1417', 
-                  border: '1px solid #572227',
-                  boxShadow: '0 12px 30px rgba(0,0,0,0.35)'
+                  backgroundColor: '#141113', 
+                  border: '1px solid rgba(245, 239, 233, 0.15)',
+                  boxShadow: '0 16px 36px rgba(0,0,0,0.5)'
                 }}
               >
                 <div className="d-flex align-items-center justify-content-between mb-4">
@@ -390,7 +401,7 @@ export default function TripPlannerFlowPage({ onNavigate, onStartItinerary }) {
                     <h4 className="display-heading text-cream mb-1" style={{ fontSize: '1.35rem' }}>Select Famous Food Places in {selectedCity}</h4>
                     <small style={{ color: '#D8C8C3' }}>Pick iconic cafes, bistros, and local dining spots.</small>
                   </div>
-                  <span className="badge px-3 py-2 rounded-pill" style={{ backgroundColor: '#290d10', color: '#F5EFE9', fontSize: '0.82rem', border: '1px solid #572227' }}>
+                  <span className="badge px-3 py-2 rounded-pill" style={{ backgroundColor: '#211b1f', color: '#F5EFE9', fontSize: '0.82rem', border: '1px solid rgba(245, 239, 233, 0.2)' }}>
                     {selectedFoodSpots.length} Selected
                   </span>
                 </div>
@@ -404,8 +415,8 @@ export default function TripPlannerFlowPage({ onNavigate, onStartItinerary }) {
                           onClick={() => toggleFoodSpot(food.id)}
                           className="p-3 rounded-4 d-flex align-items-center justify-content-between gap-3 cursor-pointer"
                           style={{
-                            backgroundColor: isSelected ? '#532328' : '#290d10',
-                            border: isSelected ? '2px solid #F5EFE9' : '1px solid #572227',
+                            backgroundColor: isSelected ? '#2d1f23' : '#211b1f',
+                            border: isSelected ? '2px solid #F5EFE9' : '1px solid rgba(245, 239, 233, 0.15)',
                             cursor: 'pointer'
                           }}
                         >
@@ -413,7 +424,7 @@ export default function TripPlannerFlowPage({ onNavigate, onStartItinerary }) {
                             <img src={food.image} alt={food.title} className="rounded-3" style={{ width: '75px', height: '75px', objectFit: 'cover' }} />
                             <div>
                               <div className="d-flex align-items-center gap-2 mb-1">
-                                <span className="badge px-2.5 py-0.5 rounded-pill" style={{ backgroundColor: '#290d10', color: '#F5EFE9', fontSize: '0.72rem', border: '1px solid #572227' }}>
+                                <span className="badge px-2.5 py-0.5 rounded-pill" style={{ backgroundColor: '#211b1f', color: '#F5EFE9', fontSize: '0.72rem', border: '1px solid rgba(245, 239, 233, 0.2)' }}>
                                   {food.cuisine}
                                 </span>
                                 <span className="small text-cream fw-bold" style={{ fontSize: '0.8rem' }}>
@@ -432,7 +443,7 @@ export default function TripPlannerFlowPage({ onNavigate, onStartItinerary }) {
                             style={{ 
                               backgroundColor: isSelected ? '#F5EFE9' : 'transparent', 
                               color: isSelected ? '#3e181c' : '#F5EFE9',
-                              border: isSelected ? 'none' : '1px solid #572227',
+                              border: isSelected ? 'none' : '1px solid rgba(245, 239, 233, 0.2)',
                               width: '34px',
                               height: '34px'
                             }}
@@ -522,8 +533,8 @@ export default function TripPlannerFlowPage({ onNavigate, onStartItinerary }) {
 
         </AnimatePresence>
 
-        {/* FOOTER NAVIGATION CONTROLS (STRICT FLEX SPACING & ZERO OVERLAP) */}
-        <div className="d-flex align-items-center justify-content-between gap-3 mt-5 pt-3 w-100" style={{ borderTop: '1px solid #572227' }}>
+        {/* FOOTER NAVIGATION CONTROLS */}
+        <div className="d-flex align-items-center justify-content-between gap-3 mt-5 pt-3 w-100" style={{ borderTop: '1px solid rgba(245, 239, 233, 0.2)' }}>
           {wizardStep > 1 ? (
             <button 
               type="button"
