@@ -193,20 +193,19 @@ export default function TripPlannerFlowPage({ onNavigate, onStartItinerary }) {
                   </div>
 
                   <div className="col-md-6">
-                    <label className="itinera-label mb-2 d-flex align-items-center justify-content-between" style={{ color: '#efe2d3' }}>
-                      <span>Duration of Stay</span>
-                      <span className="small text-cream-muted" style={{ fontSize: '0.78rem', color: '#d5c3b5' }}>Use - / + or type exact days</span>
+                    <label className="itinera-label mb-2" style={{ color: '#efe2d3' }}>
+                      Duration of Stay
                     </label>
                     
-                    {/* SINGLE UNIFIED LUXURY PILL COUNTER CONTROL */}
+                    {/* SINGLE UNIFIED WARM CREAM PILL COUNTER CONTROL */}
                     <div className="d-flex align-items-center gap-3">
                       <div 
                         className="d-inline-flex align-items-center justify-content-between p-1.5 rounded-pill w-100"
                         style={{ 
-                          backgroundColor: '#1c0d10', 
-                          border: '1px solid rgba(239, 226, 211, 0.3)',
-                          maxWidth: '280px',
-                          boxShadow: '0 4px 16px rgba(0,0,0,0.2)'
+                          backgroundColor: '#efe2d3', 
+                          border: 'none',
+                          maxWidth: '260px',
+                          boxShadow: '0 8px 24px rgba(0, 0, 0, 0.3)'
                         }}
                       >
                         <motion.button 
@@ -215,10 +214,10 @@ export default function TripPlannerFlowPage({ onNavigate, onStartItinerary }) {
                           type="button"
                           className="btn rounded-circle d-flex align-items-center justify-content-center"
                           style={{ 
-                            width: '38px', 
-                            height: '38px', 
-                            backgroundColor: '#efe2d3', 
-                            color: '#3e181c', 
+                            width: '36px', 
+                            height: '36px', 
+                            backgroundColor: '#3e181c', 
+                            color: '#efe2d3', 
                             border: 'none',
                             fontWeight: 700,
                             fontSize: '1.2rem',
@@ -239,17 +238,17 @@ export default function TripPlannerFlowPage({ onNavigate, onStartItinerary }) {
                               const val = parseInt(e.target.value) || 1;
                               setDaysCount(Math.min(30, Math.max(1, val)));
                             }}
-                            className="bg-transparent border-0 text-center font-bold text-cream"
+                            className="bg-transparent border-0 text-center font-bold"
                             style={{ 
                               width: '45px', 
-                              color: '#efe2d3', 
+                              color: '#3e181c', 
                               fontSize: '1.25rem', 
                               outline: 'none', 
                               fontWeight: 800,
                               margin: 0
                             }}
                           />
-                          <span className="fw-bold display-heading" style={{ fontSize: '1rem', color: '#efe2d3' }}>
+                          <span className="fw-bold display-heading" style={{ fontSize: '1rem', color: '#3e181c' }}>
                             {daysCount === 1 ? 'Day' : 'Days'}
                           </span>
                         </div>
@@ -260,10 +259,10 @@ export default function TripPlannerFlowPage({ onNavigate, onStartItinerary }) {
                           type="button"
                           className="btn rounded-circle d-flex align-items-center justify-content-center"
                           style={{ 
-                            width: '38px', 
-                            height: '38px', 
-                            backgroundColor: '#efe2d3', 
-                            color: '#3e181c', 
+                            width: '36px', 
+                            height: '36px', 
+                            backgroundColor: '#3e181c', 
+                            color: '#efe2d3', 
                             border: 'none',
                             fontWeight: 700,
                             fontSize: '1.2rem',
