@@ -309,72 +309,7 @@ export default function ItineraryBuilderPage({ plannedTrip, onNavigate }) {
         </div>
 
 
-        {/* PUBLICLY SHARED ITINERARIES SECTION AT THE BOTTOM — BORDERLESS ROW SHOWCASE */}
-        <div className="mt-5 pt-4" style={{ borderTop: '1px solid rgba(239, 226, 211, 0.18)' }}>
-          <div className="d-flex align-items-center justify-content-between mb-4">
-            <div>
-              <span className="small display-heading d-block mb-1" style={{ color: '#d5c3b5', letterSpacing: '0.12em', fontSize: '0.78rem' }}>
-                COMMUNITY SHOWCASE
-              </span>
-              <h3 className="display-heading text-cream mb-0" style={{ fontSize: '2rem' }}>
-                Publicly Shared Itineraries
-              </h3>
-            </div>
-            <button className="btn btn-pill-outline d-inline-flex align-items-center gap-2" style={{ fontSize: '0.85rem', borderRadius: '9999px' }}>
-              <span>Explore All Community Trips</span>
-              <ChevronRight size={16} />
-            </button>
-          </div>
 
-          <div className="row g-4">
-            {PUBLIC_ITINERARIES.map((item) => (
-              <div key={item.id} className="col-md-4">
-                <motion.div 
-                  whileHover={{ y: -5 }}
-                  className="cursor-pointer d-flex flex-column h-100 pb-3"
-                  style={{ borderBottom: '1px solid rgba(239, 226, 211, 0.18)' }}
-                >
-                  <div className="position-relative mb-3 overflow-hidden rounded-4" style={{ height: '170px' }}>
-                    <img src={item.cover} alt={item.title} className="w-100 h-100" style={{ objectFit: 'cover' }} />
-                    <div className="position-absolute top-0 end-0 m-2">
-                      <span className="badge px-2.5 py-1 rounded-pill" style={{ backgroundColor: 'rgba(28, 13, 16, 0.75)', color: '#efe2d3', fontSize: '0.75rem', border: '1px solid rgba(239, 226, 211, 0.25)' }}>
-                        <Star size={11} fill="#efe2d3" className="me-1" /> {item.rating}
-                      </span>
-                    </div>
-                  </div>
-
-                  <div className="d-flex align-items-center gap-2 mb-2">
-                    <img src={item.avatar} alt={item.author} className="rounded-circle" style={{ width: '24px', height: '24px', objectFit: 'cover' }} />
-                    <span className="small" style={{ fontSize: '0.8rem', color: '#d5c3b5' }}>{item.author}</span>
-                  </div>
-
-                  <h5 className="display-heading text-cream mb-2" style={{ fontSize: '1.2rem', lineHeight: 1.3 }}>
-                    {item.title}
-                  </h5>
-
-                  <div className="d-flex align-items-center gap-2 mb-3">
-                    <span className="badge px-2.5 py-1 rounded-pill" style={{ backgroundColor: 'transparent', border: '1px solid rgba(239, 226, 211, 0.25)', color: '#efe2d3', fontSize: '0.72rem' }}>
-                      <MapPin size={10} className="me-1" /> {item.city}
-                    </span>
-                    <span className="badge px-2.5 py-1 rounded-pill" style={{ backgroundColor: '#6b262d', color: '#efe2d3', fontSize: '0.72rem' }}>
-                      {item.days} Days
-                    </span>
-                  </div>
-
-                  <div className="pt-3 mt-auto border-top border-secondary-subtle d-flex align-items-center justify-content-between">
-                    <div>
-                      <small className="d-block" style={{ fontSize: '0.7rem', color: '#d5c3b5' }}>ESTIMATED</small>
-                      <span className="fw-bold text-cream" style={{ fontSize: '1rem' }}>{item.cost}</span>
-                    </div>
-                    <button className="btn btn-sm btn-pill-cream px-3 py-1.5" style={{ fontSize: '0.78rem', backgroundColor: '#efe2d3', color: '#3e181c' }} onClick={() => triggerToast(`Imported ${item.title}`)}>
-                      Fork Trip
-                    </button>
-                  </div>
-                </motion.div>
-              </div>
-            ))}
-          </div>
-        </div>
 
       </div>
 
