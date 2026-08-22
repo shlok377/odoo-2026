@@ -2,69 +2,75 @@
   "hash": "f5c4db6e",
   "configHash": "d397f8d7",
   "lockfileHash": "691e14c3",
-  "browserHash": "5ab5bd98",
+  "browserHash": "e62e90db",
   "optimized": {
     "react": {
       "src": "../../node_modules/react/index.js",
       "file": "react.js",
-      "fileHash": "d9577423",
+      "fileHash": "9f2d5329",
       "needsInterop": true
     },
     "lucide-react": {
       "src": "../../node_modules/lucide-react/dist/esm/lucide-react.js",
       "file": "lucide-react.js",
-      "fileHash": "8dbcc2dc",
+      "fileHash": "54661975",
       "needsInterop": false
     },
     "framer-motion": {
       "src": "../../node_modules/framer-motion/dist/es/index.mjs",
       "file": "framer-motion.js",
-      "fileHash": "960b8a2e",
+      "fileHash": "06abc8bc",
       "needsInterop": false
     },
     "zustand": {
       "src": "../../node_modules/zustand/esm/index.mjs",
       "file": "zustand.js",
-      "fileHash": "55ec0068",
+      "fileHash": "5213b77d",
       "needsInterop": false
     },
     "axios": {
       "src": "../../node_modules/axios/index.js",
       "file": "axios.js",
-      "fileHash": "d1f640fd",
+      "fileHash": "8c805ab6",
       "needsInterop": false
     },
     "react-dom/client": {
       "src": "../../node_modules/react-dom/client.js",
       "file": "react-dom_client.js",
-      "fileHash": "2241b727",
+      "fileHash": "a1e1021f",
       "needsInterop": true
     },
     "recharts": {
       "src": "../../node_modules/recharts/es6/index.js",
       "file": "recharts.js",
-      "fileHash": "575e85ff",
+      "fileHash": "c5dc9899",
       "needsInterop": false
     },
     "three": {
       "src": "../../node_modules/three/build/three.module.js",
       "file": "three.js",
-      "fileHash": "a3c08983",
+      "fileHash": "a12fd6cc",
       "needsInterop": false
     },
     "three/examples/jsm/loaders/GLTFLoader.js": {
       "src": "../../node_modules/three/examples/jsm/loaders/GLTFLoader.js",
       "file": "three_examples_jsm_loaders_GLTFLoader__js.js",
-      "fileHash": "68659093",
+      "fileHash": "9a9f11d6",
       "needsInterop": false
+    },
+    "leaflet": {
+      "src": "../../node_modules/leaflet/dist/leaflet-src.js",
+      "file": "leaflet.js",
+      "fileHash": "d31e72b9",
+      "needsInterop": true
     }
   },
   "chunks": {
-    "chunk-XFKHES42": {
-      "file": "chunk-XFKHES42.js"
-    },
     "chunk-PKLUY3Z6": {
       "file": "chunk-PKLUY3Z6.js"
+    },
+    "chunk-XFKHES42": {
+      "file": "chunk-XFKHES42.js"
     },
     "chunk-JMVEG3FK": {
       "file": "chunk-JMVEG3FK.js"
