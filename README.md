@@ -1,11 +1,14 @@
 # Itinera
 ### Bespoke Journeys Crafted with Absolute Precision
 
+**Live Application**: [https://itinera-five.vercel.app/](https://itinera-five.vercel.app/)
+
 Itinera is an intelligent travel orchestration platform engineered for discerning travelers and collaborative group expeditions. Built with a focus on relational data integrity, climate resilience, multi-currency financial precision, and editorial user experience design, Itinera transforms fragmented journey planning into a unified, seamless architectural workflow.
 
 ---
 
 ## Table of Contents
+- [Live Deployment](#live-deployment)
 - [System Highlights](#system-highlights)
 - [Architecture & Tech Stack](#architecture--tech-stack)
 - [Core Functional Capabilities](#core-functional-capabilities)
@@ -21,7 +24,15 @@ Itinera is an intelligent travel orchestration platform engineered for discernin
 
 ---
 
+## Live Deployment
+
+The production build is deployed and hosted on Vercel:
+- **Web Application**: [https://itinera-five.vercel.app/](https://itinera-five.vercel.app/)
+
+---
+
 ## System Highlights
+
 
 - **Relational Integrity by Design**: Strict third-normal-form (3NF) relational schema with enforced foreign keys, cascading rules, and ACID transaction boundaries. Zero static mock JSON.
 - **Adaptive Climate Resilience (Rain Check)**: Real-time meteorological intelligence tracking precipitation risk and dynamically flagging outdoor activities with indoor contingency backups.
