@@ -85,16 +85,52 @@ export default function HomePage({ onNavigate }) {
       </section>
 
 
-      {/* SECTION 2: THREE STEPS "HOW IT WORKS" (CLEAN PITCH BLACK CANVAS) */}
-      <section className="py-5 px-3" style={{ background: '#0a0a0a', borderTop: '1px solid rgba(239, 226, 211, 0.12)', borderBottom: '1px solid rgba(239, 226, 211, 0.12)' }}>
+      {/* DYNAMIC SCROLL MOTION SEPARATOR: FLUID ORGANIC WAVE & AMBIENT GLOW POOL */}
+      <div className="position-relative w-100 overflow-hidden" style={{ marginTop: '-60px', zIndex: 12, pointerEvents: 'none' }}>
+        {/* Soft Ambient Rose-Gold Glow Pool */}
+        <div style={{
+          position: 'absolute',
+          bottom: 0,
+          left: '50%',
+          transform: 'translateX(-50%)',
+          width: '100%',
+          height: '100%',
+          background: 'radial-gradient(ellipse at 50% 100%, rgba(217, 107, 116, 0.38) 0%, rgba(239, 226, 211, 0.08) 40%, rgba(10, 10, 10, 0) 80%)'
+        }} />
+        
+        {/* Fluid Motion Organic Wave SVG */}
+        <svg viewBox="0 0 1440 120" fill="none" preserveAspectRatio="none" style={{ width: '100%', height: '70px', display: 'block', transform: 'scaleY(1.05)' }}>
+          <path 
+            d="M0,32L60,42.7C120,53,240,75,360,80C480,85,600,75,720,58.7C840,43,960,21,1080,21.3C1200,21,1320,43,1380,53.3L1440,64L1440,120L1380,120C1320,120,1200,120,1080,120C960,120,480,120,360,120C240,120,120,120,60,120L0,120Z" 
+            fill="#0a0a0a" 
+          />
+        </svg>
+      </div>
+
+      {/* SECTION 2: THREE STEPS "HOW IT WORKS" (CLEAN PITCH BLACK CANVAS WITH DYNAMIC SCROLL MOTION) */}
+      <section className="py-5 px-3 position-relative" style={{ background: '#0a0a0a', borderBottom: '1px solid rgba(239, 226, 211, 0.12)' }}>
         <div className="container py-4" style={{ maxWidth: '1140px' }}>
           
-          {/* Section Header */}
+          {/* Animated Glowing Accent Line */}
           <motion.div 
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            variants={fadeInUp}
+            initial={{ scaleX: 0 }}
+            whileInView={{ scaleX: 1 }}
+            viewport={{ once: false, amount: 0.2 }}
+            transition={{ duration: 1.0, ease: 'easeOut' }}
+            style={{ 
+              height: '1px', 
+              background: 'linear-gradient(90deg, rgba(239,226,211,0) 0%, rgba(217,107,116,0.6) 50%, rgba(239,226,211,0) 100%)', 
+              margin: '0 auto 3rem auto',
+              width: '80%' 
+            }}
+          />
+
+          {/* Section Header with Parallax Motion Reveal */}
+          <motion.div 
+            initial={{ opacity: 0, y: 50 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: false, amount: 0.2 }}
+            transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
             className="mb-5"
           >
             <div className="d-flex align-items-center gap-2 mb-2" style={{ color: '#efe2d3', letterSpacing: '0.15em', fontSize: '0.85rem', fontWeight: 700 }}>
