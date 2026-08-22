@@ -93,11 +93,11 @@ export default function HomePage({ onNavigate }) {
       </section>
 
 
-      {/* SECTION 2: THREE STEPS "HOW IT WORKS" (EXACT ESTRIA.AI REFERENCE DESIGN) */}
-      <section className="py-5 px-3" style={{ background: '#120507', borderTop: '1px solid #2a0d10', borderBottom: '1px solid #2a0d10' }}>
+      {/* SECTION 2: THREE STEPS "HOW IT WORKS" (CLEAN PITCH BLACK CANVAS) */}
+      <section className="py-5 px-3" style={{ background: '#0a0a0a', borderTop: '1px solid rgba(239, 226, 211, 0.12)', borderBottom: '1px solid rgba(239, 226, 211, 0.12)' }}>
         <div className="container py-4" style={{ maxWidth: '1140px' }}>
           
-          {/* Section Header matching dev.estria.ai */}
+          {/* Section Header */}
           <motion.div 
             initial="hidden"
             whileInView="visible"
@@ -105,7 +105,7 @@ export default function HomePage({ onNavigate }) {
             variants={fadeInUp}
             className="mb-5"
           >
-            <div className="d-flex align-items-center gap-2 mb-2" style={{ color: '#d96b74', letterSpacing: '0.15em', fontSize: '0.85rem', fontWeight: 700 }}>
+            <div className="d-flex align-items-center gap-2 mb-2" style={{ color: '#efe2d3', letterSpacing: '0.15em', fontSize: '0.85rem', fontWeight: 700 }}>
               <span>—</span> <span>HOW IT WORKS</span>
             </div>
             
@@ -113,7 +113,7 @@ export default function HomePage({ onNavigate }) {
               Three steps. No detail left behind.
             </h2>
             
-            <p className="lead" style={{ color: '#cbb8ac', maxWidth: '640px', fontSize: '1.1rem', lineHeight: 1.6 }}>
+            <p className="lead" style={{ color: '#d5c3b5', maxWidth: '640px', fontSize: '1.1rem', lineHeight: 1.6 }}>
               Itinera discovers your ideal destination, schedules your daily sights & dining, and provides live rain checks with multi-currency tracking.
             </p>
           </motion.div>
@@ -129,28 +129,30 @@ export default function HomePage({ onNavigate }) {
             {/* Step 01 */}
             <motion.div variants={fadeInUp} className="col-md-4 d-flex flex-column justify-content-between">
               <div>
-                <div className="display-1 display-heading mb-2" style={{ color: '#d96b74', fontSize: '3.5rem', fontWeight: 800 }}>
+                <div className="display-1 display-heading mb-2" style={{ color: '#efe2d3', fontSize: '3.5rem', fontWeight: 800 }}>
                   01
                 </div>
                 <h4 className="display-heading text-cream mb-2" style={{ fontSize: '1.4rem' }}>
                   Select Destination & Days
                 </h4>
-                <p className="small mb-4" style={{ color: '#cbb8ac', lineHeight: 1.65, fontSize: '0.92rem' }}>
+                <p className="small mb-4" style={{ color: '#d5c3b5', lineHeight: 1.65, fontSize: '0.92rem' }}>
                   Pick from 10,000+ global cities on an interactive map, set your duration of stay, and name your trip.
                 </p>
-              </div>              {/* Step 01 Widget Card (Chat / Destination Prompt Widget matching Estria 01) */}
+              </div>
+
+              {/* Step 01 Widget Card */}
               <div 
                 className="p-4 rounded-4 mt-4 d-flex flex-column gap-3" 
-                style={{ backgroundColor: '#1a080a', border: '1px solid #3d1216' }}
+                style={{ backgroundColor: '#161616', border: '1px solid rgba(239, 226, 211, 0.16)' }}
               >
                 <div className="d-flex justify-content-start">
-                  <div className="px-3 py-1.5 rounded-pill text-nowrap fw-medium" style={{ backgroundColor: '#F5EFE9', color: '#3e181c', fontSize: '0.82rem' }}>
+                  <div className="px-3 py-1.5 rounded-pill text-nowrap fw-medium" style={{ backgroundColor: '#efe2d3', color: '#3e181c', fontSize: '0.82rem' }}>
                     Where are you traveling next?
                   </div>
                 </div>
 
                 <div className="d-flex justify-content-end">
-                  <div className="px-3 py-2 rounded-4 text-nowrap fw-medium" style={{ backgroundColor: '#4c191e', color: '#F5EFE9', border: '1px solid #6b262d', fontSize: '0.82rem' }}>
+                  <div className="px-3 py-2 rounded-4 text-nowrap fw-medium" style={{ backgroundColor: '#2a1215', color: '#efe2d3', border: '1px solid rgba(239, 226, 211, 0.25)', fontSize: '0.82rem' }}>
                     Paris! 5 Days &bull; Eiffel Tower & Louvre
                   </div>
                 </div>
@@ -160,36 +162,36 @@ export default function HomePage({ onNavigate }) {
             {/* Step 02 */}
             <motion.div variants={fadeInUp} className="col-md-4 d-flex flex-column justify-content-between">
               <div>
-                <div className="display-1 display-heading mb-2" style={{ color: '#d96b74', fontSize: '3.5rem', fontWeight: 800 }}>
+                <div className="display-1 display-heading mb-2" style={{ color: '#efe2d3', fontSize: '3.5rem', fontWeight: 800 }}>
                   02
                 </div>
                 <h4 className="display-heading text-cream mb-2" style={{ fontSize: '1.4rem' }}>
                   Pick Sights & Famous Food
                 </h4>
-                <p className="small mb-4" style={{ color: '#cbb8ac', lineHeight: 1.65, fontSize: '0.92rem' }}>
+                <p className="small mb-4" style={{ color: '#d5c3b5', lineHeight: 1.65, fontSize: '0.92rem' }}>
                   Select famous landmarks, museums, bistros, and cafes with real user ratings and duration estimates.
                 </p>
               </div>
 
-              {/* Step 02 Widget Card (Listing / Sights Widget matching Estria 02) */}
+              {/* Step 02 Widget Card */}
               <div 
                 className="p-4 rounded-4 mt-4 d-flex flex-column gap-2" 
-                style={{ backgroundColor: '#1a080a', border: '1px solid #3d1216' }}
+                style={{ backgroundColor: '#161616', border: '1px solid rgba(239, 226, 211, 0.16)' }}
               >
                 <div className="d-flex align-items-center justify-content-between">
                   <span className="fw-bold text-cream" style={{ fontSize: '0.9rem' }}>Parisian Getaway</span>
-                  <span className="small d-flex align-items-center gap-1" style={{ color: '#a7f3d0', fontSize: '0.78rem' }}>
-                    <span style={{ width: '6px', height: '6px', backgroundColor: '#a7f3d0', borderRadius: '50%' }}></span> Selected
+                  <span className="small d-flex align-items-center gap-1" style={{ color: '#fbbf24', fontSize: '0.78rem' }}>
+                    <span style={{ width: '6px', height: '6px', backgroundColor: '#fbbf24', borderRadius: '50%' }}></span> Selected
                   </span>
                 </div>
 
                 <div className="display-heading text-cream" style={{ fontSize: '1.4rem', fontWeight: 700 }}>
-                  ₹ 4,600 <span className="small text-cream-muted" style={{ fontSize: '0.82rem', fontWeight: 400 }}>/ person</span>
+                  ₹ 4,600 <span className="small text-cream-muted" style={{ fontSize: '0.82rem', fontWeight: 400, color: '#d5c3b5' }}>/ person</span>
                 </div>
 
-                <div className="small pt-2 border-top border-secondary-subtle d-flex align-items-center justify-content-between" style={{ color: '#cbb8ac', fontSize: '0.78rem' }}>
+                <div className="small pt-2 border-top border-secondary-subtle d-flex align-items-center justify-content-between" style={{ color: '#d5c3b5', fontSize: '0.78rem' }}>
                   <span>2 Sights &bull; 1 Dining Spot</span>
-                  <span style={{ color: '#a7f3d0' }}>✓ 100% Outdoor Approved</span>
+                  <span style={{ color: '#fbbf24' }}>✓ 100% Outdoor Approved</span>
                 </div>
               </div>
             </motion.div>
@@ -197,42 +199,41 @@ export default function HomePage({ onNavigate }) {
             {/* Step 03 */}
             <motion.div variants={fadeInUp} className="col-md-4 d-flex flex-column justify-content-between">
               <div>
-                <div className="display-1 display-heading mb-2" style={{ color: '#d96b74', fontSize: '3.5rem', fontWeight: 800 }}>
+                <div className="display-1 display-heading mb-2" style={{ color: '#efe2d3', fontSize: '3.5rem', fontWeight: 800 }}>
                   03
                 </div>
                 <h4 className="display-heading text-cream mb-2" style={{ fontSize: '1.4rem' }}>
                   Rain Check & Budget Split
                 </h4>
-                <p className="small mb-4" style={{ color: '#cbb8ac', lineHeight: 1.65, fontSize: '0.92rem' }}>
+                <p className="small mb-4" style={{ color: '#d5c3b5', lineHeight: 1.65, fontSize: '0.92rem' }}>
                   Automated weather forecasts for outdoor dates and one-click multi-currency budget calculation.
                 </p>
               </div>
 
-              {/* Step 03 Widget Card (Action Widget matching Estria 03) */}
+              {/* Step 03 Widget Card */}
               <div 
                 className="p-4 rounded-4 mt-4 d-flex flex-column gap-2" 
-                style={{ backgroundColor: '#1a080a', border: '1px solid #3d1216' }}
+                style={{ backgroundColor: '#161616', border: '1px solid rgba(239, 226, 211, 0.16)' }}
               >
-                <div className="d-flex align-items-center gap-1.5" style={{ color: '#a7f3d0', fontSize: '0.78rem', fontWeight: 600 }}>
+                <div className="d-flex align-items-center gap-1.5" style={{ color: '#fbbf24', fontSize: '0.78rem', fontWeight: 600 }}>
                   <Sun size={13} />
                   <span>Rain Check Approved</span>
                 </div>
 
-                <div className="small text-cream" style={{ fontSize: '0.85rem', lineHeight: 1.4 }}>
+                <p className="small mb-2" style={{ color: '#d5c3b5', fontSize: '0.8rem', lineHeight: 1.5 }}>
                   Clear & Sunny (24°C) for Paris outdoor dates?
-                </div>
+                </p>
 
-                <div className="d-flex align-items-center gap-2 pt-2">
-                  <button className="btn btn-sm btn-pill-cream px-3 py-1 fw-bold text-nowrap" style={{ fontSize: '0.75rem', borderRadius: '9999px' }}>
+                <div className="d-flex gap-2">
+                  <button className="btn btn-sm btn-pill-cream px-3 py-1" style={{ fontSize: '0.78rem', backgroundColor: '#efe2d3', color: '#3e181c' }}>
                     Generate Itinerary
                   </button>
-                  <button className="btn btn-sm btn-pill-outline px-3 py-1 text-nowrap" style={{ fontSize: '0.75rem', borderRadius: '9999px' }}>
+                  <button className="btn btn-sm btn-pill-outline px-3 py-1" style={{ fontSize: '0.78rem' }}>
                     FX Split
                   </button>
                 </div>
               </div>
             </motion.div>
-
           </motion.div>
 
         </div>

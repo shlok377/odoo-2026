@@ -628,7 +628,7 @@ export default function TripPlannerFlowPage({ onNavigate, onStartItinerary }) {
                     <span className="badge px-3 py-2 rounded-pill" style={{ backgroundColor: '#6b262d', color: '#efe2d3', fontSize: '0.85rem' }}>
                       <MapPin size={12} className="me-1" /> {selectedCity}, {cityData.country}
                     </span>
-                    <span className="badge px-3 py-2 rounded-pill" style={{ backgroundColor: '#14291d', color: '#6ee7b7', border: '1px solid #6ee7b7', fontSize: '0.85rem' }}>
+                    <span className="badge px-3 py-2 rounded-pill" style={{ backgroundColor: 'rgba(251, 191, 36, 0.1)', color: '#fbbf24', border: '1px solid rgba(251, 191, 36, 0.35)', fontSize: '0.85rem' }}>
                       <Sun size={12} className="me-1" /> Clear Sunny 24°C
                     </span>
                     <span className="badge px-3 py-2 rounded-pill" style={{ backgroundColor: '#1c0d10', border: '1px solid #4a2027', color: '#efe2d3', fontSize: '0.85rem' }}>
