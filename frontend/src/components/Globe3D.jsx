@@ -3,7 +3,7 @@ import * as THREE from 'three';
 import { motion } from 'framer-motion';
 import { 
   Plane, Compass, MapPin, Globe, Sparkles, Navigation, 
-  Camera, Briefcase, Sun, CheckSquare, Anchor, Mountain, Sunset
+  Briefcase, Sun, CheckSquare
 } from 'lucide-react';
 
 export default function Globe3D() {
@@ -19,21 +19,21 @@ export default function Globe3D() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Helper to Create Realistic Continent Map Texture
+  // Helper to Create Smooth Realistic Continent Map Texture with Subtitle Low Opacity
   const createWorldMapTexture = () => {
     const canvas = document.createElement('canvas');
     canvas.width = 2048;
     canvas.height = 1024;
     const ctx = canvas.getContext('2d');
 
-    // Solid Burgundy Ocean Base
+    // Deep Burgundy Ocean Base
     ctx.fillStyle = '#42171c';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-    // Continent Off-White / Warm Cream Polygons
-    ctx.fillStyle = '#f5efe9';
-    ctx.strokeStyle = '#e2d5c8';
-    ctx.lineWidth = 4;
+    // Subtle Low-Opacity Continent Fill (rgba cream 0.35)
+    ctx.fillStyle = 'rgba(245, 239, 233, 0.32)';
+    ctx.strokeStyle = 'rgba(245, 239, 233, 0.45)';
+    ctx.lineWidth = 3;
 
     const mapCoords = (lng, lat) => ({
       x: ((lng + 180) / 360) * canvas.width,
@@ -54,7 +54,7 @@ export default function Globe3D() {
       ctx.stroke();
     };
 
-    // Realistic Continent Coordinates
+    // Realistic Continent Polygons
     const northAmerica = [[-168,66], [-140,60], [-125,48], [-120,34], [-105,20], [-90,15], [-80,8], [-77,8], [-80,25], [-75,35], [-60,46], [-64,60], [-80,68], [-115,70], [-130,70]];
     const southAmerica = [[-80,8], [-70,-10], [-40,-10], [-35,-5], [-40,-20], [-50,-30], [-70,-55], [-75,-45], [-80,-20]];
     const europe = [[-10,36], [0,44], [10,45], [30,40], [30,60], [20,65], [10,70], [-10,65], [-10,50]];
@@ -83,7 +83,7 @@ export default function Globe3D() {
     const width = currentMount.clientWidth;
     const height = currentMount.clientHeight;
 
-    // 1. Scene & Camera (Positioned to ensure 100% full globe visibility with zero clipping)
+    // 1. Scene & Camera
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(40, width / height, 0.1, 1000);
     camera.position.set(0, 0, 8.8);
@@ -93,32 +93,33 @@ export default function Globe3D() {
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     currentMount.appendChild(renderer.domElement);
 
-    // 2. Main Globe Group with Right-Tilt (23.5 degrees)
+    // 2. High-Poly Globe Group (128x128 segments for smooth curvature)
     const globeGroup = new THREE.Group();
-    globeGroup.rotation.z = -0.41; // Right-tilted axis
-    globeGroup.position.y = 0.0;   // Centered vertically
+    globeGroup.rotation.z = -0.41; // Right tilted earth axis (23.5 deg)
     scene.add(globeGroup);
     globeGroupRef.current = globeGroup;
 
-    // 3. Globe Sphere with Realistic World Map Texture (NO lat-long grid lines)
+    // 3. Globe Sphere Material (Subtle Map Texture + Smooth Phong Shading)
     const worldTexture = createWorldMapTexture();
-    const globeGeometry = new THREE.SphereGeometry(2.0, 64, 64);
+    const globeGeometry = new THREE.SphereGeometry(2.05, 128, 128); // High poly count
     const globeMaterial = new THREE.MeshPhongMaterial({
       map: worldTexture,
-      bumpScale: 0.05,
+      bumpScale: 0.02,
       specular: 0x66242a,
-      shininess: 15
+      shininess: 25,
+      transparent: true,
+      opacity: 0.98
     });
     const globeMesh = new THREE.Mesh(globeGeometry, globeMaterial);
     globeGroup.add(globeMesh);
 
-    // 4. Atmosphere Outer Glow
-    const atmosphereGeometry = new THREE.SphereGeometry(2.14, 64, 64);
+    // 4. Smooth Atmosphere Glow Shell
+    const atmosphereGeometry = new THREE.SphereGeometry(2.18, 128, 128);
     const atmosphereMaterial = new THREE.MeshBasicMaterial({
       color: 0x7e2a33,
       side: THREE.BackSide,
       transparent: true,
-      opacity: 0.3
+      opacity: 0.28
     });
     const atmosphereMesh = new THREE.Mesh(atmosphereGeometry, atmosphereMaterial);
     globeGroup.add(atmosphereMesh);
@@ -142,20 +143,18 @@ export default function Globe3D() {
       return new THREE.Vector3(x, y, z);
     };
 
-    // Add Pins
     cityCoords.forEach((city) => {
-      const pos = convertLatLngToVector3(city.lat, city.lng, 2.02);
-      const pinGeometry = new THREE.SphereGeometry(0.045, 16, 16);
-      const pinMaterial = new THREE.MeshBasicMaterial({ color: 0x3d1418 });
+      const pos = convertLatLngToVector3(city.lat, city.lng, 2.06);
+      const pinGeometry = new THREE.SphereGeometry(0.04, 16, 16);
+      const pinMaterial = new THREE.MeshBasicMaterial({ color: 0xf5efe9 });
       const pinMesh = new THREE.Mesh(pinGeometry, pinMaterial);
       pinMesh.position.copy(pos);
       globeGroup.add(pinMesh);
     });
 
-    // Add Curved Flight Arc Lines
     for (let i = 0; i < cityCoords.length - 1; i++) {
-      const start = convertLatLngToVector3(cityCoords[i].lat, cityCoords[i].lng, 2.02);
-      const end = convertLatLngToVector3(cityCoords[i + 1].lat, cityCoords[i + 1].lng, 2.02);
+      const start = convertLatLngToVector3(cityCoords[i].lat, cityCoords[i].lng, 2.06);
+      const end = convertLatLngToVector3(cityCoords[i + 1].lat, cityCoords[i + 1].lng, 2.06);
       
       const mid = start.clone().add(end).multiplyScalar(0.5);
       mid.normalize().multiplyScalar(2.55);
@@ -163,20 +162,20 @@ export default function Globe3D() {
       const curve = new THREE.QuadraticBezierCurve3(start, mid, end);
       const points = curve.getPoints(40);
       const arcGeometry = new THREE.BufferGeometry().setFromPoints(points);
-      const arcMaterial = new THREE.LineBasicMaterial({ color: 0x45181d, linewidth: 2 });
+      const arcMaterial = new THREE.LineBasicMaterial({ color: 0xf5efe9, transparent: true, opacity: 0.5 });
       const arcLine = new THREE.Line(arcGeometry, arcMaterial);
       globeGroup.add(arcLine);
     }
 
-    // 6. Lights
-    const ambientLight = new THREE.AmbientLight(0xffffff, 0.85);
+    // 6. Lighting Setup
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.9);
     scene.add(ambientLight);
 
-    const dirLight1 = new THREE.DirectionalLight(0xf5efe9, 1.1);
+    const dirLight1 = new THREE.DirectionalLight(0xf5efe9, 1.15);
     dirLight1.position.set(5, 4, 6);
     scene.add(dirLight1);
 
-    const dirLight2 = new THREE.DirectionalLight(0x7e2a33, 0.7);
+    const dirLight2 = new THREE.DirectionalLight(0x7e2a33, 0.75);
     dirLight2.position.set(-5, -4, -6);
     scene.add(dirLight2);
 
@@ -209,26 +208,25 @@ export default function Globe3D() {
     };
   }, []);
 
-  // Compute Scroll Transformation Metrics
+  // Compute Scroll Metrics
   const maxScroll = 550;
   const scrollProgress = Math.min(scrollY / maxScroll, 1);
 
-  // Update Globe Rotation strictly driven by Scroll (Scroll Down -> Right, Scroll Up -> Left)
+  // Scroll Down -> Rotate Right (+Y). Scroll Up -> Rotate Left (-Y).
   useEffect(() => {
     if (globeGroupRef.current) {
-      globeGroupRef.current.rotation.y = scrollProgress * Math.PI * 1.25;
+      globeGroupRef.current.rotation.y = scrollProgress * Math.PI * 1.2;
     }
   }, [scrollProgress]);
 
-  // Globe Zoom Clamped (zooms from 1.0 to 1.35 max so it STAYS contained inside the Hero section and NEVER overflows into the black row!)
-  const globeScale = 1 + scrollProgress * 0.35;
-  // Outward displacement of 3D elements (NO FADING! 100% Opacity maintained)
-  const elementsOutwardOffset = scrollProgress * 170;
+  // Clamped Zoom Scale
+  const globeScale = 1 + scrollProgress * 0.32;
+  const elementsOutwardOffset = scrollProgress * 175;
 
   return (
     <div className="position-relative w-100 d-flex align-items-center justify-content-center" style={{ height: '560px', overflow: 'hidden' }}>
       
-      {/* Realistic 3D Globe Canvas */}
+      {/* 128-Poly Smooth Realistic Globe Canvas */}
       <div 
         ref={mountRef} 
         style={{ 
@@ -240,156 +238,126 @@ export default function Globe3D() {
         }} 
       />
 
-      {/* 3D TRAVEL ELEMENTS (SOLID MATTE SURFACES — NO GLASSMORPHISM, NO OPACITY FADING) */}
+      {/* MINIMAL SLEEK 3D TRAVEL PILL BADGES (LESS TEXT, SOLID MATTE SURFACES) */}
       
-      {/* 1. 3D Passport & Visa (Inspired by ele3.png) */}
+      {/* 1. Multi-City Routes (Top Left) */}
       <motion.div 
-        animate={{ y: [0, -7, 0] }}
-        transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
-        className="position-absolute p-3 rounded-4 d-flex align-items-center gap-3"
+        animate={{ y: [0, -6, 0] }}
+        transition={{ duration: 3.8, repeat: Infinity, ease: 'easeInOut' }}
+        className="position-absolute px-3.5 py-2.5 rounded-pill d-flex align-items-center gap-2"
         style={{
-          top: '10%',
-          left: '4%',
+          top: '12%',
+          left: '5%',
           backgroundColor: '#3e181c',
           border: '1.5px solid #63262c',
-          boxShadow: '0 16px 32px rgba(0,0,0,0.45)',
+          boxShadow: '0 12px 28px rgba(0,0,0,0.4)',
           transform: `translate(${-elementsOutwardOffset}px, ${-elementsOutwardOffset * 0.3}px)`,
           pointerEvents: 'none',
           zIndex: 15
         }}
       >
-        <div className="p-2.5 rounded-3" style={{ background: '#532328' }}>
-          <Briefcase size={24} style={{ color: '#f5efe9' }} />
-        </div>
-        <div>
-          <div className="fw-bold small text-cream display-heading">Passport & Visa</div>
-          <small style={{ color: '#cbb8ac', fontSize: '0.78rem' }}>Multi-City Stamp Access</small>
-        </div>
+        <Plane size={18} style={{ color: '#f5efe9' }} />
+        <span className="fw-bold small text-cream display-heading">Multi-City Routes</span>
       </motion.div>
 
-      {/* 2. 3D Airplane & Flight Path (Inspired by ele3.png) */}
+      {/* 2. Passport Verified (Top Right) */}
       <motion.div 
-        animate={{ y: [0, 7, 0] }}
-        transition={{ duration: 4.5, repeat: Infinity, ease: 'easeInOut' }}
-        className="position-absolute p-3 rounded-4 d-flex align-items-center gap-3"
+        animate={{ y: [0, 6, 0] }}
+        transition={{ duration: 4.2, repeat: Infinity, ease: 'easeInOut' }}
+        className="position-absolute px-3.5 py-2.5 rounded-pill d-flex align-items-center gap-2"
         style={{
-          top: '12%',
-          right: '4%',
+          top: '14%',
+          right: '5%',
           backgroundColor: '#3e181c',
           border: '1.5px solid #63262c',
-          boxShadow: '0 16px 32px rgba(0,0,0,0.45)',
+          boxShadow: '0 12px 28px rgba(0,0,0,0.4)',
           transform: `translate(${elementsOutwardOffset}px, ${-elementsOutwardOffset * 0.3}px)`,
           pointerEvents: 'none',
           zIndex: 15
         }}
       >
-        <div className="p-2.5 rounded-3" style={{ background: '#532328' }}>
-          <Plane size={24} style={{ color: '#f5efe9' }} />
-        </div>
-        <div>
-          <div className="fw-bold small text-cream display-heading">Flight Routes</div>
-          <small style={{ color: '#cbb8ac', fontSize: '0.78rem' }}>NYC &rarr; LHR &rarr; CDG &rarr; TYO</small>
-        </div>
+        <Briefcase size={18} style={{ color: '#f5efe9' }} />
+        <span className="fw-bold small text-cream display-heading">Passport Sync</span>
       </motion.div>
 
-      {/* 3. 3D Folded Map & Location Pin (Inspired by ele1.png) */}
+      {/* 3. Interactive Map (Mid Left) */}
       <motion.div 
-        animate={{ y: [0, -6, 0] }}
-        transition={{ duration: 3.8, repeat: Infinity, ease: 'easeInOut' }}
-        className="position-absolute p-3 rounded-4 d-flex align-items-center gap-3"
+        animate={{ y: [0, -5, 0] }}
+        transition={{ duration: 3.5, repeat: Infinity, ease: 'easeInOut' }}
+        className="position-absolute px-3.5 py-2.5 rounded-pill d-flex align-items-center gap-2"
         style={{
-          top: '44%',
+          top: '46%',
           left: '2%',
           backgroundColor: '#3e181c',
           border: '1.5px solid #63262c',
-          boxShadow: '0 16px 32px rgba(0,0,0,0.45)',
-          transform: `translate(${-elementsOutwardOffset * 1.1}px, 0px)`,
+          boxShadow: '0 12px 28px rgba(0,0,0,0.4)',
+          transform: `translate(${-elementsOutwardOffset * 1.15}px, 0px)`,
           pointerEvents: 'none',
           zIndex: 15
         }}
       >
-        <div className="p-2.5 rounded-3" style={{ background: '#532328' }}>
-          <MapPin size={24} style={{ color: '#f5efe9' }} />
-        </div>
-        <div>
-          <div className="fw-bold small text-cream display-heading">Interactive Map</div>
-          <small style={{ color: '#cbb8ac', fontSize: '0.78rem' }}>Custom Pins & Destinations</small>
-        </div>
+        <MapPin size={18} style={{ color: '#f5efe9' }} />
+        <span className="fw-bold small text-cream display-heading">10k+ Cities</span>
       </motion.div>
 
-      {/* 4. 3D Camera & Sightseeing (Inspired by ele3.png) */}
+      {/* 4. Live Navigator (Mid Right) */}
       <motion.div 
-        animate={{ y: [0, 6, 0] }}
-        transition={{ duration: 4.2, repeat: Infinity, ease: 'easeInOut' }}
-        className="position-absolute p-3 rounded-4 d-flex align-items-center gap-3"
+        animate={{ y: [0, 5, 0] }}
+        transition={{ duration: 4.0, repeat: Infinity, ease: 'easeInOut' }}
+        className="position-absolute px-3.5 py-2.5 rounded-pill d-flex align-items-center gap-2"
         style={{
-          top: '46%',
+          top: '48%',
           right: '2%',
           backgroundColor: '#3e181c',
           border: '1.5px solid #63262c',
-          boxShadow: '0 16px 32px rgba(0,0,0,0.45)',
-          transform: `translate(${elementsOutwardOffset * 1.1}px, 0px)`,
+          boxShadow: '0 12px 28px rgba(0,0,0,0.4)',
+          transform: `translate(${elementsOutwardOffset * 1.15}px, 0px)`,
           pointerEvents: 'none',
           zIndex: 15
         }}
       >
-        <div className="p-2.5 rounded-3" style={{ background: '#532328' }}>
-          <Camera size={24} style={{ color: '#f5efe9' }} />
-        </div>
-        <div>
-          <div className="fw-bold small text-cream display-heading">Activity Photos</div>
-          <small style={{ color: '#cbb8ac', fontSize: '0.78rem' }}>Slideshow & Tour Views</small>
-        </div>
+        <Compass size={18} style={{ color: '#f5efe9' }} />
+        <span className="fw-bold small text-cream display-heading">Smart Navigator</span>
       </motion.div>
 
-      {/* 5. 3D Tropical Island & Weather Rain Check (Inspired by ele2.png) */}
+      {/* 5. Rain Check Forecast (Bottom Left) */}
       <motion.div 
-        animate={{ y: [0, -8, 0] }}
-        transition={{ duration: 3.6, repeat: Infinity, ease: 'easeInOut' }}
-        className="position-absolute p-3 rounded-4 d-flex align-items-center gap-3"
+        animate={{ y: [0, -7, 0] }}
+        transition={{ duration: 3.9, repeat: Infinity, ease: 'easeInOut' }}
+        className="position-absolute px-3.5 py-2.5 rounded-pill d-flex align-items-center gap-2"
         style={{
-          bottom: '8%',
+          bottom: '10%',
           left: '6%',
           backgroundColor: '#3e181c',
           border: '1.5px solid #63262c',
-          boxShadow: '0 16px 32px rgba(0,0,0,0.45)',
+          boxShadow: '0 12px 28px rgba(0,0,0,0.4)',
           transform: `translate(${-elementsOutwardOffset}px, ${elementsOutwardOffset * 0.3}px)`,
           pointerEvents: 'none',
           zIndex: 15
         }}
       >
-        <div className="p-2.5 rounded-3" style={{ background: '#532328' }}>
-          <Sun size={24} style={{ color: '#f5efe9' }} />
-        </div>
-        <div>
-          <div className="fw-bold small text-cream display-heading">Rain Check Alert</div>
-          <small style={{ color: '#cbb8ac', fontSize: '0.78rem' }}>Weather Forecast Tracking</small>
-        </div>
+        <Sun size={18} style={{ color: '#f5efe9' }} />
+        <span className="fw-bold small text-cream display-heading">Rain Check Alert</span>
       </motion.div>
 
-      {/* 6. 3D Hot Air Balloon & Compass (Inspired by ele3.png) */}
+      {/* 6. Group Split & FX (Bottom Right) */}
       <motion.div 
-        animate={{ y: [0, 8, 0] }}
-        transition={{ duration: 4.8, repeat: Infinity, ease: 'easeInOut' }}
-        className="position-absolute p-3 rounded-4 d-flex align-items-center gap-3"
+        animate={{ y: [0, 7, 0] }}
+        transition={{ duration: 4.4, repeat: Infinity, ease: 'easeInOut' }}
+        className="position-absolute px-3.5 py-2.5 rounded-pill d-flex align-items-center gap-2"
         style={{
-          bottom: '10%',
+          bottom: '12%',
           right: '6%',
           backgroundColor: '#3e181c',
           border: '1.5px solid #63262c',
-          boxShadow: '0 16px 32px rgba(0,0,0,0.45)',
+          boxShadow: '0 12px 28px rgba(0,0,0,0.4)',
           transform: `translate(${elementsOutwardOffset}px, ${elementsOutwardOffset * 0.3}px)`,
           pointerEvents: 'none',
           zIndex: 15
         }}
       >
-        <div className="p-2.5 rounded-3" style={{ background: '#532328' }}>
-          <Compass size={24} style={{ color: '#f5efe9' }} />
-        </div>
-        <div>
-          <div className="fw-bold small text-cream display-heading">Smart Navigator</div>
-          <small style={{ color: '#cbb8ac', fontSize: '0.78rem' }}>Automated Route Scheduling</small>
-        </div>
+        <Navigation size={18} style={{ color: '#f5efe9' }} />
+        <span className="fw-bold small text-cream display-heading">Group Split & FX</span>
       </motion.div>
 
     </div>

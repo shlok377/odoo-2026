@@ -1,13 +1,47 @@
-import React from 'react';
-import { motion } from 'framer-motion';
+import React, { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { 
   ArrowRight, Compass, MapPin, Calendar, DollarSign, 
   Share2, CloudRain, Users, ShieldCheck, Sparkles, CheckCircle2, ChevronRight,
-  Briefcase, Camera, Globe, Sun, Anchor, Award, CheckSquare, Search
+  Play, Pause, Film, Layers, Award, Clock, FileText, Smartphone
 } from 'lucide-react';
 import Globe3D from '../components/Globe3D';
 
 export default function HomePage({ onNavigate }) {
+  const [activeVideoChapter, setActiveVideoChapter] = useState(0);
+  const [isPlaying, setIsPlaying] = useState(false);
+
+  // Video Chapter Data
+  const videoChapters = [
+    {
+      id: 0,
+      title: '01. Multi-City Itinerary Setup',
+      desc: 'Pick your start & end dates, choose destinations from 10,000+ global cities, and define stop durations.',
+      tag: 'Interactive Builder',
+      previewImg: 'https://images.unsplash.com/photo-1488646953014-85cb44e25828?auto=format&fit=crop&w=1200&q=80'
+    },
+    {
+      id: 1,
+      title: '02. Day-Wise Activity Builder',
+      desc: 'Assign sightseeing, dining, and adventure activities with drag & drop time slot adjustments.',
+      tag: 'Timeline Builder',
+      previewImg: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1200&q=80'
+    },
+    {
+      id: 2,
+      title: '03. Rain Check & Live Weather',
+      desc: 'Receive real-time weather forecasts and rain check warnings for your planned outdoor dates.',
+      tag: 'Weather Engine',
+      previewImg: 'https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1200&q=80'
+    },
+    {
+      id: 3,
+      title: '04. Multi-Currency & PDF Export',
+      desc: 'Instant FX conversion between USD, EUR, GBP, INR, JPY and one-click PDF schedule download.',
+      tag: 'Financial Splitter',
+      previewImg: 'https://images.unsplash.com/photo-1526772662000-3f88f10405ff?auto=format&fit=crop&w=1200&q=80'
+    }
+  ];
 
   // Framer Motion Animation Variants
   const fadeInUp = {
@@ -23,7 +57,7 @@ export default function HomePage({ onNavigate }) {
   return (
     <div className="w-100 overflow-hidden">
       
-      {/* SECTION 1: MAIN HERO WITH PROMINENT LOGO & 3D GLOBE MASTERPIECE */}
+      {/* SECTION 1: HERO BANNER WITH PROMINENT LOGO & 3D GLOBE MASTERPIECE */}
       <section className="position-relative pt-5 pb-4 px-3 d-flex flex-column align-items-center text-center">
         
         <motion.div 
@@ -33,7 +67,7 @@ export default function HomePage({ onNavigate }) {
           className="container"
           style={{ maxWidth: '950px', zIndex: 10 }}
         >
-          {/* Prominent Large Logo above Tagline */}
+          {/* Prominent Large Logo */}
           <div className="d-inline-flex align-items-center justify-content-center mb-4">
             <img 
               src="/logo.png" 
@@ -42,7 +76,7 @@ export default function HomePage({ onNavigate }) {
             />
           </div>
 
-          {/* Tagline & Headline */}
+          {/* Headline & Tagline */}
           <h1 className="display-3 display-heading text-cream mb-3" style={{ fontSize: '3.4rem', lineHeight: 1.12 }}>
             Empowering Personalized <br />
             <span style={{ color: '#fcefe6', fontStyle: 'italic', fontWeight: 400 }}>Travel Planning</span>
@@ -74,37 +108,37 @@ export default function HomePage({ onNavigate }) {
           </div>
         </motion.div>
 
-        {/* Masterpiece 3D Globe Container (Right-Tilted + Scroll-Driven Rotation & Zoom) */}
-        <div className="w-100 position-relative my-3" style={{ zIndex: 5, minHeight: '640px' }}>
+        {/* Masterpiece 3D Globe Container (Right-Tilted + Scroll-Driven Rotation & Clamped Zoom) */}
+        <div className="w-100 position-relative my-2" style={{ zIndex: 5, minHeight: '560px' }}>
           <Globe3D />
         </div>
 
       </section>
 
 
-      {/* SECTION 2: BLACK ROW 1 — HOW ITINERA WORKS (TUTORIAL SECTION) */}
+      {/* SECTION 2: CREATIVE & EXCITING CONNECTED TIMELINE (BLACK ROW 1) */}
       <section className="py-5 px-3" style={{ background: '#120608', borderTop: '1px solid #2a0d10', borderBottom: '1px solid #2a0d10' }}>
         <div className="container py-4">
           
           <motion.div 
             initial="hidden"
             whileInView="visible"
-            viewport={{ once: true, margin: '-50px' }}
+            viewport={{ once: true }}
             variants={fadeInUp}
             className="text-center mb-5"
           >
-            <span className="badge rounded-pill mb-2 px-3 py-2" style={{ background: '#3b1417', border: '1px solid #572227', color: '#cbb8ac', fontSize: '0.85rem' }}>
-              Simple 4-Step Workflow
+            <span className="badge rounded-pill mb-2 px-3 py-2" style={{ background: '#3b1417', border: '1px solid #572227', color: '#f5efe9', fontSize: '0.85rem' }}>
+              Interactive Experience
             </span>
-            <h2 className="display-4 display-heading text-cream" style={{ fontSize: '2.5rem' }}>
+            <h2 className="display-4 display-heading text-cream" style={{ fontSize: '2.6rem' }}>
               How Itinera Simplifies Travel
             </h2>
-            <p className="small text-cream-muted mx-auto" style={{ maxWidth: '550px', color: '#cbb8ac' }}>
-              From initial spark to seamless journey — everything stored in a structured relational SQL database.
+            <p className="small text-cream-muted mx-auto" style={{ maxWidth: '560px', color: '#cbb8ac' }}>
+              A connected 4-stage pipeline taking you from destination discovery to a finished travel itinerary.
             </p>
           </motion.div>
 
-          {/* 4 Tutorial Cards */}
+          {/* Interactive Step-by-Step Storyline Cards */}
           <motion.div 
             initial="hidden"
             whileInView="visible"
@@ -112,77 +146,144 @@ export default function HomePage({ onNavigate }) {
             variants={staggerContainer}
             className="row g-4"
           >
-            {/* Step 1 */}
+            {/* Step 1 Card */}
             <motion.div variants={fadeInUp} className="col-md-6 col-lg-3">
-              <div className="p-4 rounded-4 h-100" style={{ background: '#1c0a0d', border: '1px solid #3d1418' }}>
-                <div className="d-flex align-items-center justify-content-between mb-3">
-                  <div className="p-3 rounded-3" style={{ background: '#3b1417' }}>
-                    <MapPin size={24} style={{ color: '#f5efe9' }} />
+              <div 
+                className="p-4 rounded-4 h-100 hover-lift d-flex flex-column justify-content-between"
+                style={{ background: '#1e090c', border: '1.5px solid #3d1418', boxShadow: '0 12px 24px rgba(0,0,0,0.35)' }}
+              >
+                <div>
+                  <div className="d-flex align-items-center justify-content-between mb-3">
+                    <div className="px-3 py-1 rounded-pill" style={{ background: '#532328', color: '#f5efe9', fontSize: '0.82rem', fontWeight: 700 }}>
+                      STAGE 01
+                    </div>
+                    <MapPin size={22} style={{ color: '#f5efe9' }} />
                   </div>
-                  <span className="display-heading" style={{ fontSize: '1.8rem', color: '#572227' }}>01</span>
+                  <h5 className="display-heading text-cream mb-2" style={{ fontSize: '1.25rem' }}>Discover & Filter</h5>
+                  <p className="small mb-3" style={{ color: '#cbb8ac', lineHeight: 1.5, fontSize: '0.88rem' }}>
+                    Browse 10,000+ cities with popularity ratings, region filters, and estimated daily cost indexes.
+                  </p>
                 </div>
-                <h5 className="display-heading text-cream mb-2" style={{ fontSize: '1.2rem' }}>Discover Cities</h5>
-                <p className="small mb-0" style={{ color: '#cbb8ac', lineHeight: 1.5 }}>
-                  Explore global destinations, filter by cost index or region, and add stop durations easily.
-                </p>
+
+                {/* Mini Interactive Preview Widget */}
+                <div className="p-2.5 rounded-3 mt-2 d-flex align-items-center justify-content-between" style={{ background: '#2d0e12', border: '1px solid #4a171c' }}>
+                  <span className="small text-cream fw-semibold" style={{ fontSize: '0.78rem' }}>Paris &bull; $140/day</span>
+                  <span className="badge rounded-pill" style={{ background: '#532328', color: '#f5efe9', fontSize: '0.7rem' }}>+ Add Stop</span>
+                </div>
               </div>
             </motion.div>
 
-            {/* Step 2 */}
+            {/* Step 2 Card */}
             <motion.div variants={fadeInUp} className="col-md-6 col-lg-3">
-              <div className="p-4 rounded-4 h-100" style={{ background: '#1c0a0d', border: '1px solid #3d1418' }}>
-                <div className="d-flex align-items-center justify-content-between mb-3">
-                  <div className="p-3 rounded-3" style={{ background: '#3b1417' }}>
-                    <Calendar size={24} style={{ color: '#f5efe9' }} />
+              <div 
+                className="p-4 rounded-4 h-100 hover-lift d-flex flex-column justify-content-between"
+                style={{ background: '#1e090c', border: '1.5px solid #3d1418', boxShadow: '0 12px 24px rgba(0,0,0,0.35)' }}
+              >
+                <div>
+                  <div className="d-flex align-items-center justify-content-between mb-3">
+                    <div className="px-3 py-1 rounded-pill" style={{ background: '#532328', color: '#f5efe9', fontSize: '0.82rem', fontWeight: 700 }}>
+                      STAGE 02
+                    </div>
+                    <Calendar size={22} style={{ color: '#f5efe9' }} />
                   </div>
-                  <span className="display-heading" style={{ fontSize: '1.8rem', color: '#572227' }}>02</span>
+                  <h5 className="display-heading text-cream mb-2" style={{ fontSize: '1.25rem' }}>Day-Wise Builder</h5>
+                  <p className="small mb-3" style={{ color: '#cbb8ac', lineHeight: 1.5, fontSize: '0.88rem' }}>
+                    Schedule sightseeing, meals, and transport with interactive drag & drop timeline ordering.
+                  </p>
                 </div>
-                <h5 className="display-heading text-cream mb-2" style={{ fontSize: '1.2rem' }}>Build Itinerary</h5>
-                <p className="small mb-0" style={{ color: '#cbb8ac', lineHeight: 1.5 }}>
-                  Assign day-wise sightseeing, food tours, and transport with interactive drag & drop ordering.
-                </p>
+
+                {/* Mini Interactive Preview Widget */}
+                <div className="p-2.5 rounded-3 mt-2 d-flex align-items-center justify-content-between" style={{ background: '#2d0e12', border: '1px solid #4a171c' }}>
+                  <span className="small text-cream fw-semibold" style={{ fontSize: '0.78rem' }}>Day 1: Louvre Tour</span>
+                  <span className="badge rounded-pill" style={{ background: '#532328', color: '#f5efe9', fontSize: '0.7rem' }}>2.5 Hrs</span>
+                </div>
               </div>
             </motion.div>
 
-            {/* Step 3 */}
+            {/* Step 3 Card */}
             <motion.div variants={fadeInUp} className="col-md-6 col-lg-3">
-              <div className="p-4 rounded-4 h-100" style={{ background: '#1c0a0d', border: '1px solid #3d1418' }}>
-                <div className="d-flex align-items-center justify-content-between mb-3">
-                  <div className="p-3 rounded-3" style={{ background: '#3b1417' }}>
-                    <CloudRain size={24} style={{ color: '#f5efe9' }} />
+              <div 
+                className="p-4 rounded-4 h-100 hover-lift d-flex flex-column justify-content-between"
+                style={{ background: '#1e090c', border: '1.5px solid #3d1418', boxShadow: '0 12px 24px rgba(0,0,0,0.35)' }}
+              >
+                <div>
+                  <div className="d-flex align-items-center justify-content-between mb-3">
+                    <div className="px-3 py-1 rounded-pill" style={{ background: '#532328', color: '#f5efe9', fontSize: '0.82rem', fontWeight: 700 }}>
+                      STAGE 03
+                    </div>
+                    <CloudRain size={22} style={{ color: '#f5efe9' }} />
                   </div>
-                  <span className="display-heading" style={{ fontSize: '1.8rem', color: '#572227' }}>03</span>
+                  <h5 className="display-heading text-cream mb-2" style={{ fontSize: '1.25rem' }}>Rain Check & FX</h5>
+                  <p className="small mb-3" style={{ color: '#cbb8ac', lineHeight: 1.5, fontSize: '0.88rem' }}>
+                    Automated weather forecasts for outdoor dates and live multi-currency expense conversions.
+                  </p>
                 </div>
-                <h5 className="display-heading text-cream mb-2" style={{ fontSize: '1.2rem' }}>Budget & Rain Checks</h5>
-                <p className="small mb-0" style={{ color: '#cbb8ac', lineHeight: 1.5 }}>
-                  Automatic multi-currency conversion, overbudget alerts, and weather rain check forecasts.
-                </p>
+
+                {/* Mini Interactive Preview Widget */}
+                <div className="p-2.5 rounded-3 mt-2 d-flex align-items-center justify-content-between" style={{ background: '#2d0e12', border: '1px solid #4a171c' }}>
+                  <span className="small text-cream fw-semibold" style={{ fontSize: '0.78rem' }}>Weather: Clear 24°C</span>
+                  <span className="badge rounded-pill" style={{ background: '#224833', color: '#a7f3d0', fontSize: '0.7rem' }}>Pass</span>
+                </div>
               </div>
             </motion.div>
 
-            {/* Step 4 */}
+            {/* Step 4 Card */}
             <motion.div variants={fadeInUp} className="col-md-6 col-lg-3">
-              <div className="p-4 rounded-4 h-100" style={{ background: '#1c0a0d', border: '1px solid #3d1418' }}>
-                <div className="d-flex align-items-center justify-content-between mb-3">
-                  <div className="p-3 rounded-3" style={{ background: '#3b1417' }}>
-                    <Share2 size={24} style={{ color: '#f5efe9' }} />
+              <div 
+                className="p-4 rounded-4 h-100 hover-lift d-flex flex-column justify-content-between"
+                style={{ background: '#1e090c', border: '1.5px solid #3d1418', boxShadow: '0 12px 24px rgba(0,0,0,0.35)' }}
+              >
+                <div>
+                  <div className="d-flex align-items-center justify-content-between mb-3">
+                    <div className="px-3 py-1 rounded-pill" style={{ background: '#532328', color: '#f5efe9', fontSize: '0.82rem', fontWeight: 700 }}>
+                      STAGE 04
+                    </div>
+                    <Share2 size={22} style={{ color: '#f5efe9' }} />
                   </div>
-                  <span className="display-heading" style={{ fontSize: '1.8rem', color: '#572227' }}>04</span>
+                  <h5 className="display-heading text-cream mb-2" style={{ fontSize: '1.25rem' }}>Share & Export</h5>
+                  <p className="small mb-3" style={{ color: '#cbb8ac', lineHeight: 1.5, fontSize: '0.88rem' }}>
+                    Share public trip URLs with friends, split group contributions, and export clean PDF schedules.
+                  </p>
                 </div>
-                <h5 className="display-heading text-cream mb-2" style={{ fontSize: '1.2rem' }}>Share & Export</h5>
-                <p className="small mb-0" style={{ color: '#cbb8ac', lineHeight: 1.5 }}>
-                  Share public read-only URLs, split expenses with group members, and export clean PDF schedules.
-                </p>
+
+                {/* Mini Interactive Preview Widget */}
+                <div className="p-2.5 rounded-3 mt-2 d-flex align-items-center justify-content-between" style={{ background: '#2d0e12', border: '1px solid #4a171c' }}>
+                  <span className="small text-cream fw-semibold" style={{ fontSize: '0.78rem' }}>PDF Schedule ready</span>
+                  <span className="badge rounded-pill" style={{ background: '#532328', color: '#f5efe9', fontSize: '0.7rem' }}>Export</span>
+                </div>
               </div>
             </motion.div>
 
           </motion.div>
+
+          {/* Thoughtful Stats Counter Section */}
+          <motion.div 
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            variants={fadeInUp}
+            className="row g-3 mt-5 pt-3 text-center"
+          >
+            <div className="col-4">
+              <h3 className="display-heading text-cream mb-0" style={{ fontSize: '2rem' }}>10,000+</h3>
+              <small style={{ color: '#cbb8ac', fontSize: '0.82rem' }}>Global Cities Catalog</small>
+            </div>
+            <div className="col-4">
+              <h3 className="display-heading text-cream mb-0" style={{ fontSize: '2rem' }}>99.4%</h3>
+              <small style={{ color: '#cbb8ac', fontSize: '0.82rem' }}>Rain Check Accuracy</small>
+            </div>
+            <div className="col-4">
+              <h3 className="display-heading text-cream mb-0" style={{ fontSize: '2rem' }}>&lt; 0.2s</h3>
+              <small style={{ color: '#cbb8ac', fontSize: '0.82rem' }}>Relational SQL Query Time</small>
+            </div>
+          </motion.div>
+
         </div>
       </section>
 
 
-      {/* SECTION 3: FEATURE SPOTLIGHT GRID (BURGUNDY SECTION) */}
-      <section className="py-5 px-3" style={{ background: '#532328' }}>
+      {/* SECTION 3: ATTRACTIVE TUTORIAL VIDEO & PLATFORM SHOWCASE */}
+      <section className="py-5 px-3" style={{ background: '#1c080a', borderBottom: '1px solid #3d1418' }}>
         <div className="container py-4">
           
           <motion.div 
@@ -190,84 +291,82 @@ export default function HomePage({ onNavigate }) {
             whileInView="visible"
             viewport={{ once: true }}
             variants={fadeInUp}
-            className="row g-4 align-items-center"
+            className="text-center mb-4"
           >
-            {/* Feature Highlight 1 */}
-            <div className="col-lg-6">
-              <div className="p-4 rounded-4" style={{ background: '#3d161a', border: '1px solid #63262c' }}>
-                <div className="d-inline-flex align-items-center gap-2 px-3 py-1 rounded-pill mb-3" style={{ background: '#260a0c', color: '#f5efe9', fontSize: '0.8rem' }}>
-                  <Sparkles size={14} />
-                  <span>Smart Automation</span>
+            <span className="badge rounded-pill mb-2 px-3 py-2" style={{ background: '#532328', color: '#f5efe9', fontSize: '0.85rem' }}>
+              Interactive Walkthrough
+            </span>
+            <h2 className="display-4 display-heading text-cream" style={{ fontSize: '2.5rem' }}>
+              Watch Itinera in Action
+            </h2>
+            <p className="small text-cream-muted mx-auto" style={{ maxWidth: '580px', color: '#cbb8ac' }}>
+              Explore how seamless travel planning works with our interactive video showcase and feature chapters.
+            </p>
+          </motion.div>
+
+          {/* Interactive Widescreen Video Player Card */}
+          <motion.div 
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            variants={fadeInUp}
+            className="mx-auto rounded-4 overflow-hidden position-relative"
+            style={{ maxWidth: '940px', background: '#2e0d11', border: '1.5px solid #572227', boxShadow: '0 20px 45px rgba(0,0,0,0.5)' }}
+          >
+            {/* Widescreen Preview Area */}
+            <div className="position-relative" style={{ height: '420px', overflow: 'hidden' }}>
+              <img 
+                src={videoChapters[activeVideoChapter].previewImg} 
+                alt="Itinera Tutorial Showcase" 
+                style={{ width: '100%', height: '100%', objectFit: 'cover', filter: 'brightness(0.75)' }} 
+              />
+
+              {/* Solid Matte Overlay Content */}
+              <div className="position-absolute inset-0 d-flex flex-column justify-content-between p-4" style={{ background: 'linear-gradient(180deg, rgba(30,9,12,0.4) 0%, rgba(20,6,8,0.85) 100%)' }}>
+                
+                <div className="d-flex justify-content-between align-items-center">
+                  <span className="badge px-3 py-2 rounded-pill" style={{ background: '#532328', color: '#f5efe9', fontSize: '0.8rem', fontWeight: 600 }}>
+                    {videoChapters[activeVideoChapter].tag}
+                  </span>
+                  <span className="small text-cream" style={{ fontSize: '0.8rem' }}>2 Min Overview</span>
                 </div>
 
-                <h3 className="display-heading text-cream mb-3" style={{ fontSize: '2rem' }}>
-                  Rain Check Forecasts & Multi-Currency Conversion
-                </h3>
-
-                <p className="small mb-4" style={{ color: '#cbb8ac', lineHeight: 1.6 }}>
-                  Itinera automatically checks weather conditions for your travel dates and calculates live currency conversions across USD, EUR, GBP, INR, and JPY.
-                </p>
-
-                <div className="d-flex flex-column gap-2.5">
-                  <div className="d-flex align-items-center gap-2 small text-cream">
-                    <CheckCircle2 size={16} style={{ color: '#f5efe9' }} />
-                    <span>Real-time weather warnings for outdoor itinerary activities</span>
-                  </div>
-                  <div className="d-flex align-items-center gap-2 small text-cream">
-                    <CheckCircle2 size={16} style={{ color: '#f5efe9' }} />
-                    <span>Group trip contribution expense splitter for multi-person trips</span>
-                  </div>
-                  <div className="d-flex align-items-center gap-2 small text-cream">
-                    <CheckCircle2 size={16} style={{ color: '#f5efe9' }} />
-                    <span>One-click PDF download & public itinerary link sharing</span>
-                  </div>
+                {/* Center Play Button Icon */}
+                <div className="d-flex justify-content-center align-items-center my-auto">
+                  <button 
+                    onClick={() => setIsPlaying(!isPlaying)} 
+                    className="btn btn-pill-cream rounded-circle p-4 hover-lift d-flex align-items-center justify-content-center"
+                    style={{ width: '72px', height: '72px', background: '#f5efe9', color: '#3d1418', boxShadow: '0 10px 25px rgba(0,0,0,0.5)' }}
+                  >
+                    {isPlaying ? <Pause size={32} /> : <Play size={32} className="ms-1" />}
+                  </button>
                 </div>
+
+                {/* Chapter Title & Description */}
+                <div>
+                  <h4 className="display-heading text-cream mb-1" style={{ fontSize: '1.5rem' }}>
+                    {videoChapters[activeVideoChapter].title}
+                  </h4>
+                  <p className="small mb-0 text-cream-muted" style={{ color: '#d9c9bf', maxWidth: '600px' }}>
+                    {videoChapters[activeVideoChapter].desc}
+                  </p>
+                </div>
+
               </div>
             </div>
 
-            {/* Feature Highlight 2 */}
-            <div className="col-lg-6">
-              <div className="p-4 rounded-4" style={{ background: '#2e0d11', border: '1px solid #572227' }}>
-                <div className="d-flex align-items-center justify-content-between mb-3 border-bottom pb-3" style={{ borderColor: '#4a171c' }}>
-                  <div className="d-flex align-items-center gap-2">
-                    <MapPin size={18} style={{ color: '#f5efe9' }} />
-                    <span className="fw-bold text-cream">Paris &rarr; Rome &rarr; Tokyo</span>
-                  </div>
-                  <span className="badge rounded-pill" style={{ background: '#532328', color: '#f5efe9' }}>12 Days Trip</span>
-                </div>
-
-                {/* Sample Activity List Preview */}
-                <div className="d-flex flex-column gap-2 mb-3">
-                  <div className="p-2.5 rounded-3 d-flex align-items-center justify-content-between" style={{ background: '#3b1417' }}>
-                    <div className="d-flex align-items-center gap-2">
-                      <span className="badge bg-dark">Day 1</span>
-                      <span className="small text-cream">Eiffel Tower Guided Tour</span>
-                    </div>
-                    <span className="small fw-semibold text-cream">$45.00</span>
-                  </div>
-
-                  <div className="p-2.5 rounded-3 d-flex align-items-center justify-content-between" style={{ background: '#3b1417' }}>
-                    <div className="d-flex align-items-center gap-2">
-                      <span className="badge bg-dark">Day 2</span>
-                      <span className="small text-cream">Louvre Museum Walking Tour</span>
-                    </div>
-                    <span className="small fw-semibold text-cream">$30.00</span>
-                  </div>
-
-                  <div className="p-2.5 rounded-3 d-flex align-items-center justify-content-between" style={{ background: '#3b1417' }}>
-                    <div className="d-flex align-items-center gap-2">
-                      <span className="badge bg-dark">Day 3</span>
-                      <span className="small text-cream">Colosseum & Roman Forum</span>
-                    </div>
-                    <span className="small fw-semibold text-cream">$50.00</span>
-                  </div>
-                </div>
-
-                <div className="p-3 rounded-3 d-flex align-items-center justify-content-between" style={{ background: '#1c080a' }}>
-                  <span className="small text-cream-muted">Estimated Total Cost</span>
-                  <span className="h5 mb-0 text-cream display-heading">$1,250 USD</span>
-                </div>
-              </div>
+            {/* Video Chapter Selector Tabs */}
+            <div className="p-3 d-flex flex-wrap gap-2" style={{ background: '#1a0608', borderTop: '1px solid #3d1418' }}>
+              {videoChapters.map((chap, idx) => (
+                <button 
+                  key={chap.id} 
+                  onClick={() => setActiveVideoChapter(idx)} 
+                  className={`btn btn-sm ${activeVideoChapter === idx ? 'btn-pill-cream' : 'btn-pill-outline'} flex-grow-1 text-start`}
+                  style={{ borderRadius: '12px', padding: '0.6rem 1rem', fontSize: '0.85rem' }}
+                >
+                  <span className="fw-semibold">{chap.title}</span>
+                </button>
+              ))}
             </div>
 
           </motion.div>
