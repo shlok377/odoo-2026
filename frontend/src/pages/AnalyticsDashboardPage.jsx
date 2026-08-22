@@ -104,7 +104,7 @@ export default function AnalyticsDashboardPage({ onNavigate }) {
             </button>
           </div>
 
-          <div className="d-flex gap-3 overflow-x-auto pb-3 scrollbar-thin">
+          <div className="d-flex gap-3 overflow-x-auto pb-2" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
             {[
               { name: 'Paris', country: 'France', rating: '4.9', trips: '1,420 trips', img: 'https://images.unsplash.com/photo-1502602898657-3e91760cbb34?auto=format&fit=crop&w=700&q=80' },
               { name: 'Bali', country: 'Indonesia', rating: '4.85', trips: '980 trips', img: 'https://images.unsplash.com/photo-1537996194471-e657df975ab4?auto=format&fit=crop&w=700&q=80' },
@@ -144,24 +144,24 @@ export default function AnalyticsDashboardPage({ onNavigate }) {
         <div className="row g-4 mb-5">
           {/* Spend Category Split */}
           <div className="col-md-6">
-            <div className="p-4 p-lg-4.5 rounded-4 h-100" style={{ backgroundColor: '#48171f', border: '1px solid rgba(223, 210, 201, 0.15)' }}>
+            <div className="p-4 p-lg-4.5 rounded-4 h-100" style={{ backgroundColor: '#48171f', border: '1px solid rgba(223, 210, 201, 0.15)', boxShadow: '0 8px 24px rgba(0,0,0,0.2)' }}>
               <div className="d-flex justify-content-between align-items-center mb-4">
                 <h3 className="fw-bold text-cream m-0" style={{ color: '#efe2d3', fontSize: '1.3rem' }}>Category Expense Split</h3>
-                <PieChart size={18} style={{ color: '#cbb8b0' }} />
+                <PieChart size={18} style={{ color: '#ddc9c3' }} />
               </div>
               <div className="d-flex flex-column gap-3.5 gap-3 mt-2">
                 {[
                   { cat: 'Flights & Transit', pct: '42%', amount: '₹1,19,490', color: '#efe2d3' },
                   { cat: 'Lodging & Resorts', pct: '35%', amount: '₹99,575', color: '#d96b74' },
                   { cat: 'Dining & Food', pct: '15%', amount: '₹42,675', color: '#e8cfc8' },
-                  { cat: 'Sightseeing & Tours', pct: '8%', amount: '₹22,760', color: '#80545b' }
+                  { cat: 'Sightseeing & Tours', pct: '8%', amount: '₹22,760', color: '#a87e85' }
                 ].map((c, i) => (
                   <div key={i}>
                     <div className="d-flex justify-content-between small text-cream mb-1.5" style={{ fontSize: '0.86rem' }}>
-                      <span>{c.cat}</span>
+                      <span style={{ color: '#efe2d3', fontWeight: 500 }}>{c.cat}</span>
                       <strong style={{ color: c.color }}>{c.pct} ({c.amount})</strong>
                     </div>
-                    <div className="w-100 rounded-pill overflow-hidden" style={{ height: '6px', backgroundColor: 'rgba(245,239,233,0.08)' }}>
+                    <div className="w-100 rounded-pill overflow-hidden" style={{ height: '6px', backgroundColor: 'rgba(0, 0, 0, 0.25)' }}>
                       <div className="h-100 rounded-pill" style={{ width: c.pct, backgroundColor: c.color }} />
                     </div>
                   </div>
@@ -172,13 +172,13 @@ export default function AnalyticsDashboardPage({ onNavigate }) {
 
           {/* AI Travel Insights Card */}
           <div className="col-md-6">
-            <div className="p-4 p-lg-4.5 rounded-4 h-100" style={{ backgroundColor: '#48171f', border: '1px solid rgba(223, 210, 201, 0.15)' }}>
+            <div className="p-4 p-lg-4.5 rounded-4 h-100" style={{ backgroundColor: '#48171f', border: '1px solid rgba(223, 210, 201, 0.15)', boxShadow: '0 8px 24px rgba(0,0,0,0.2)' }}>
               <div className="d-flex justify-content-between align-items-center mb-4">
                 <h3 className="fw-bold text-cream m-0" style={{ color: '#efe2d3', fontSize: '1.3rem' }}>AI Travel Insights</h3>
                 <Zap size={18} style={{ color: '#d96b74' }} />
               </div>
               <div className="d-flex flex-column gap-3">
-                <div className="p-3 rounded-3" style={{ backgroundColor: 'rgba(0, 0, 0, 0.22)', borderLeft: '3px solid #d96b74', border: '1px solid rgba(223, 210, 201, 0.1)' }}>
+                <div className="p-3.5 p-3 rounded-3" style={{ backgroundColor: 'rgba(0, 0, 0, 0.22)', borderLeft: '4px solid #d96b74', borderTop: '1px solid rgba(223, 210, 201, 0.12)', borderRight: '1px solid rgba(223, 210, 201, 0.12)', borderBottom: '1px solid rgba(223, 210, 201, 0.12)' }}>
                   <div className="fw-bold text-cream mb-1 d-flex align-items-center gap-2" style={{ color: '#efe2d3', fontSize: '0.94rem' }}>
                     <span>💡</span> Best Booking Window
                   </div>
@@ -187,7 +187,7 @@ export default function AnalyticsDashboardPage({ onNavigate }) {
                   </div>
                 </div>
 
-                <div className="p-3 rounded-3" style={{ backgroundColor: 'rgba(0, 0, 0, 0.22)', borderLeft: '3px solid #efe2d3', border: '1px solid rgba(223, 210, 201, 0.1)' }}>
+                <div className="p-3.5 p-3 rounded-3" style={{ backgroundColor: 'rgba(0, 0, 0, 0.22)', borderLeft: '4px solid #efe2d3', borderTop: '1px solid rgba(223, 210, 201, 0.12)', borderRight: '1px solid rgba(223, 210, 201, 0.12)', borderBottom: '1px solid rgba(223, 210, 201, 0.12)' }}>
                   <div className="fw-bold text-cream mb-1 d-flex align-items-center gap-2" style={{ color: '#efe2d3', fontSize: '0.94rem' }}>
                     <span>☀️</span> Optimal Weather Guarantee
                   </div>
@@ -196,7 +196,7 @@ export default function AnalyticsDashboardPage({ onNavigate }) {
                   </div>
                 </div>
 
-                <div className="p-3 rounded-3" style={{ backgroundColor: 'rgba(0, 0, 0, 0.22)', borderLeft: '3px solid #e8cfc8', border: '1px solid rgba(223, 210, 201, 0.1)' }}>
+                <div className="p-3.5 p-3 rounded-3" style={{ backgroundColor: 'rgba(0, 0, 0, 0.22)', borderLeft: '4px solid #e8cfc8', borderTop: '1px solid rgba(223, 210, 201, 0.12)', borderRight: '1px solid rgba(223, 210, 201, 0.12)', borderBottom: '1px solid rgba(223, 210, 201, 0.12)' }}>
                   <div className="fw-bold text-cream mb-1 d-flex align-items-center gap-2" style={{ color: '#efe2d3', fontSize: '0.94rem' }}>
                     <span>💱</span> Multi-Currency Savings
                   </div>
