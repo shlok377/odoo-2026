@@ -74,6 +74,25 @@ const CITY_DATABASE = {
     foodSpots: [
       { id: 'lf1', title: 'Dishoom Covent Garden', cuisine: 'Bombay Cafe & Chai', price: '$$', rating: 4.8, image: 'https://images.unsplash.com/photo-1585937421612-70a008356fbe?auto=format&fit=crop&w=600&q=80' }
     ]
+  },
+  Mumbai: {
+    country: 'India',
+    subtitle: 'The City of Dreams & Maximum Energy',
+    lat: 19.0760,
+    lng: 72.8777,
+    mapCoords: { top: '50%', left: '70%' },
+    cover: 'https://images.unsplash.com/photo-1570168007204-dfb528c6958f?auto=format&fit=crop&w=1000&q=80',
+    attractions: [
+      { id: 'm1', title: 'Gateway of India & Taj Mahal Palace', category: 'Iconic Landmark', duration: '2.0 hrs', rating: 4.9, image: 'https://images.unsplash.com/photo-1570168007204-dfb528c6958f?auto=format&fit=crop&w=600&q=80' },
+      { id: 'm2', title: 'Marine Drive Queen\'s Necklace Walk', category: 'Scenic Promenade', duration: '1.5 hrs', rating: 4.9, image: 'https://images.unsplash.com/photo-1566552881560-0be862a7c445?auto=format&fit=crop&w=600&q=80' },
+      { id: 'm3', title: 'Chhatrapati Shivaji Maharaj Terminus', category: 'UNESCO Heritage', duration: '1.0 hr', rating: 4.8, image: 'https://images.unsplash.com/photo-1567157577867-05ccb1388e66?auto=format&fit=crop&w=600&q=80' },
+      { id: 'm4', title: 'Elephanta Caves Island Boat Trip', category: 'Ancient Caves', duration: '4.0 hrs', rating: 4.7, image: 'https://images.unsplash.com/photo-1602216056096-3b40cc0c9944?auto=format&fit=crop&w=600&q=80' }
+    ],
+    foodSpots: [
+      { id: 'mf1', title: 'Bademiya Colaba', cuisine: 'Legendary Seekh Kebabs', price: '$$', rating: 4.8, image: 'https://images.unsplash.com/photo-1599487488170-d11ec9c172f0?auto=format&fit=crop&w=600&q=80' },
+      { id: 'mf2', title: 'Leopold Cafe & Bar', cuisine: 'Historic Heritage Cafe', price: '$$$', rating: 4.7, image: 'https://images.unsplash.com/photo-1554118811-1e0d58224f24?auto=format&fit=crop&w=600&q=80' },
+      { id: 'mf3', title: 'Kyani & Co. Irani Bakery', cuisine: 'Irani Chai & Bun Maska', price: '$', rating: 4.8, image: 'https://images.unsplash.com/photo-1585937421612-70a008356fbe?auto=format&fit=crop&w=600&q=80' }
+    ]
   }
 };
 
@@ -148,6 +167,63 @@ function createDynamicCityData(cityName, countryName, lat, lng) {
       }
     ]
   };
+}
+
+async function fetchRealWikipediaAttractions(cityName, countryName, lat, lng) {
+  try {
+    const geoUrl = `https://en.wikipedia.org/w/api.php?action=query&list=geosearch&gsradius=15000&gscoord=${lat}|${lng}&gslimit=10&format=json&origin=*`;
+    const geoRes = await fetch(geoUrl);
+    const geoData = await geoRes.json();
+    const places = geoData?.query?.geosearch || [];
+
+    if (places.length === 0) {
+      return createDynamicCityData(cityName, countryName, lat, lng);
+    }
+
+    const attractions = [];
+    const categories = ['Landmark', 'Museum', 'Experience', 'Nature', 'Historic Site'];
+
+    for (let i = 0; i < Math.min(places.length, 5); i++) {
+      const p = places[i];
+      try {
+        const sumUrl = `https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(p.title)}`;
+        const sumRes = await fetch(sumUrl);
+        const sumData = await sumRes.json();
+
+        if (sumData.type === 'standard' && sumData.title && !sumData.title.includes('District') && !sumData.title.includes('Station')) {
+          attractions.push({
+            id: `wiki_${p.pageid}_${i}`,
+            title: sumData.title,
+            category: categories[i % categories.length],
+            duration: `${(1.5 + (i % 3) * 0.5).toFixed(1)} hrs`,
+            rating: (4.7 + (i % 3) * 0.1).toFixed(1),
+            image: sumData.thumbnail?.source || `https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=600&q=80`
+          });
+        }
+      } catch (e) {
+        console.error('Error fetching wiki page summary:', e);
+      }
+    }
+
+    if (attractions.length === 0) {
+      return createDynamicCityData(cityName, countryName, lat, lng);
+    }
+
+    const defaultDynamic = createDynamicCityData(cityName, countryName, lat, lng);
+    return {
+      country: countryName || 'Global',
+      subtitle: `Real Sights & Culinary Highlights in ${cityName}`,
+      lat,
+      lng,
+      mapCoords: { top: '50%', left: '50%' },
+      cover: attractions[0]?.image || defaultDynamic.cover,
+      attractions: attractions,
+      foodSpots: defaultDynamic.foodSpots
+    };
+  } catch (err) {
+    console.error('Wikipedia Geosearch failed:', err);
+    return createDynamicCityData(cityName, countryName, lat, lng);
+  }
 }
 
 function TripPlannerInteractiveMap({ selectedCity, activeCityDatabase, onSelectCustomLocation, onSelectPresetCity }) {
@@ -427,14 +503,16 @@ export default function TripPlannerFlowPage({ onNavigate, onStartItinerary }) {
     }
   };
 
-  const handleSelectCustomLocation = ({ name, country, lat, lng }) => {
+  const handleSelectCustomLocation = async ({ name, country, lat, lng }) => {
     const existing = activeCityDatabase[name];
     if (existing) {
       handleSelectPresetCity(name);
       return;
     }
 
-    const newCityData = createDynamicCityData(name, country, lat, lng);
+    // Fetch real Wikipedia attractions for clicked coordinates
+    const newCityData = await fetchRealWikipediaAttractions(name, country, lat, lng);
+
     setActiveCityDatabase(prev => ({
       ...prev,
       [name]: newCityData
@@ -442,8 +520,12 @@ export default function TripPlannerFlowPage({ onNavigate, onStartItinerary }) {
 
     setSelectedCity(name);
     setTripTitle(`${name} Travel Exploration`);
-    setSelectedAttractions(newCityData.attractions.slice(0, 2).map(a => a.id));
-    setSelectedFoodSpots(newCityData.foodSpots.slice(0, 1).map(f => f.id));
+    if (newCityData.attractions && newCityData.attractions.length > 0) {
+      setSelectedAttractions(newCityData.attractions.slice(0, 2).map(a => a.id));
+    }
+    if (newCityData.foodSpots && newCityData.foodSpots.length > 0) {
+      setSelectedFoodSpots(newCityData.foodSpots.slice(0, 1).map(f => f.id));
+    }
   };
 
   const toggleAttraction = (id) => {
