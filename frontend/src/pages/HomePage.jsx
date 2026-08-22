@@ -126,23 +126,21 @@ export default function HomePage({ onNavigate }) {
                 <p className="small mb-4" style={{ color: '#cbb8ac', lineHeight: 1.65, fontSize: '0.92rem' }}>
                   Pick from 10,000+ global cities on an interactive map, set your duration of stay, and name your trip.
                 </p>
-              </div>
-
-              {/* Step 01 Widget Card */}
+              </div>              {/* Step 01 Widget Card */}
               <div 
-                className="p-3 rounded-4 mt-3" 
-                style={{ backgroundColor: '#20080b', border: '1px solid #3d1216' }}
+                className="p-3.5 rounded-4 mt-3" 
+                style={{ backgroundColor: '#1a080a', border: '1px solid #3d1216' }}
               >
                 <div className="d-flex align-items-center justify-content-between mb-2">
-                  <span className="badge px-2.5 py-1 rounded-pill" style={{ backgroundColor: '#591D26', color: '#F5EFE9', fontSize: '0.72rem' }}>
+                  <span className="badge px-2.5 py-1 rounded-pill" style={{ backgroundColor: '#2d0e12', color: '#F5EFE9', fontSize: '0.72rem', border: '1px solid #572227' }}>
                     <MapPin size={10} className="me-1" /> Paris, France
                   </span>
-                  <span className="badge px-2.5 py-1 rounded-pill" style={{ backgroundColor: '#120507', color: '#a7f3d0', fontSize: '0.72rem', border: '1px solid #3d1216' }}>
-                    ● Selected
+                  <span className="badge px-2.5 py-1 rounded-pill" style={{ backgroundColor: '#2d0e12', color: '#e5d0c5', fontSize: '0.72rem', border: '1px solid #572227' }}>
+                    Selected
                   </span>
                 </div>
                 <div className="fw-bold text-cream" style={{ fontSize: '0.95rem' }}>Parisian Dream Getaway</div>
-                <small style={{ color: '#D8C8C3', fontSize: '0.78rem' }}>5 Days Duration &bull; Summer Season</small>
+                <small style={{ color: '#cbb8ac', fontSize: '0.78rem' }}>5 Days Duration &bull; Summer Season</small>
               </div>
             </motion.div>
 
@@ -162,21 +160,21 @@ export default function HomePage({ onNavigate }) {
 
               {/* Step 02 Widget Card */}
               <div 
-                className="p-3 rounded-4 mt-3" 
-                style={{ backgroundColor: '#20080b', border: '1px solid #3d1216' }}
+                className="p-3.5 rounded-4 mt-3" 
+                style={{ backgroundColor: '#1a080a', border: '1px solid #3d1216' }}
               >
                 <div className="d-flex align-items-center gap-2 mb-2">
-                  <span className="badge px-2.5 py-1 rounded-pill" style={{ backgroundColor: '#120507', color: '#F5EFE9', fontSize: '0.72rem', border: '1px solid #3d1216' }}>
+                  <span className="badge px-2.5 py-1 rounded-pill" style={{ backgroundColor: '#2d0e12', color: '#F5EFE9', fontSize: '0.72rem', border: '1px solid #572227' }}>
                     Eiffel Tower + Louvre Tour
                   </span>
                 </div>
                 <div className="d-flex align-items-center justify-content-between">
                   <span className="fw-bold text-cream" style={{ fontSize: '0.95rem' }}>₹ 4,600 / person</span>
-                  <span className="badge px-2 py-0.5 rounded-circle" style={{ backgroundColor: '#224833', color: '#a7f3d0' }}>
+                  <span className="badge px-2 py-0.5 rounded-circle d-inline-flex align-items-center justify-content-center" style={{ backgroundColor: '#2d0e12', color: '#F5EFE9', border: '1px solid #572227', width: '22px', height: '22px' }}>
                     <Check size={12} />
                   </span>
                 </div>
-                <small style={{ color: '#D8C8C3', fontSize: '0.78rem' }}>2 Sights &bull; 1 Food Spot Selected</small>
+                <small style={{ color: '#cbb8ac', fontSize: '0.78rem' }}>2 Sights &bull; 1 Food Spot Selected</small>
               </div>
             </motion.div>
 
@@ -196,20 +194,20 @@ export default function HomePage({ onNavigate }) {
 
               {/* Step 03 Widget Card */}
               <div 
-                className="p-3 rounded-4 mt-3" 
-                style={{ backgroundColor: '#20080b', border: '1px solid #3d1216' }}
+                className="p-3.5 rounded-4 mt-3" 
+                style={{ backgroundColor: '#1a080a', border: '1px solid #3d1216' }}
               >
                 <div className="d-flex align-items-center gap-2 mb-2">
-                  <span className="badge px-2.5 py-1 rounded-pill" style={{ backgroundColor: '#193828', color: '#a7f3d0', fontSize: '0.72rem', border: '1px solid #a7f3d0' }}>
+                  <span className="badge px-2.5 py-1 rounded-pill" style={{ backgroundColor: '#2d0e12', color: '#F5EFE9', fontSize: '0.72rem', border: '1px solid #572227' }}>
                     <Sun size={11} className="me-1" /> Rain Check Approved
                   </span>
                 </div>
                 <div className="fw-bold text-cream mb-1" style={{ fontSize: '0.95rem' }}>Clear & Sunny (24°C)</div>
                 <div className="d-flex justify-content-between align-items-center">
-                  <span className="badge px-2.5 py-1 rounded-pill" style={{ backgroundColor: '#d96b74', color: '#120507', fontWeight: 700, fontSize: '0.75rem' }}>
+                  <span className="badge px-2.5 py-1 rounded-pill" style={{ backgroundColor: '#2d0e12', color: '#F5EFE9', fontWeight: 600, fontSize: '0.75rem', border: '1px solid #572227' }}>
                     Generate Itinerary
                   </span>
-                  <small style={{ color: '#D8C8C3', fontSize: '0.75rem' }}>FX: EUR &bull; INR &bull; USD</small>
+                  <small style={{ color: '#cbb8ac', fontSize: '0.75rem' }}>FX: EUR &bull; INR &bull; USD</small>
                 </div>
               </div>
             </motion.div>
