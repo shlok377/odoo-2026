@@ -184,7 +184,7 @@ export default function Globe3D() {
       
       // Right Column (Top to Bottom)
       { name: 'compass', path: '/models/compass.glb', basePos: [3.6, 1.8, 0], rot: [0.3, -0.3, 0.1], dir: [0.4, 0.2] },
-      { name: 'camera', path: '/models/camera.glb', basePos: [3.9, 0.6, 0], rot: [0.2, -0.4, 0.1], dir: [0.4, 0.1] },
+      { name: 'earth', path: '/models/earth.glb', basePos: [3.9, 0.6, 0], rot: [0.2, -0.4, 0.1], dir: [0.4, 0.1] },
       { name: 'palmtree', path: '/models/palmtree.glb', basePos: [3.9, -0.6, 0], rot: [0.1, -0.3, 0], dir: [0.4, -0.1] },
       { name: 'island', path: '/models/island.glb', basePos: [3.6, -1.8, 0], rot: [0.3, -0.4, 0.1], dir: [0.4, -0.2] }
     ];
