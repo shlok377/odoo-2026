@@ -56,7 +56,7 @@ export default function HomePage({ onNavigate }) {
           </h1>
 
           <p className="lead mx-auto mb-4" style={{ color: '#d5c3b5', maxWidth: '640px', fontSize: '1.12rem', lineHeight: 1.7, fontWeight: 400 }}>
-            Dream, design, and organize multi-city trips with ease. Interactive day-wise itineraries, automatic budget breakdowns, live rain checks, and multi-currency expense splitting.
+            Dream, design, and organize multi-city trips with ease. Interactive day-wise itineraries, automatic budget breakdowns, live weather checks, and multi-currency expense splitting.
           </p>
 
           {/* Action Buttons */}
@@ -114,7 +114,7 @@ export default function HomePage({ onNavigate }) {
             </h2>
             
             <p className="lead" style={{ color: '#d5c3b5', maxWidth: '640px', fontSize: '1.1rem', lineHeight: 1.6 }}>
-              Itinera discovers your ideal destination, schedules your daily sights & dining, and provides live rain checks with multi-currency tracking.
+              Itinera discovers your ideal destination, schedules your daily sights & dining, and provides live weather checks with multi-currency tracking.
             </p>
           </motion.div>
 
@@ -203,7 +203,7 @@ export default function HomePage({ onNavigate }) {
                   03
                 </div>
                 <h4 className="display-heading text-cream mb-2" style={{ fontSize: '1.4rem' }}>
-                  Rain Check & Budget Split
+                  Weather Check & Budget Split
                 </h4>
                 <p className="small mb-4" style={{ color: '#d5c3b5', lineHeight: 1.65, fontSize: '0.92rem' }}>
                   Automated weather forecasts for outdoor dates and one-click multi-currency budget calculation.
@@ -217,7 +217,7 @@ export default function HomePage({ onNavigate }) {
               >
                 <div className="d-flex align-items-center gap-1.5" style={{ color: '#fbbf24', fontSize: '0.78rem', fontWeight: 600 }}>
                   <Sun size={13} />
-                  <span>Rain Check Approved</span>
+                  <span>Weather Check Approved</span>
                 </div>
 
                 <p className="small mb-2" style={{ color: '#d5c3b5', fontSize: '0.8rem', lineHeight: 1.5 }}>
@@ -240,8 +240,8 @@ export default function HomePage({ onNavigate }) {
       </section>
 
 
-      {/* SECTION 3: VIBRANT BURGUNDY GRADIENT REFERENCE CTA CARD (MATCHING USER REFERENCE IMAGE EXACTLY) */}
-      <section className="py-5 px-3" style={{ background: '#0e0406', borderTop: '1px solid #2a0d10' }}>
+      {/* SECTION 3: PITCH BLACK CANVAS CTA CARD */}
+      <section className="py-5 px-3" style={{ background: '#050505', borderTop: '1px solid rgba(239, 226, 211, 0.12)' }}>
         <div className="container py-4">
           <motion.div 
             initial="hidden"
@@ -251,20 +251,20 @@ export default function HomePage({ onNavigate }) {
             className="rounded-5 text-center p-5 mx-auto position-relative overflow-hidden"
             style={{
               maxWidth: '920px',
-              background: 'radial-gradient(circle at 50% 0%, #8c353f 0%, #5c1e27 50%, #3e1319 100%)',
+              background: 'radial-gradient(circle at 50% 0%, #1f1a1c 0%, #141113 60%, #0a0a0a 100%)',
               borderRadius: '36px',
-              border: '1.5px solid #8e3943',
-              boxShadow: '0 24px 50px rgba(0, 0, 0, 0.45)',
+              border: '1px solid rgba(239, 226, 211, 0.18)',
+              boxShadow: '0 24px 60px rgba(0, 0, 0, 0.7)',
               padding: '4.5rem 3rem'
             }}
           >
-            {/* Giant Faint Watermark Text matching reference image */}
+            {/* Giant Faint Watermark Text */}
             <div 
               className="position-absolute top-50 start-50 translate-middle pointer-events-none select-none text-uppercase fw-bold"
               style={{
                 fontSize: '11rem',
-                color: '#ffffff',
-                opacity: 0.05,
+                color: '#efe2d3',
+                opacity: 0.04,
                 letterSpacing: '0.1em',
                 whiteSpace: 'nowrap',
                 zIndex: 1
@@ -278,18 +278,18 @@ export default function HomePage({ onNavigate }) {
                 Never miss a moment <br /> on your journey again.
               </h2>
               
-              <p className="lead mx-auto mb-4" style={{ color: '#f2e6dc', maxWidth: '580px', fontSize: '1.15rem', lineHeight: 1.65 }}>
-                Itinera organizes your routes, weather rain checks, and multi-currency budgets automatically.
+              <p className="lead mx-auto mb-4" style={{ color: '#d5c3b5', maxWidth: '580px', fontSize: '1.15rem', lineHeight: 1.65 }}>
+                Itinera organizes your routes, weather checks, and multi-currency budgets automatically.
               </p>
 
-              {/* Centered Compact Pill Button matching reference image */}
+              {/* Centered Compact Pill Button */}
               <div className="d-flex justify-content-center mb-4">
                 <button 
                   onClick={() => onNavigate('planner-flow')} 
                   className="btn btn-pill-cream hover-lift d-inline-flex align-items-center justify-content-center gap-2"
                   style={{ 
                     padding: '0.85rem 2.4rem', 
-                    backgroundColor: '#fcefe6', 
+                    backgroundColor: '#efe2d3', 
                     color: '#3e181c', 
                     fontWeight: 700, 
                     borderRadius: '9999px',
@@ -301,8 +301,8 @@ export default function HomePage({ onNavigate }) {
                 </button>
               </div>
 
-              <div className="small text-cream-muted" style={{ color: '#d8c8c3', fontSize: '0.85rem', letterSpacing: '0.05em' }}>
-                Instant setup &bull; Automated rain check &bull; Multi-currency budget split
+              <div className="small text-cream-muted" style={{ color: '#d5c3b5', fontSize: '0.85rem', letterSpacing: '0.05em' }}>
+                Instant setup &bull; Automated weather check &bull; Multi-currency budget split
               </div>
             </div>
           </motion.div>

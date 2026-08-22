@@ -157,10 +157,10 @@ export default function ItineraryBuilderPage({ plannedTrip, onNavigate }) {
                 {tripData.title}
               </h1>
 
-              {/* Rain Check Live Weather Forecast Alert */}
+              {/* Weather Check Live Weather Forecast Alert */}
               <div className="d-inline-flex align-items-center gap-2 px-3 py-2 rounded-pill mt-2" style={{ backgroundColor: 'rgba(251, 191, 36, 0.08)', border: '1px solid rgba(251, 191, 36, 0.35)', color: '#fbbf24', fontSize: '0.85rem' }}>
                 <Sun size={16} />
-                <span className="fw-medium">Rain Check: Clear & Sunny (24°C) &bull; 100% Outdoor Friendly</span>
+                <span className="fw-medium">Weather Check: Clear & Sunny (24°C) &bull; 100% Outdoor Friendly</span>
               </div>
             </div>
 

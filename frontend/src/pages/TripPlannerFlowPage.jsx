@@ -727,9 +727,9 @@ export default function TripPlannerFlowPage({ onNavigate, onStartItinerary }) {
                   <ArrowRight size={22} />
                 </motion.button>
 
-                <small className="mt-2 text-cream-muted" style={{ color: '#d5c3b5', fontSize: '0.82rem' }}>
-                  Instant setup &bull; Automated rain check &bull; Multi-currency budget split
-                </small>
+                <div className="mt-3 text-cream-muted small text-center">
+                  Instant setup &bull; Automated weather check &bull; Multi-currency budget split
+                </div>
               </div>
 
             </motion.div>
