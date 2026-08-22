@@ -45,26 +45,25 @@ export default function AnalyticsDashboardPage({ onNavigate }) {
       <main className="container py-5" style={{ maxWidth: '1220px', position: 'relative', zIndex: 1 }}>
         
         {/* Spacious Hero Banner Header */}
-        <div className="d-flex flex-column flex-lg-row justify-content-between align-items-lg-center gap-4 mb-5 pb-3">
-          <div style={{ maxWidth: '640px' }}>
+        <div className="mb-5 pb-2">
+          <div style={{ maxWidth: '680px' }}>
             <div className="text-uppercase fw-bold mb-2" style={{ color: '#ddc9c3', fontSize: '0.8rem', letterSpacing: '0.14em' }}>
               ANALYTICS & TRAVEL INSIGHTS
             </div>
-            <h1 className="display-4 text-cream m-0 fw-bold" style={{ fontSize: 'clamp(2.4rem, 4vw, 3.8rem)', lineHeight: 1.1, letterSpacing: '-0.02em' }}>
+            <h1 className="display-4 text-cream m-0 fw-bold mb-3" style={{ fontSize: 'clamp(2.4rem, 4vw, 3.8rem)', lineHeight: 1.1, letterSpacing: '-0.02em' }}>
               Smart metrics for smarter travels.
             </h1>
-            <p className="m-0 text-cream-muted mt-3" style={{ color: '#cbb8b0', fontSize: '1.02rem', lineHeight: 1.5 }}>
+            <p className="m-0 text-cream-muted mb-4" style={{ color: '#cbb8b0', fontSize: '1.02rem', lineHeight: 1.5 }}>
               Track your travel spending, country exploration coverage, weather check history, and carbon footprint in real-time.
             </p>
-          </div>
 
-          <div className="d-flex flex-column align-items-lg-end gap-3 flex-shrink-0">
-            <div className="d-flex gap-2 p-1 rounded-pill" style={{ backgroundColor: 'rgba(0, 0, 0, 0.2)', border: '1px solid rgba(223, 210, 201, 0.12)' }}>
+            {/* Timeframe Filter Segmented Control */}
+            <div className="d-inline-flex gap-2 p-1.5 rounded-pill" style={{ backgroundColor: 'rgba(0, 0, 0, 0.25)', border: '1px solid rgba(223, 210, 201, 0.15)' }}>
               {['2025-2026', 'Last 12 Months', 'All Time'].map(tf => (
                 <button
                   key={tf}
                   onClick={() => setSelectedTimeframe(tf)}
-                  className="btn btn-sm rounded-pill px-3 py-1.5 transition-all fw-semibold"
+                  className="btn btn-sm rounded-pill px-3.5 py-1.5 transition-all fw-semibold"
                   style={{
                     backgroundColor: selectedTimeframe === tf ? '#efe2d3' : 'transparent',
                     color: selectedTimeframe === tf ? '#3b1417' : '#cbb8b0',
