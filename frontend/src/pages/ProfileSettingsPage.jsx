@@ -191,8 +191,8 @@ export default function ProfileSettingsPage({ onNavigate }) {
   return (
     <div 
       style={{ 
-        backgroundColor: '#591d26', 
-        background: 'linear-gradient(180deg, #591d26 0%, #42151c 100%)', 
+        backgroundColor: '#3d141a', 
+        background: 'radial-gradient(ellipse at 50% -20%, #5c2028 0%, #45171e 55%, #2d0d12 100%)', 
         color: '#dfd2c9', 
         minHeight: '100vh', 
         fontFamily: "'Plus Jakarta Sans', system-ui, -apple-system, sans-serif" 
