@@ -448,7 +448,7 @@ export default function TripPlannerFlowPage({ onNavigate, onStartItinerary }) {
             </motion.div>
           )}
 
-          {/* STEP 3: ELEGANT CONFIRMATION CARD (SOLID MATTE BURGUNDY #3b1417) */}
+          {/* STEP 3: ELEGANT CONFIRMATION CARD (EXACT VIBRANT BURGUNDY GRADIENT REFERENCE CARD) */}
           {wizardStep === 3 && (
             <motion.div
               key="step3"
@@ -461,34 +461,60 @@ export default function TripPlannerFlowPage({ onNavigate, onStartItinerary }) {
               <div 
                 className="rounded-5 text-center position-relative overflow-hidden w-100"
                 style={{
-                  backgroundColor: '#3b1417',
-                  borderRadius: '32px',
-                  border: '1px solid #572227',
-                  boxShadow: '0 20px 40px rgba(0, 0, 0, 0.45)',
+                  background: 'radial-gradient(circle at 50% 0%, #8c353f 0%, #5c1e27 50%, #3e1319 100%)',
+                  borderRadius: '36px',
+                  border: '1.5px solid #8e3943',
+                  boxShadow: '0 24px 50px rgba(0, 0, 0, 0.45)',
                   padding: '4.5rem 3rem'
                 }}
               >
-                <h2 className="display-3 display-heading text-cream mb-3 mx-auto" style={{ fontSize: '3.1rem', maxWidth: '680px', lineHeight: 1.15 }}>
-                  Never miss a moment <br /> on your journey again.
-                </h2>
-
-                <p className="lead mx-auto mb-4" style={{ color: '#cbb8ac', maxWidth: '620px', fontSize: '1.15rem', lineHeight: 1.65 }}>
-                  Itinera has configured your <strong style={{ color: '#F5EFE9' }}>{daysCount}-Day {selectedCity} Itinerary</strong> with {selectedAttractions.length} attractions, {selectedFoodSpots.length} dining spots, and live rain check forecast.
-                </p>
-
-                <div className="d-flex justify-content-center mb-4">
-                  <button 
-                    onClick={handleFinalSubmit}
-                    className="btn btn-pill-cream hover-lift d-inline-flex align-items-center gap-2"
-                    style={{ padding: '0.95rem 2.8rem', backgroundColor: '#f5efe9', color: '#3e181c', fontWeight: 700, fontSize: '1.05rem', borderRadius: '9999px' }}
-                  >
-                    <span>Generate Day-Wise Itinerary</span>
-                    <ArrowRight size={18} />
-                  </button>
+                {/* Faint Watermark Text */}
+                <div 
+                  className="position-absolute top-50 start-50 translate-middle pointer-events-none select-none text-uppercase fw-bold"
+                  style={{
+                    fontSize: '11rem',
+                    color: '#ffffff',
+                    opacity: 0.05,
+                    letterSpacing: '0.1em',
+                    whiteSpace: 'nowrap',
+                    zIndex: 1
+                  }}
+                >
+                  ITINERA
                 </div>
 
-                <div className="small text-cream-muted" style={{ color: '#cbb8ac', fontSize: '0.88rem', letterSpacing: '0.05em' }}>
-                  Instant setup &bull; Automated rain check &bull; Multi-currency budget split
+                <div className="position-relative" style={{ zIndex: 2 }}>
+                  <h2 className="display-3 display-heading text-cream mb-3 mx-auto" style={{ fontSize: '3.2rem', maxWidth: '680px', lineHeight: 1.12 }}>
+                    Never miss a moment <br /> on your journey again.
+                  </h2>
+
+                  <p className="lead mx-auto mb-4" style={{ color: '#f2e6dc', maxWidth: '620px', fontSize: '1.15rem', lineHeight: 1.65 }}>
+                    Itinera has configured your <strong style={{ color: '#F5EFE9' }}>{daysCount}-Day {selectedCity} Itinerary</strong> with {selectedAttractions.length} attractions, {selectedFoodSpots.length} dining spots, and live rain check forecast.
+                  </p>
+
+                  <div className="d-flex justify-content-center mb-4">
+                    <button 
+                      onClick={handleFinalSubmit}
+                      className="btn btn-pill-cream hover-lift d-inline-flex align-items-center justify-content-center gap-2"
+                      style={{ 
+                        padding: '0.85rem 2.6rem', 
+                        backgroundColor: '#fcefe6', 
+                        color: '#3e181c', 
+                        fontWeight: 700, 
+                        fontSize: '1.05rem', 
+                        borderRadius: '9999px',
+                        width: 'auto',
+                        whiteSpace: 'nowrap'
+                      }}
+                    >
+                      <span>Generate Day-Wise Itinerary</span>
+                      <ArrowRight size={18} />
+                    </button>
+                  </div>
+
+                  <div className="small text-cream-muted" style={{ color: '#d8c8c3', fontSize: '0.88rem', letterSpacing: '0.05em' }}>
+                    Instant setup &bull; Automated rain check &bull; Multi-currency budget split
+                  </div>
                 </div>
               </div>
             </motion.div>

@@ -220,7 +220,7 @@ export default function HomePage({ onNavigate }) {
       </section>
 
 
-      {/* SECTION 3: MEANINGFULLY PLACED REFERENCE CTA CARD (SOLID MATTE, ZERO GLASSMORPHISM) */}
+      {/* SECTION 3: VIBRANT BURGUNDY GRADIENT REFERENCE CTA CARD (MATCHING USER REFERENCE IMAGE EXACTLY) */}
       <section className="py-5 px-3" style={{ background: '#0e0406', borderTop: '1px solid #2a0d10' }}>
         <div className="container py-4">
           <motion.div 
@@ -231,32 +231,59 @@ export default function HomePage({ onNavigate }) {
             className="rounded-5 text-center p-5 mx-auto position-relative overflow-hidden"
             style={{
               maxWidth: '920px',
-              backgroundColor: '#3b1417',
+              background: 'radial-gradient(circle at 50% 0%, #8c353f 0%, #5c1e27 50%, #3e1319 100%)',
               borderRadius: '36px',
-              border: '1px solid #572227',
+              border: '1.5px solid #8e3943',
               boxShadow: '0 24px 50px rgba(0, 0, 0, 0.45)',
               padding: '4.5rem 3rem'
             }}
           >
-            <h2 className="display-3 display-heading text-cream mb-3 mx-auto" style={{ fontSize: '3.1rem', maxWidth: '680px', lineHeight: 1.15 }}>
-              Never miss a moment <br /> on your journey again.
-            </h2>
-            <p className="lead mx-auto mb-4" style={{ color: '#cbb8ac', maxWidth: '580px', fontSize: '1.15rem', lineHeight: 1.65 }}>
-              Itinera organizes your routes, weather rain checks, and multi-currency budgets automatically.
-            </p>
-
-            <div className="d-flex justify-content-center mb-4">
-              <button 
-                onClick={() => onNavigate('planner-flow')} 
-                className="btn btn-pill-cream hover-lift d-inline-flex align-items-center gap-2"
-                style={{ padding: '0.9rem 2.5rem', backgroundColor: '#f5efe9', color: '#3e181c', fontWeight: 700 }}
-              >
-                <span>Get started free &rarr;</span>
-              </button>
+            {/* Giant Faint Watermark Text matching reference image */}
+            <div 
+              className="position-absolute top-50 start-50 translate-middle pointer-events-none select-none text-uppercase fw-bold"
+              style={{
+                fontSize: '11rem',
+                color: '#ffffff',
+                opacity: 0.05,
+                letterSpacing: '0.1em',
+                whiteSpace: 'nowrap',
+                zIndex: 1
+              }}
+            >
+              ITINERA
             </div>
 
-            <div className="small text-cream-muted" style={{ color: '#cbb8ac', fontSize: '0.85rem', letterSpacing: '0.05em' }}>
-              Instant setup &bull; Automated rain check &bull; Multi-currency budget split
+            <div className="position-relative" style={{ zIndex: 2 }}>
+              <h2 className="display-3 display-heading text-cream mb-3 mx-auto" style={{ fontSize: '3.1rem', maxWidth: '680px', lineHeight: 1.15 }}>
+                Never miss a moment <br /> on your journey again.
+              </h2>
+              
+              <p className="lead mx-auto mb-4" style={{ color: '#f2e6dc', maxWidth: '580px', fontSize: '1.15rem', lineHeight: 1.65 }}>
+                Itinera organizes your routes, weather rain checks, and multi-currency budgets automatically.
+              </p>
+
+              {/* Centered Compact Pill Button matching reference image */}
+              <div className="d-flex justify-content-center mb-4">
+                <button 
+                  onClick={() => onNavigate('planner-flow')} 
+                  className="btn btn-pill-cream hover-lift d-inline-flex align-items-center justify-content-center gap-2"
+                  style={{ 
+                    padding: '0.85rem 2.4rem', 
+                    backgroundColor: '#fcefe6', 
+                    color: '#3e181c', 
+                    fontWeight: 700, 
+                    borderRadius: '9999px',
+                    width: 'auto',
+                    whiteSpace: 'nowrap'
+                  }}
+                >
+                  <span>Get started free &rarr;</span>
+                </button>
+              </div>
+
+              <div className="small text-cream-muted" style={{ color: '#d8c8c3', fontSize: '0.85rem', letterSpacing: '0.05em' }}>
+                Instant setup &bull; Automated rain check &bull; Multi-currency budget split
+              </div>
             </div>
           </motion.div>
         </div>
