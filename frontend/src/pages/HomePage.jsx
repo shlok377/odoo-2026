@@ -89,7 +89,7 @@ export default function HomePage({ onNavigate }) {
           {/* Action Buttons */}
           <div className="d-flex flex-wrap justify-content-center gap-3 mb-3">
             <button 
-              onClick={() => onNavigate('auth-register')} 
+              onClick={() => onNavigate('trips')} 
               className="btn btn-pill-cream hover-lift d-inline-flex align-items-center gap-2"
               style={{ width: 'auto', padding: '0.85rem 2.2rem' }}
             >
@@ -98,11 +98,11 @@ export default function HomePage({ onNavigate }) {
             </button>
 
             <button 
-              onClick={() => onNavigate('budget')} 
+              onClick={() => onNavigate('trips')} 
               className="btn btn-pill-outline hover-lift d-inline-flex align-items-center gap-2"
               style={{ width: 'auto', padding: '0.85rem 2rem' }}
             >
-              <span>Explore Budget & Expenses</span>
+              <span>Explore My Trips</span>
               <Compass size={18} />
             </button>
           </div>

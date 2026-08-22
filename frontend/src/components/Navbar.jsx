@@ -1,5 +1,5 @@
 import React from 'react';
-import { LogOut } from 'lucide-react';
+import { LogOut, Compass } from 'lucide-react';
 import { useAuthStore } from '../store/useAuthStore';
 
 export default function Navbar({ onNavigate, currentPage }) {
@@ -30,6 +30,14 @@ export default function Navbar({ onNavigate, currentPage }) {
             style={{ borderRadius: '9999px', padding: '0.45rem 1.25rem' }}
           >
             Home
+          </button>
+
+          <button 
+            onClick={() => onNavigate('trips')}
+            className={`btn btn-sm ${currentPage === 'trips' ? 'btn-pill-cream' : 'btn-pill-outline'}`}
+            style={{ borderRadius: '9999px', padding: '0.45rem 1.25rem' }}
+          >
+            My Trips
           </button>
 
           {user ? (

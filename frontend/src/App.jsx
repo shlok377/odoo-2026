@@ -3,11 +3,12 @@ import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import AuthPage from './pages/AuthPage';
 import HomePage from './pages/HomePage';
+import MyTripsPage from './pages/MyTripsPage';
 import BudgetCostPage from './pages/BudgetCostPage';
 import { useAuthStore } from './store/useAuthStore';
 
 export default function App() {
-  const [currentPage, setCurrentPage] = useState('home'); // 'home', 'auth-login', 'auth-register', 'budget'
+  const [currentPage, setCurrentPage] = useState('home'); // 'home', 'trips', 'auth-login', 'auth-register', 'budget'
   const { user } = useAuthStore();
 
   const handleNavigate = (page) => {
@@ -17,7 +18,7 @@ export default function App() {
 
   return (
     <div className="d-flex flex-column min-vh-100">
-      {/* Show Navbar on non-budget pages or customized nav inside budget */}
+      {/* Navbar Header */}
       {currentPage !== 'budget' && (
         <Navbar onNavigate={handleNavigate} currentPage={currentPage} />
       )}
@@ -28,10 +29,14 @@ export default function App() {
           <HomePage onNavigate={handleNavigate} />
         )}
 
+        {currentPage === 'trips' && (
+          <MyTripsPage onNavigate={handleNavigate} />
+        )}
+
         {(currentPage === 'auth-login' || currentPage === 'auth-register') && (
           <AuthPage 
             initialTab={currentPage === 'auth-register' ? 'signup' : 'login'} 
-            onAuthSuccess={() => handleNavigate('home')} 
+            onAuthSuccess={() => handleNavigate('trips')} 
           />
         )}
 
@@ -40,7 +45,7 @@ export default function App() {
         )}
       </main>
 
-      {/* Show Footer on non-budget pages */}
+      {/* Footer */}
       {currentPage !== 'budget' && (
         <Footer />
       )}

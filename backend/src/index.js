@@ -2,6 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import authRoutes from './routes/authRoutes.js';
+import tripRoutes from './routes/tripRoutes.js';
 import db from './db/database.js';
 
 dotenv.config();
@@ -20,6 +21,7 @@ app.use(express.json());
 
 // API Routes
 app.use('/api/auth', authRoutes);
+app.use('/api/trips', tripRoutes);
 
 // Health check endpoint
 app.get('/api/health', (req, res) => {
