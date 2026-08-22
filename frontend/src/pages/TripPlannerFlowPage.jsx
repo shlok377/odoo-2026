@@ -195,62 +195,84 @@ export default function TripPlannerFlowPage({ onNavigate, onStartItinerary }) {
                   <div className="col-md-6">
                     <label className="itinera-label mb-2 d-flex align-items-center justify-content-between" style={{ color: '#efe2d3' }}>
                       <span>Duration of Stay</span>
-                      <span className="small text-cream-muted" style={{ fontSize: '0.78rem', color: '#d5c3b5' }}>Select or type custom days (1–30)</span>
+                      <span className="small text-cream-muted" style={{ fontSize: '0.78rem', color: '#d5c3b5' }}>Use - / + or type exact days</span>
                     </label>
                     
-                    <div className="d-flex align-items-center gap-2 flex-wrap">
-                      {[3, 5, 7, 10, 14].map((d) => (
-                        <button
-                          key={d}
+                    {/* SINGLE UNIFIED LUXURY PILL COUNTER CONTROL */}
+                    <div className="d-flex align-items-center gap-3">
+                      <div 
+                        className="d-inline-flex align-items-center justify-content-between p-1.5 rounded-pill w-100"
+                        style={{ 
+                          backgroundColor: '#1c0d10', 
+                          border: '1px solid rgba(239, 226, 211, 0.3)',
+                          maxWidth: '280px',
+                          boxShadow: '0 4px 16px rgba(0,0,0,0.2)'
+                        }}
+                      >
+                        <motion.button 
+                          whileHover={{ scale: 1.08 }}
+                          whileTap={{ scale: 0.92 }}
                           type="button"
-                          className="btn btn-sm text-nowrap"
+                          className="btn rounded-circle d-flex align-items-center justify-content-center"
                           style={{ 
-                            fontSize: '0.85rem', 
-                            fontWeight: daysCount === d ? 700 : 500,
-                            padding: '0.6rem 0.85rem',
-                            borderRadius: '9999px',
-                            backgroundColor: daysCount === d ? '#efe2d3' : 'transparent',
-                            color: daysCount === d ? '#3e181c' : '#efe2d3',
-                            border: daysCount === d ? 'none' : '1px solid rgba(239, 226, 211, 0.25)',
-                            transition: 'all 0.2s ease'
+                            width: '38px', 
+                            height: '38px', 
+                            backgroundColor: '#efe2d3', 
+                            color: '#3e181c', 
+                            border: 'none',
+                            fontWeight: 700,
+                            fontSize: '1.2rem',
+                            flexShrink: 0
                           }}
-                          onClick={() => setDaysCount(d)}
-                        >
-                          {d} Days
-                        </button>
-                      ))}
-
-                      {/* Custom Stepper (- / +) & Direct Numeric Input */}
-                      <div className="d-inline-flex align-items-center gap-1 p-1 rounded-pill ms-auto" style={{ border: '1px solid rgba(239, 226, 211, 0.3)', backgroundColor: 'rgba(239, 226, 211, 0.05)' }}>
-                        <button 
-                          type="button"
-                          className="btn btn-sm rounded-circle p-1 d-flex align-items-center justify-content-center"
-                          style={{ width: '28px', height: '28px', color: '#efe2d3', backgroundColor: 'rgba(239, 226, 211, 0.1)', border: 'none' }}
                           onClick={() => setDaysCount(prev => Math.max(1, prev - 1))}
                         >
                           -
-                        </button>
-                        <input 
-                          type="number" 
-                          min="1"
-                          max="30"
-                          value={daysCount}
-                          onChange={(e) => {
-                            const val = parseInt(e.target.value) || 1;
-                            setDaysCount(Math.min(30, Math.max(1, val)));
-                          }}
-                          className="bg-transparent border-0 text-center font-bold text-cream"
-                          style={{ width: '42px', color: '#efe2d3', fontSize: '0.9rem', outline: 'none', fontWeight: 700 }}
-                        />
-                        <span className="small me-1" style={{ fontSize: '0.78rem', color: '#d5c3b5' }}>Days</span>
-                        <button 
+                        </motion.button>
+
+                        <div className="d-flex align-items-center justify-content-center gap-1 px-2">
+                          <input 
+                            type="number" 
+                            min="1"
+                            max="30"
+                            value={daysCount}
+                            onChange={(e) => {
+                              const val = parseInt(e.target.value) || 1;
+                              setDaysCount(Math.min(30, Math.max(1, val)));
+                            }}
+                            className="bg-transparent border-0 text-center font-bold text-cream"
+                            style={{ 
+                              width: '45px', 
+                              color: '#efe2d3', 
+                              fontSize: '1.25rem', 
+                              outline: 'none', 
+                              fontWeight: 800,
+                              margin: 0
+                            }}
+                          />
+                          <span className="fw-bold display-heading" style={{ fontSize: '1rem', color: '#efe2d3' }}>
+                            {daysCount === 1 ? 'Day' : 'Days'}
+                          </span>
+                        </div>
+
+                        <motion.button 
+                          whileHover={{ scale: 1.08 }}
+                          whileTap={{ scale: 0.92 }}
                           type="button"
-                          className="btn btn-sm rounded-circle p-1 d-flex align-items-center justify-content-center"
-                          style={{ width: '28px', height: '28px', color: '#efe2d3', backgroundColor: 'rgba(239, 226, 211, 0.1)', border: 'none' }}
+                          className="btn rounded-circle d-flex align-items-center justify-content-center"
+                          style={{ 
+                            width: '38px', 
+                            height: '38px', 
+                            backgroundColor: '#efe2d3', 
+                            color: '#3e181c', 
+                            border: 'none',
+                            fontWeight: 700,
+                            fontSize: '1.2rem',
+                            flexShrink: 0
+                          }}
                           onClick={() => setDaysCount(prev => Math.min(30, prev + 1))}
                         >
                           +
-                        </button>
+                        </motion.button>
                       </div>
                     </div>
                   </div>
