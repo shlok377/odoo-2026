@@ -510,8 +510,22 @@ export default function TripPlannerFlowPage({ onNavigate, onStartItinerary }) {
       return;
     }
 
-    // Fetch real Wikipedia attractions for clicked coordinates
-    const newCityData = await fetchRealWikipediaAttractions(name, country, lat, lng);
+    let newCityData = null;
+
+    // 1. Fetch real places and authentic photos from Express Backend API
+    try {
+      const apiRes = await fetch(`http://localhost:5001/api/destinations/places?city=${encodeURIComponent(name)}&country=${encodeURIComponent(country || '')}&lat=${lat}&lng=${lng}`);
+      if (apiRes.ok) {
+        newCityData = await apiRes.json();
+      }
+    } catch (err) {
+      console.warn('Backend API unavailable, utilizing client-side Wikipedia geosearch fallback:', err);
+    }
+
+    // 2. Client-side Wikipedia Geosearch fallback if backend offline
+    if (!newCityData || !newCityData.attractions || newCityData.attractions.length === 0) {
+      newCityData = await fetchRealWikipediaAttractions(name, country, lat, lng);
+    }
 
     setActiveCityDatabase(prev => ({
       ...prev,
