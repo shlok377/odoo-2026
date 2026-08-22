@@ -135,17 +135,17 @@ export default function AuthPage({ initialTab = 'login', onAuthSuccess }) {
         {/* Brand Icon & Title */}
         <div className="text-center mb-4">
           <div 
-            className="d-inline-flex align-items-center justify-content-center p-3 rounded-circle mb-3" 
-            style={{ background: '#541c21', border: '1px solid #732a32' }}
+            className="d-inline-flex align-items-center justify-content-center p-3 rounded-circle mb-3 shadow-sm" 
+            style={{ background: '#591d26', border: '1px solid #7a2b34' }}
           >
-            <Compass size={32} style={{ color: '#f5efe9' }} />
+            <Compass size={32} style={{ color: '#efe2d3' }} />
           </div>
 
-          <h2 className="display-heading mb-1" style={{ fontSize: '2.1rem' }}>
+          <h2 className="display-heading mb-1" style={{ fontSize: '2.1rem', color: '#3e181c', fontWeight: 700 }}>
             Itinera
           </h2>
 
-          <p className="small mb-0" style={{ color: '#cbb8ac' }}>
+          <p className="small mb-0" style={{ color: '#6e4247', fontSize: '0.92rem' }}>
             {activeTab === 'login' ? 'Sign in to access your planned trips' : 'Create an account to start planning trips'}
           </p>
         </div>
@@ -176,10 +176,10 @@ export default function AuthPage({ initialTab = 'login', onAuthSuccess }) {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -6 }}
               className="alert d-flex align-items-center gap-2 p-3 mb-4 rounded-3"
-              style={{ background: '#5c1e23', border: '1px solid #e65c65', color: '#f8b4b8' }}
+              style={{ background: '#fce8e6', border: '1px solid #e65c65', color: '#8a1c24' }}
             >
-              <AlertCircle size={18} className="flex-shrink-0" />
-              <span className="small mb-0">{localError || error}</span>
+              <AlertCircle size={18} className="flex-shrink-0 text-danger" />
+              <span className="small mb-0 fw-semibold">{localError || error}</span>
             </motion.div>
           )}
 
@@ -189,10 +189,10 @@ export default function AuthPage({ initialTab = 'login', onAuthSuccess }) {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -6 }}
               className="alert d-flex align-items-center gap-2 p-3 mb-4 rounded-3"
-              style={{ background: '#224833', border: '1px solid #48bb78', color: '#a7f3d0' }}
+              style={{ background: '#e6f4ea', border: '1px solid #34a853', color: '#137333' }}
             >
-              <CheckCircle2 size={18} className="flex-shrink-0" />
-              <span className="small mb-0">{localSuccess}</span>
+              <CheckCircle2 size={18} className="flex-shrink-0 text-success" />
+              <span className="small mb-0 fw-semibold">{localSuccess}</span>
             </motion.div>
           )}
         </AnimatePresence>
@@ -209,7 +209,7 @@ export default function AuthPage({ initialTab = 'login', onAuthSuccess }) {
             <div className="mb-3">
               <label className="itinera-label">Email Address</label>
               <div className="position-relative">
-                <Mail size={18} className="position-absolute top-50 translate-middle-y ms-3" style={{ color: '#cbb8ac' }} />
+                <Mail size={18} className="position-absolute top-50 translate-middle-y ms-3" style={{ color: '#591d26' }} />
                 <input 
                   type="email" 
                   className="form-control itinera-input ps-5" 
@@ -225,12 +225,12 @@ export default function AuthPage({ initialTab = 'login', onAuthSuccess }) {
             <div className="mb-3">
               <div className="d-flex justify-content-between align-items-center mb-1">
                 <label className="itinera-label mb-0">Password</label>
-                <a href="#forgot" onClick={(e) => { e.preventDefault(); alert('Use Quick Demo Login below!'); }} className="small text-decoration-none" style={{ color: '#f5efe9', fontSize: '0.82rem' }}>
+                <a href="#forgot" onClick={(e) => { e.preventDefault(); alert('Use Quick Demo Login below!'); }} className="small text-decoration-none fw-semibold" style={{ color: '#591d26', fontSize: '0.82rem' }}>
                   Forgot password?
                 </a>
               </div>
               <div className="position-relative">
-                <Lock size={18} className="position-absolute top-50 translate-middle-y ms-3" style={{ color: '#cbb8ac' }} />
+                <Lock size={18} className="position-absolute top-50 translate-middle-y ms-3" style={{ color: '#591d26' }} />
                 <input 
                   type={showLoginPassword ? "text" : "password"} 
                   className="form-control itinera-input ps-5 pe-5" 
@@ -242,7 +242,7 @@ export default function AuthPage({ initialTab = 'login', onAuthSuccess }) {
                 <button 
                   type="button" 
                   className="btn btn-link position-absolute top-50 end-0 translate-middle-y me-2 p-0 border-0"
-                  style={{ color: '#cbb8ac' }}
+                  style={{ color: '#591d26' }}
                   onClick={() => setShowLoginPassword(!showLoginPassword)}
                 >
                   {showLoginPassword ? <EyeOff size={18} /> : <Eye size={18} />}
@@ -258,9 +258,9 @@ export default function AuthPage({ initialTab = 'login', onAuthSuccess }) {
                 id="rememberMe" 
                 checked={rememberMe} 
                 onChange={(e) => setRememberMe(e.target.checked)}
-                style={{ backgroundColor: rememberMe ? '#f5efe9' : '#290d10', borderColor: '#63262c' }}
+                style={{ backgroundColor: rememberMe ? '#591d26' : '#fffaf6', borderColor: '#591d26' }}
               />
-              <label className="form-check-label small" htmlFor="rememberMe" style={{ color: '#cbb8ac' }}>
+              <label className="form-check-label small fw-medium" htmlFor="rememberMe" style={{ color: '#591d26' }}>
                 Keep me signed in
               </label>
             </div>
@@ -268,7 +268,8 @@ export default function AuthPage({ initialTab = 'login', onAuthSuccess }) {
             {/* Submit Button */}
             <button 
               type="submit" 
-              className="btn btn-pill-cream mb-3"
+              className="btn w-100 rounded-pill py-3 fw-bold mb-3 d-flex align-items-center justify-content-center gap-2 hover-lift"
+              style={{ backgroundColor: '#591d26', color: '#efe2d3', border: '1px solid #591d26', boxShadow: '0 8px 20px rgba(89, 29, 38, 0.25)' }}
               disabled={isLoading}
             >
               {isLoading ? (
@@ -281,13 +282,14 @@ export default function AuthPage({ initialTab = 'login', onAuthSuccess }) {
             </button>
 
             {/* Quick Demo Login */}
-            <div className="text-center mt-3 pt-3 border-top" style={{ borderColor: '#63262c' }}>
+            <div className="text-center mt-3 pt-3 border-top" style={{ borderColor: '#d4c3b6' }}>
               <button 
                 type="button"
                 onClick={handleDemoLogin}
-                className="btn btn-pill-outline w-100 d-flex align-items-center justify-content-center gap-2"
+                className="btn w-100 rounded-pill py-2.5 fw-bold d-flex align-items-center justify-content-center gap-2 transition-all"
+                style={{ backgroundColor: 'transparent', color: '#591d26', border: '1.5px solid #591d26' }}
               >
-                <Sparkles size={16} style={{ color: '#f5efe9' }} />
+                <Sparkles size={16} style={{ color: '#591d26' }} />
                 <span>Quick Demo Login</span>
               </button>
             </div>
@@ -307,7 +309,7 @@ export default function AuthPage({ initialTab = 'login', onAuthSuccess }) {
             <div className="mb-3">
               <label className="itinera-label">Full Name</label>
               <div className="position-relative">
-                <User size={18} className="position-absolute top-50 translate-middle-y ms-3" style={{ color: '#cbb8ac' }} />
+                <User size={18} className="position-absolute top-50 translate-middle-y ms-3" style={{ color: '#591d26' }} />
                 <input 
                   type="text" 
                   className="form-control itinera-input ps-5" 
@@ -323,7 +325,7 @@ export default function AuthPage({ initialTab = 'login', onAuthSuccess }) {
             <div className="mb-3">
               <label className="itinera-label">Email Address</label>
               <div className="position-relative">
-                <Mail size={18} className="position-absolute top-50 translate-middle-y ms-3" style={{ color: '#cbb8ac' }} />
+                <Mail size={18} className="position-absolute top-50 translate-middle-y ms-3" style={{ color: '#591d26' }} />
                 <input 
                   type="email" 
                   className="form-control itinera-input ps-5" 
@@ -339,7 +341,7 @@ export default function AuthPage({ initialTab = 'login', onAuthSuccess }) {
             <div className="mb-3">
               <label className="itinera-label">Password</label>
               <div className="position-relative">
-                <Lock size={18} className="position-absolute top-50 translate-middle-y ms-3" style={{ color: '#cbb8ac' }} />
+                <Lock size={18} className="position-absolute top-50 translate-middle-y ms-3" style={{ color: '#591d26' }} />
                 <input 
                   type={showSignupPassword ? "text" : "password"} 
                   className="form-control itinera-input ps-5 pe-5" 
@@ -351,7 +353,7 @@ export default function AuthPage({ initialTab = 'login', onAuthSuccess }) {
                 <button 
                   type="button" 
                   className="btn btn-link position-absolute top-50 end-0 translate-middle-y me-2 p-0 border-0"
-                  style={{ color: '#cbb8ac' }}
+                  style={{ color: '#591d26' }}
                   onClick={() => setShowSignupPassword(!showSignupPassword)}
                 >
                   {showSignupPassword ? <EyeOff size={18} /> : <Eye size={18} />}
@@ -362,10 +364,10 @@ export default function AuthPage({ initialTab = 'login', onAuthSuccess }) {
               {signupPassword && (
                 <div className="mt-2">
                   <div className="d-flex justify-content-between align-items-center small mb-1" style={{ fontSize: '0.75rem' }}>
-                    <span style={{ color: '#cbb8ac' }}>Strength:</span>
+                    <span style={{ color: '#6e4247' }}>Strength:</span>
                     <span style={{ color: strength.color, fontWeight: 600 }}>{strength.label}</span>
                   </div>
-                  <div className="progress" style={{ height: '4px', backgroundColor: '#290d10' }}>
+                  <div className="progress" style={{ height: '4px', backgroundColor: '#e4d5c6' }}>
                     <div 
                       className="progress-bar" 
                       role="progressbar" 
@@ -380,7 +382,7 @@ export default function AuthPage({ initialTab = 'login', onAuthSuccess }) {
             <div className="mb-3">
               <label className="itinera-label">Confirm Password</label>
               <div className="position-relative">
-                <ShieldCheck size={18} className="position-absolute top-50 translate-middle-y ms-3" style={{ color: '#cbb8ac' }} />
+                <ShieldCheck size={18} className="position-absolute top-50 translate-middle-y ms-3" style={{ color: '#591d26' }} />
                 <input 
                   type={showSignupPassword ? "text" : "password"} 
                   className="form-control itinera-input ps-5" 
@@ -400,17 +402,18 @@ export default function AuthPage({ initialTab = 'login', onAuthSuccess }) {
                 id="agreeTerms" 
                 checked={agreeTerms} 
                 onChange={(e) => setAgreeTerms(e.target.checked)}
-                style={{ backgroundColor: agreeTerms ? '#f5efe9' : '#290d10', borderColor: '#63262c' }}
+                style={{ backgroundColor: agreeTerms ? '#591d26' : '#fffaf6', borderColor: '#591d26' }}
               />
-              <label className="form-check-label small" htmlFor="agreeTerms" style={{ color: '#cbb8ac' }}>
-                I agree to the <a href="#terms" onClick={(e) => e.preventDefault()} style={{ color: '#f5efe9' }}>Terms of Service</a>
+              <label className="form-check-label small fw-medium" htmlFor="agreeTerms" style={{ color: '#591d26' }}>
+                I agree to the <a href="#terms" onClick={(e) => e.preventDefault()} style={{ color: '#591d26', fontWeight: 700 }}>Terms of Service</a>
               </label>
             </div>
 
             {/* Submit Button */}
             <button 
               type="submit" 
-              className="btn btn-pill-cream mb-3"
+              className="btn w-100 rounded-pill py-3 fw-bold mb-3 d-flex align-items-center justify-content-center gap-2 hover-lift"
+              style={{ backgroundColor: '#591d26', color: '#efe2d3', border: '1px solid #591d26', boxShadow: '0 8px 20px rgba(89, 29, 38, 0.25)' }}
               disabled={isLoading}
             >
               {isLoading ? (
@@ -427,11 +430,11 @@ export default function AuthPage({ initialTab = 'login', onAuthSuccess }) {
 
         {/* Bottom Switcher */}
         <div className="text-center mt-3 pt-2">
-          <span className="small" style={{ color: '#cbb8ac' }}>
+          <span className="small fw-medium" style={{ color: '#6e4247' }}>
             {activeTab === 'login' ? "Don't have an account?" : "Already registered?"}{' '}
             <button 
-              className="btn btn-link p-0 text-decoration-none small fw-semibold"
-              style={{ color: '#f5efe9' }}
+              className="btn btn-link p-0 text-decoration-none small fw-bold"
+              style={{ color: '#591d26' }}
               onClick={() => {
                 setActiveTab(activeTab === 'login' ? 'signup' : 'login');
                 clearError();

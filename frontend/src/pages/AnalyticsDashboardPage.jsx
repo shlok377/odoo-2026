@@ -47,34 +47,34 @@ export default function AnalyticsDashboardPage({ onNavigate }) {
         {/* 4 KPI Cards Grid */}
         <div className="row g-3 mb-5">
           <div className="col-6 col-md-3">
-            <div className="p-4 rounded-3 text-burgundy h-100" style={{ backgroundColor: '#f5efe9' }}>
-              <div className="text-uppercase fw-bold opacity-75 small" style={{ letterSpacing: '0.1em' }}>TOTAL SPEND</div>
-              <div className="display-4 fw-bold display-heading my-2" style={{ fontSize: '2.5rem', lineHeight: 1 }}>₹2,84,500</div>
-              <div className="small d-flex align-items-center gap-1 text-success fw-bold">
+            <div className="p-4 rounded-3 h-100 shadow-sm" style={{ backgroundColor: '#efe2d3', color: '#3e181c', border: '1px solid #dfd2c9' }}>
+              <div className="text-uppercase fw-bold small" style={{ color: '#591d26', letterSpacing: '0.1em' }}>TOTAL SPEND</div>
+              <div className="display-4 fw-bold display-heading my-2" style={{ color: '#3e181c', fontSize: '2.5rem', lineHeight: 1 }}>₹2,84,500</div>
+              <div className="small d-flex align-items-center gap-1 fw-bold" style={{ color: '#137333' }}>
                 <ArrowUpRight size={14} /> +12.4% vs last year
               </div>
             </div>
           </div>
 
           <div className="col-6 col-md-3">
-            <div className="p-4 rounded-3 h-100" style={{ backgroundColor: '#71343d', border: '1px solid #80545b' }}>
-              <div className="text-uppercase fw-bold text-cream-muted opacity-75 small" style={{ letterSpacing: '0.1em' }}>CITIES VISITED</div>
+            <div className="p-4 rounded-3 h-100" style={{ backgroundColor: '#48171f', border: '1px solid #80545b' }}>
+              <div className="text-uppercase fw-bold small" style={{ color: '#ddc9c3', letterSpacing: '0.1em' }}>CITIES VISITED</div>
               <div className="display-4 fw-bold display-heading text-cream my-2" style={{ fontSize: '2.5rem', lineHeight: 1 }}>21 Cities</div>
               <div className="small text-cream-muted" style={{ color: '#ddc9c3' }}>Across 08 Countries</div>
             </div>
           </div>
 
           <div className="col-6 col-md-3">
-            <div className="p-4 rounded-3 h-100" style={{ backgroundColor: '#71343d', border: '1px solid #80545b' }}>
-              <div className="text-uppercase fw-bold text-cream-muted opacity-75 small" style={{ letterSpacing: '0.1em' }}>CARBON OFFSET</div>
+            <div className="p-4 rounded-3 h-100" style={{ backgroundColor: '#48171f', border: '1px solid #80545b' }}>
+              <div className="text-uppercase fw-bold small" style={{ color: '#ddc9c3', letterSpacing: '0.1em' }}>CARBON OFFSET</div>
               <div className="display-4 fw-bold display-heading text-cream my-2" style={{ fontSize: '2.5rem', lineHeight: 1 }}>1.42 Tons</div>
               <div className="small text-cream-muted" style={{ color: '#ddc9c3' }}>100% Eco-certified</div>
             </div>
           </div>
 
           <div className="col-6 col-md-3">
-            <div className="p-4 rounded-3 h-100" style={{ backgroundColor: '#71343d', border: '1px solid #80545b' }}>
-              <div className="text-uppercase fw-bold text-cream-muted opacity-75 small" style={{ letterSpacing: '0.1em' }}>AVG TRIP DURATION</div>
+            <div className="p-4 rounded-3 h-100" style={{ backgroundColor: '#48171f', border: '1px solid #80545b' }}>
+              <div className="text-uppercase fw-bold small" style={{ color: '#ddc9c3', letterSpacing: '0.1em' }}>AVG TRIP DURATION</div>
               <div className="display-4 fw-bold display-heading text-cream my-2" style={{ fontSize: '2.5rem', lineHeight: 1 }}>5.8 Days</div>
               <div className="small text-cream-muted" style={{ color: '#ddc9c3' }}>Optimal travel pace</div>
             </div>
