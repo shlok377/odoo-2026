@@ -23,26 +23,26 @@ export default function Navbar({ onNavigate, currentPage }) {
         </div>
 
         {/* Right Navigation & Auth Actions */}
-        <div className="d-flex align-items-center gap-3">
+        <div className="d-flex align-items-center gap-3 flex-nowrap">
           <button 
             onClick={() => onNavigate('home')}
-            className={`btn btn-sm ${currentPage === 'home' ? 'btn-pill-cream' : 'btn-pill-outline'}`}
-            style={{ borderRadius: '9999px', padding: '0.45rem 1.25rem' }}
+            className={`btn btn-sm text-nowrap ${currentPage === 'home' ? 'btn-pill-cream' : 'btn-pill-outline'}`}
+            style={{ borderRadius: '9999px', padding: '0.45rem 1.25rem', whiteSpace: 'nowrap' }}
           >
             Home
           </button>
 
           <button 
             onClick={() => onNavigate('planner-flow')}
-            className={`btn btn-sm ${currentPage === 'planner-flow' || currentPage === 'trips' ? 'btn-pill-cream' : 'btn-pill-outline'}`}
-            style={{ borderRadius: '9999px', padding: '0.45rem 1.25rem' }}
+            className={`btn btn-sm text-nowrap ${currentPage === 'planner-flow' || currentPage === 'trips' ? 'btn-pill-cream' : 'btn-pill-outline'}`}
+            style={{ borderRadius: '9999px', padding: '0.45rem 1.25rem', whiteSpace: 'nowrap' }}
           >
             Destination Explorer
           </button>
 
           {user ? (
-            <div className="d-flex align-items-center gap-3">
-              <div className="d-flex align-items-center gap-2 px-3 py-1.5 rounded-pill" style={{ background: '#260d10', border: '1px solid #572227' }}>
+            <div className="d-flex align-items-center gap-3 flex-nowrap">
+              <div className="d-flex align-items-center gap-2 px-3 py-1.5 rounded-pill text-nowrap" style={{ background: '#260d10', border: '1px solid #572227', whiteSpace: 'nowrap' }}>
                 <img 
                   src={user.avatar_url || 'https://api.dicebear.com/7.x/initials/svg?seed=User'} 
                   alt={user.name} 
@@ -53,27 +53,27 @@ export default function Navbar({ onNavigate, currentPage }) {
               </div>
               <button 
                 onClick={logout} 
-                className="btn btn-sm btn-pill-outline d-flex align-items-center gap-1"
+                className="btn btn-sm btn-pill-outline d-flex align-items-center gap-1 text-nowrap"
                 title="Sign out"
-                style={{ borderRadius: '9999px', padding: '0.45rem 1rem' }}
+                style={{ borderRadius: '9999px', padding: '0.45rem 1rem', whiteSpace: 'nowrap' }}
               >
                 <LogOut size={16} />
                 <span>Logout</span>
               </button>
             </div>
           ) : (
-            <div className="d-flex align-items-center gap-2">
+            <div className="d-flex align-items-center gap-2 flex-nowrap">
               <button 
                 onClick={() => onNavigate('auth-login')}
-                className={`btn btn-sm ${currentPage === 'auth-login' ? 'btn-pill-cream' : 'btn-pill-outline'}`}
-                style={{ borderRadius: '9999px', padding: '0.45rem 1.25rem' }}
+                className={`btn btn-sm text-nowrap ${currentPage === 'auth-login' ? 'btn-pill-cream' : 'btn-pill-outline'}`}
+                style={{ borderRadius: '9999px', padding: '0.45rem 1.35rem', whiteSpace: 'nowrap' }}
               >
                 Sign In
               </button>
               <button 
                 onClick={() => onNavigate('auth-register')}
-                className={`btn btn-sm ${currentPage === 'auth-register' ? 'btn-pill-cream' : 'btn-pill-outline'}`}
-                style={{ borderRadius: '9999px', padding: '0.45rem 1.25rem' }}
+                className={`btn btn-sm text-nowrap ${currentPage === 'auth-register' ? 'btn-pill-cream' : 'btn-pill-outline'}`}
+                style={{ borderRadius: '9999px', padding: '0.45rem 1.35rem', whiteSpace: 'nowrap' }}
               >
                 Get Started
               </button>
