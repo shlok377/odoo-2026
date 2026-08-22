@@ -32,14 +32,6 @@ export default function HomePage({ onNavigate }) {
           className="container"
           style={{ maxWidth: '960px', zIndex: 10 }}
         >
-          {/* Subtle Feature Pill Badge */}
-          <div className="d-inline-flex align-items-center justify-content-center mb-3">
-            <span className="badge px-3.5 py-2 rounded-pill d-inline-flex align-items-center gap-2" style={{ backgroundColor: 'rgba(239, 226, 211, 0.08)', border: '1px solid rgba(239, 226, 211, 0.2)', color: '#efe2d3', letterSpacing: '0.08em', fontSize: '0.82rem' }}>
-              <Sparkles size={13} style={{ color: '#efe2d3' }} />
-              <span>AI-POWERED MULTI-CITY TRIP BUILDER</span>
-            </span>
-          </div>
-
           {/* Prominent Large Logo above Tagline */}
           <div className="d-inline-flex align-items-center justify-content-center mb-4 w-100">
             <img 
