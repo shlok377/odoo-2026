@@ -522,12 +522,14 @@ export default function TripPlannerFlowPage({ onNavigate, onStartItinerary }) {
 
         </AnimatePresence>
 
-        {/* FOOTER NAVIGATION CONTROLS */}
-        <div className="d-flex align-items-center justify-content-between mt-4 pt-3 w-100">
+        {/* FOOTER NAVIGATION CONTROLS (STRICT FLEX SPACING & ZERO OVERLAP) */}
+        <div className="d-flex align-items-center justify-content-between gap-3 mt-5 pt-3 w-100" style={{ borderTop: '1px solid #572227' }}>
           {wizardStep > 1 ? (
             <button 
-              className="btn btn-pill-outline d-inline-flex align-items-center gap-2"
+              type="button"
+              className="btn btn-pill-outline d-inline-flex align-items-center justify-content-center gap-2 text-nowrap"
               onClick={() => setWizardStep(wizardStep - 1)}
+              style={{ borderRadius: '9999px', padding: '0.75rem 1.8rem', whiteSpace: 'nowrap', flexShrink: 0 }}
             >
               <ArrowLeft size={16} />
               <span>Back</span>
@@ -536,9 +538,10 @@ export default function TripPlannerFlowPage({ onNavigate, onStartItinerary }) {
 
           {wizardStep < 3 && (
             <button 
-              className="btn btn-pill-cream hover-lift d-inline-flex align-items-center gap-2"
+              type="button"
+              className="btn btn-pill-cream hover-lift d-inline-flex align-items-center justify-content-center gap-2 text-nowrap"
               onClick={() => setWizardStep(wizardStep + 1)}
-              style={{ padding: '0.85rem 2.2rem' }}
+              style={{ borderRadius: '9999px', padding: '0.75rem 2.2rem', whiteSpace: 'nowrap', flexShrink: 0 }}
             >
               <span>Continue to Final Review</span>
               <ChevronRight size={18} />
