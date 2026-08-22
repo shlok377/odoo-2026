@@ -30,51 +30,63 @@ export default function HomePage({ onNavigate }) {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
           className="container"
-          style={{ maxWidth: '950px', zIndex: 10 }}
+          style={{ maxWidth: '960px', zIndex: 10 }}
         >
+          {/* Subtle Feature Pill Badge */}
+          <div className="d-inline-flex align-items-center justify-content-center mb-3">
+            <span className="badge px-3.5 py-2 rounded-pill d-inline-flex align-items-center gap-2" style={{ backgroundColor: 'rgba(239, 226, 211, 0.08)', border: '1px solid rgba(239, 226, 211, 0.2)', color: '#efe2d3', letterSpacing: '0.08em', fontSize: '0.82rem' }}>
+              <Sparkles size={13} style={{ color: '#efe2d3' }} />
+              <span>AI-POWERED MULTI-CITY TRIP BUILDER</span>
+            </span>
+          </div>
+
           {/* Prominent Large Logo */}
-          <div className="d-inline-flex align-items-center justify-content-center mb-4">
+          <div className="d-inline-flex align-items-center justify-content-center mb-4 w-100">
             <img 
               src="/logo.png" 
               alt="Itinera Logo" 
-              style={{ height: '95px', width: 'auto', objectFit: 'contain' }} 
+              style={{ height: '98px', width: 'auto', objectFit: 'contain' }} 
             />
           </div>
 
           {/* Headline & Tagline */}
-          <h1 className="display-3 display-heading text-cream mb-3" style={{ fontSize: '3.4rem', lineHeight: 1.12 }}>
+          <h1 className="display-3 display-heading mb-3" style={{ fontSize: '3.6rem', color: '#efe2d3', lineHeight: 1.12, letterSpacing: '-0.03em' }}>
             Empowering Personalized <br />
-            <span style={{ color: '#fcefe6', fontStyle: 'italic', fontWeight: 400 }}>Travel Planning</span>
+            <span style={{ color: '#efe2d3', fontStyle: 'italic', fontWeight: 400, fontSize: '3.8rem' }}>Travel Planning</span>
           </h1>
 
-          <p className="lead mx-auto mb-4" style={{ color: '#cbb8ac', maxWidth: '680px', fontSize: '1.15rem', lineHeight: 1.6 }}>
+          <p className="lead mx-auto mb-4" style={{ color: '#d5c3b5', maxWidth: '640px', fontSize: '1.12rem', lineHeight: 1.7, fontWeight: 400 }}>
             Dream, design, and organize multi-city trips with ease. Interactive day-wise itineraries, automatic budget breakdowns, live rain checks, and multi-currency expense splitting.
           </p>
 
           {/* Action Buttons */}
-          <div className="d-flex flex-wrap justify-content-center gap-3 mb-3">
-            <button 
+          <div className="d-flex flex-wrap justify-content-center gap-3 mb-4">
+            <motion.button 
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
               onClick={() => onNavigate('planner-flow')} 
               className="btn btn-pill-cream hover-lift d-inline-flex align-items-center gap-2"
-              style={{ width: 'auto', padding: '0.85rem 2.2rem' }}
+              style={{ width: 'auto', padding: '0.9rem 2.6rem', backgroundColor: '#efe2d3', color: '#3e181c', fontWeight: 700, borderRadius: '9999px', boxShadow: '0 8px 24px rgba(0,0,0,0.3)' }}
             >
               <span>Get Started Free</span>
               <ArrowRight size={18} />
-            </button>
+            </motion.button>
 
-            <button 
+            <motion.button 
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
               onClick={() => onNavigate('planner-flow')} 
               className="btn btn-pill-outline hover-lift d-inline-flex align-items-center gap-2"
-              style={{ width: 'auto', padding: '0.85rem 2rem' }}
+              style={{ width: 'auto', padding: '0.9rem 2.2rem', borderColor: 'rgba(239, 226, 211, 0.3)', color: '#efe2d3', borderRadius: '9999px' }}
             >
               <span>Explore Destination Map</span>
               <Compass size={18} />
-            </button>
+            </motion.button>
           </div>
         </motion.div>
 
         {/* Masterpiece 3D Globe Container */}
-        <div className="w-100 position-relative my-2" style={{ zIndex: 5, minHeight: '560px' }}>
+        <div className="w-100 position-relative mt-3 mb-2" style={{ zIndex: 5, minHeight: '560px' }}>
           <Globe3D />
         </div>
 
