@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
   Calendar, Clock, MapPin, Sun, CloudRain, Plus, Trash2, 
-  Share2, Download, DollarSign, ArrowLeft, Check, Sparkles, ChevronRight, Utensils
+  Share2, Download, DollarSign, ArrowLeft, Check, Sparkles, ChevronRight, Utensils,
+  Globe, User, Star, Bookmark
 } from 'lucide-react';
 
 export default function ItineraryBuilderPage({ plannedTrip, onNavigate }) {
@@ -24,6 +25,43 @@ export default function ItineraryBuilderPage({ plannedTrip, onNavigate }) {
   const [activeDay, setActiveDay] = useState(1);
   const [currency, setCurrency] = useState('INR');
   const [toastMsg, setToastMsg] = useState('');
+
+  // Publicly Shared Itineraries Data
+  const PUBLIC_ITINERARIES = [
+    {
+      id: 'pub-1',
+      title: '7 Days Cyberpunk Tokyo Exploration',
+      author: '@sara_travels',
+      avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=150&q=80',
+      city: 'Tokyo, Japan',
+      days: 7,
+      rating: 4.9,
+      cost: '₹ 85,000',
+      cover: 'https://images.unsplash.com/photo-1503899036084-c55cdd92da26?auto=format&fit=crop&w=600&q=80'
+    },
+    {
+      id: 'pub-2',
+      title: '5 Days Italian Gastronomy & Ruins',
+      author: '@marco_eats',
+      avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=150&q=80',
+      city: 'Rome, Italy',
+      days: 5,
+      rating: 4.8,
+      cost: '₹ 62,000',
+      cover: 'https://images.unsplash.com/photo-1552832230-c0197dd311b5?auto=format&fit=crop&w=600&q=80'
+    },
+    {
+      id: 'pub-3',
+      title: '4 Days Romantic Paris & Pastry Walk',
+      author: '@elena_p',
+      avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=150&q=80',
+      city: 'Paris, France',
+      days: 4,
+      rating: 4.9,
+      cost: '₹ 54,000',
+      cover: 'https://images.unsplash.com/photo-1502602898657-3e91760cbb34?auto=format&fit=crop&w=600&q=80'
+    }
+  ];
 
   // Initial Schedule map by Day
   const [daySchedules, setDaySchedules] = useState({
@@ -100,19 +138,24 @@ export default function ItineraryBuilderPage({ plannedTrip, onNavigate }) {
           </div>
         </div>
 
-        {/* TRIP HERO HEADER WITH RAIN CHECK STATUS */}
+        {/* TRIP HERO HEADER WITH RAIN CHECK STATUS (RICH BURGUNDY GRADIENT CARD) */}
         <div 
-          className="rounded-4 p-4 mb-4 position-relative overflow-hidden"
-          style={{ background: '#3e181c', border: '1.5px solid #63262c', boxShadow: '0 16px 36px rgba(0,0,0,0.35)' }}
+          className="p-4 mb-4 position-relative overflow-hidden"
+          style={{ 
+            background: 'linear-gradient(180deg, #752830 0%, #541d23 60%, #3d1418 100%)', 
+            borderRadius: '28px',
+            border: '1.5px solid #7d2e35', 
+            boxShadow: '0 20px 40px rgba(0,0,0,0.4)' 
+          }}
         >
           <div className="row g-4 align-items-center">
             
             <div className="col-md-7">
               <div className="d-flex align-items-center gap-2 mb-2">
-                <span className="badge px-3 py-1 rounded-pill" style={{ background: '#591D26', border: '1px solid #F5EFE9', color: '#F5EFE9' }}>
+                <span className="badge px-3 py-1 rounded-pill" style={{ background: '#591D26', border: '1px solid #7d2e35', color: '#F5EFE9' }}>
                   <MapPin size={12} className="me-1" /> {tripData.city}, {tripData.country}
                 </span>
-                <span className="badge px-3 py-1 rounded-pill" style={{ background: '#290d10', color: '#F5EFE9' }}>
+                <span className="badge px-3 py-1 rounded-pill" style={{ background: '#290d10', border: '1px solid #7d2e35', color: '#F5EFE9' }}>
                   <Calendar size={12} className="me-1" /> {tripData.days} Days Duration
                 </span>
               </div>
@@ -138,7 +181,7 @@ export default function ItineraryBuilderPage({ plannedTrip, onNavigate }) {
                 ₹ {totalCost.toLocaleString()}
               </h2>
 
-              <div className="d-inline-flex align-items-center gap-2 p-1.5 rounded-pill" style={{ background: '#290d10', border: '1px solid #63262c' }}>
+              <div className="d-inline-flex align-items-center gap-2 p-1.5 rounded-pill" style={{ background: '#290d10', border: '1px solid #7d2e35' }}>
                 <span className="small text-cream ms-2 me-1" style={{ fontSize: '0.8rem' }}>Currency:</span>
                 {['INR', 'USD', 'EUR', 'GBP'].map(curr => (
                   <button
@@ -178,9 +221,16 @@ export default function ItineraryBuilderPage({ plannedTrip, onNavigate }) {
           })}
         </div>
 
-        {/* DAY TIMELINE & ACTIVITY SCHEDULE */}
-        <div className="p-4 rounded-4 mb-5" style={{ background: '#290d10', border: '1.5px solid #63262c' }}>
-          
+        {/* DAY TIMELINE & ACTIVITY SCHEDULE (RICH BURGUNDY GRADIENT CARD) */}
+        <div 
+          className="p-4 mb-5" 
+          style={{ 
+            background: 'linear-gradient(180deg, #752830 0%, #541d23 60%, #3d1418 100%)', 
+            borderRadius: '28px',
+            border: '1.5px solid #7d2e35',
+            boxShadow: '0 20px 40px rgba(0,0,0,0.4)'
+          }}
+        >
           <div className="d-flex align-items-center justify-content-between mb-4">
             <h3 className="display-heading text-cream mb-0" style={{ fontSize: '1.8rem' }}>
               Day {activeDay} Schedule
@@ -197,7 +247,7 @@ export default function ItineraryBuilderPage({ plannedTrip, onNavigate }) {
           </div>
 
           {currentDayActivities.length === 0 ? (
-            <div className="text-center py-5 rounded-3" style={{ background: '#3e181c', border: '1px dashed #63262c' }}>
+            <div className="text-center py-5 rounded-3" style={{ background: '#290d10', border: '1px dashed #7d2e35' }}>
               <Clock size={40} className="text-cream-muted mb-2" />
               <h5 className="display-heading text-cream mb-1">No Activities Scheduled for Day {activeDay}</h5>
               <p className="small text-cream-muted mb-3">Click "+ Add Activity" to schedule sightseeing, meals, or experiences.</p>
@@ -215,7 +265,7 @@ export default function ItineraryBuilderPage({ plannedTrip, onNavigate }) {
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, x: -15 }}
                   className="p-3.5 rounded-4 d-flex align-items-center justify-content-between gap-3"
-                  style={{ background: '#3e181c', border: '1.5px solid #63262c' }}
+                  style={{ background: '#290d10', border: '1.5px solid #7d2e35' }}
                 >
                   <div className="d-flex align-items-center gap-3">
                     <img 
@@ -229,7 +279,7 @@ export default function ItineraryBuilderPage({ plannedTrip, onNavigate }) {
                         <span className="badge px-2.5 py-1 rounded-pill" style={{ background: '#591D26', color: '#F5EFE9', fontSize: '0.72rem' }}>
                           <Clock size={12} className="me-1" /> {act.time}
                         </span>
-                        <span className="badge px-2.5 py-1 rounded-pill" style={{ background: '#290d10', color: '#F5EFE9', fontSize: '0.72rem' }}>
+                        <span className="badge px-2.5 py-1 rounded-pill" style={{ background: '#3e181c', color: '#F5EFE9', fontSize: '0.72rem' }}>
                           {act.category}
                         </span>
                       </div>
@@ -255,7 +305,80 @@ export default function ItineraryBuilderPage({ plannedTrip, onNavigate }) {
               ))}
             </div>
           )}
+        </div>
 
+
+        {/* PUBLICLY SHARED ITINERARIES SECTION AT THE BOTTOM */}
+        <div className="mt-5 pt-3">
+          <div className="d-flex align-items-center justify-content-between mb-4">
+            <div>
+              <span className="badge rounded-pill mb-1 px-3 py-1.5" style={{ background: '#591D26', border: '1px solid #7d2e35', color: '#F5EFE9', fontSize: '0.78rem' }}>
+                <Globe size={12} className="me-1" /> Community Showcase
+              </span>
+              <h3 className="display-heading text-cream mb-0" style={{ fontSize: '2rem' }}>
+                Publicly Shared Itineraries
+              </h3>
+            </div>
+            <button className="btn btn-pill-outline d-inline-flex align-items-center gap-2" style={{ fontSize: '0.85rem' }}>
+              <span>Explore All Community Trips</span>
+              <ChevronRight size={16} />
+            </button>
+          </div>
+
+          <div className="row g-4">
+            {PUBLIC_ITINERARIES.map((item) => (
+              <div key={item.id} className="col-md-4">
+                <div 
+                  className="p-3.5 rounded-4 h-100 hover-lift d-flex flex-column justify-content-between"
+                  style={{ 
+                    background: 'linear-gradient(180deg, #752830 0%, #541d23 60%, #3d1418 100%)', 
+                    borderRadius: '24px',
+                    border: '1.5px solid #7d2e35',
+                    boxShadow: '0 16px 36px rgba(0,0,0,0.35)'
+                  }}
+                >
+                  <div>
+                    <div className="position-relative mb-3 overflow-hidden rounded-3" style={{ height: '160px' }}>
+                      <img src={item.cover} alt={item.title} className="w-100 h-100" style={{ objectFit: 'cover' }} />
+                      <div className="position-absolute top-0 end-0 m-2">
+                        <span className="badge px-2.5 py-1 rounded-pill" style={{ background: '#290d10', color: '#F5EFE9', fontSize: '0.75rem', border: '1px solid #7d2e35' }}>
+                          <Star size={11} fill="#F5EFE9" className="me-1" /> {item.rating}
+                        </span>
+                      </div>
+                    </div>
+
+                    <div className="d-flex align-items-center gap-2 mb-2">
+                      <img src={item.avatar} alt={item.author} className="rounded-circle" style={{ width: '24px', height: '24px', objectFit: 'cover' }} />
+                      <span className="small text-cream-muted" style={{ fontSize: '0.8rem', color: '#D8C8C3' }}>{item.author}</span>
+                    </div>
+
+                    <h5 className="display-heading text-cream mb-2" style={{ fontSize: '1.15rem', lineHeight: 1.3 }}>
+                      {item.title}
+                    </h5>
+
+                    <div className="d-flex align-items-center gap-2 mb-3">
+                      <span className="badge px-2.5 py-1 rounded-pill" style={{ background: '#290d10', color: '#F5EFE9', fontSize: '0.72rem' }}>
+                        <MapPin size={10} className="me-1" /> {item.city}
+                      </span>
+                      <span className="badge px-2.5 py-1 rounded-pill" style={{ background: '#591D26', color: '#F5EFE9', fontSize: '0.72rem' }}>
+                        {item.days} Days
+                      </span>
+                    </div>
+                  </div>
+
+                  <div className="pt-3 border-top border-secondary-subtle d-flex align-items-center justify-content-between">
+                    <div>
+                      <small className="d-block text-cream-muted" style={{ fontSize: '0.7rem', color: '#D8C8C3' }}>ESTIMATED</small>
+                      <span className="fw-bold text-cream" style={{ fontSize: '1rem' }}>{item.cost}</span>
+                    </div>
+                    <button className="btn btn-sm btn-pill-cream px-3 py-1.5" style={{ fontSize: '0.78rem' }} onClick={() => triggerToast(`Imported ${item.title}`)}>
+                      Fork Trip
+                    </button>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
 
       </div>
