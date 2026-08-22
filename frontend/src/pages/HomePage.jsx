@@ -128,8 +128,8 @@ export default function HomePage({ onNavigate }) {
                 </p>
               </div>              {/* Step 01 Widget Card */}
               <div 
-                className="p-3.5 rounded-4 mt-3" 
-                style={{ backgroundColor: '#1a080a', border: '1px solid #3d1216' }}
+                className="p-3.5 rounded-4 mt-3 d-flex flex-column justify-content-between" 
+                style={{ backgroundColor: '#1a080a', border: '1px solid #3d1216', minHeight: '135px' }}
               >
                 <div className="d-flex align-items-center justify-content-between mb-2">
                   <span className="badge px-2.5 py-1 rounded-pill" style={{ backgroundColor: '#2d0e12', color: '#F5EFE9', fontSize: '0.72rem', border: '1px solid #572227' }}>
@@ -139,8 +139,10 @@ export default function HomePage({ onNavigate }) {
                     Selected
                   </span>
                 </div>
-                <div className="fw-bold text-cream" style={{ fontSize: '0.95rem' }}>Parisian Dream Getaway</div>
-                <small style={{ color: '#cbb8ac', fontSize: '0.78rem' }}>5 Days Duration &bull; Summer Season</small>
+                <div>
+                  <div className="fw-bold text-cream" style={{ fontSize: '0.95rem' }}>Parisian Dream Getaway</div>
+                  <small style={{ color: '#cbb8ac', fontSize: '0.78rem' }}>5 Days Duration &bull; Summer Season</small>
+                </div>
               </div>
             </motion.div>
 
@@ -160,21 +162,21 @@ export default function HomePage({ onNavigate }) {
 
               {/* Step 02 Widget Card */}
               <div 
-                className="p-3.5 rounded-4 mt-3" 
-                style={{ backgroundColor: '#1a080a', border: '1px solid #3d1216' }}
+                className="p-3.5 rounded-4 mt-3 d-flex flex-column justify-content-between" 
+                style={{ backgroundColor: '#1a080a', border: '1px solid #3d1216', minHeight: '135px' }}
               >
-                <div className="d-flex align-items-center gap-2 mb-2">
+                <div className="d-flex align-items-center justify-content-between mb-2">
                   <span className="badge px-2.5 py-1 rounded-pill" style={{ backgroundColor: '#2d0e12', color: '#F5EFE9', fontSize: '0.72rem', border: '1px solid #572227' }}>
                     Eiffel Tower + Louvre Tour
                   </span>
-                </div>
-                <div className="d-flex align-items-center justify-content-between">
-                  <span className="fw-bold text-cream" style={{ fontSize: '0.95rem' }}>₹ 4,600 / person</span>
                   <span className="badge px-2 py-0.5 rounded-circle d-inline-flex align-items-center justify-content-center" style={{ backgroundColor: '#2d0e12', color: '#F5EFE9', border: '1px solid #572227', width: '22px', height: '22px' }}>
                     <Check size={12} />
                   </span>
                 </div>
-                <small style={{ color: '#cbb8ac', fontSize: '0.78rem' }}>2 Sights &bull; 1 Food Spot Selected</small>
+                <div>
+                  <div className="fw-bold text-cream" style={{ fontSize: '0.95rem' }}>₹ 4,600 / person</div>
+                  <small style={{ color: '#cbb8ac', fontSize: '0.78rem' }}>2 Sights &bull; 1 Food Spot Selected</small>
+                </div>
               </div>
             </motion.div>
 
@@ -194,20 +196,23 @@ export default function HomePage({ onNavigate }) {
 
               {/* Step 03 Widget Card */}
               <div 
-                className="p-3.5 rounded-4 mt-3" 
-                style={{ backgroundColor: '#1a080a', border: '1px solid #3d1216' }}
+                className="p-3.5 rounded-4 mt-3 d-flex flex-column justify-content-between" 
+                style={{ backgroundColor: '#1a080a', border: '1px solid #3d1216', minHeight: '135px' }}
               >
-                <div className="d-flex align-items-center gap-2 mb-2">
+                <div className="d-flex align-items-center justify-content-between mb-2">
                   <span className="badge px-2.5 py-1 rounded-pill" style={{ backgroundColor: '#2d0e12', color: '#F5EFE9', fontSize: '0.72rem', border: '1px solid #572227' }}>
                     <Sun size={11} className="me-1" /> Rain Check Approved
                   </span>
+                  <small style={{ color: '#cbb8ac', fontSize: '0.72rem' }}>FX: EUR &bull; INR</small>
                 </div>
-                <div className="fw-bold text-cream mb-1" style={{ fontSize: '0.95rem' }}>Clear & Sunny (24°C)</div>
-                <div className="d-flex justify-content-between align-items-center">
-                  <span className="badge px-2.5 py-1 rounded-pill" style={{ backgroundColor: '#2d0e12', color: '#F5EFE9', fontWeight: 600, fontSize: '0.75rem', border: '1px solid #572227' }}>
+                <div className="d-flex align-items-center justify-content-between">
+                  <div>
+                    <div className="fw-bold text-cream" style={{ fontSize: '0.95rem' }}>Clear & Sunny (24°C)</div>
+                    <small style={{ color: '#cbb8ac', fontSize: '0.78rem' }}>Outdoor Approved</small>
+                  </div>
+                  <span className="badge px-2.5 py-1 rounded-pill" style={{ backgroundColor: '#2d0e12', color: '#F5EFE9', fontWeight: 600, fontSize: '0.72rem', border: '1px solid #572227' }}>
                     Generate Itinerary
                   </span>
-                  <small style={{ color: '#cbb8ac', fontSize: '0.75rem' }}>FX: EUR &bull; INR &bull; USD</small>
                 </div>
               </div>
             </motion.div>
