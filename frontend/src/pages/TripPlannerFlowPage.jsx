@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
-  MapPin, Calendar, Clock, Star, Plus, Check, ArrowRight, 
-  Utensils, Camera, ChevronRight, ChevronLeft, Sparkles, Navigation, Globe
+  MapPin, Calendar, Clock, Star, Plus, Check, ArrowRight, ArrowLeft,
+  Utensils, Camera, ChevronRight, Sparkles, Navigation, Globe
 } from 'lucide-react';
-import axios from 'axios';
 
 const CITY_DATABASE = {
   Paris: {
     country: 'France',
+    subtitle: 'The City of Light & Art',
     mapCoords: { top: '34%', left: '47%' },
     cover: 'https://images.unsplash.com/photo-1502602898657-3e91760cbb34?auto=format&fit=crop&w=1000&q=80',
     attractions: [
@@ -19,12 +19,13 @@ const CITY_DATABASE = {
     ],
     foodSpots: [
       { id: 'pf1', title: 'Café de Flore', cuisine: 'Classic French Bistro', price: '$$$', rating: 4.6, image: 'https://images.unsplash.com/photo-1554118811-1e0d58224f24?auto=format&fit=crop&w=600&q=80' },
-      { id: 'pf2', title: 'Angelina Paris (Hot Chocolate & Pastries)', cuisine: 'Patisserie', price: '$$', rating: 4.8, image: 'https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=600&q=80' },
+      { id: 'pf2', title: 'Angelina Paris (Hot Chocolate)', cuisine: 'Patisserie', price: '$$', rating: 4.8, image: 'https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=600&q=80' },
       { id: 'pf3', title: 'Bistrot Paul Bert', cuisine: 'Traditional Steak Frites', price: '$$$', rating: 4.7, image: 'https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=600&q=80' }
     ]
   },
   Tokyo: {
     country: 'Japan',
+    subtitle: 'High Tech & Ancient Culture',
     mapCoords: { top: '40%', left: '84%' },
     cover: 'https://images.unsplash.com/photo-1503899036084-c55cdd92da26?auto=format&fit=crop&w=1000&q=80',
     attractions: [
@@ -39,6 +40,7 @@ const CITY_DATABASE = {
   },
   Rome: {
     country: 'Italy',
+    subtitle: 'Eternal City & Architecture',
     mapCoords: { top: '40%', left: '50%' },
     cover: 'https://images.unsplash.com/photo-1552832230-c0197dd311b5?auto=format&fit=crop&w=1000&q=80',
     attractions: [
@@ -53,6 +55,7 @@ const CITY_DATABASE = {
   },
   London: {
     country: 'United Kingdom',
+    subtitle: 'Royal Palaces & Global Cuisine',
     mapCoords: { top: '30%', left: '45%' },
     cover: 'https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?auto=format&fit=crop&w=1000&q=80',
     attractions: [
@@ -66,6 +69,7 @@ const CITY_DATABASE = {
 };
 
 export default function TripPlannerFlowPage({ onNavigate, onStartItinerary }) {
+  const [wizardStep, setWizardStep] = useState(1); // 1: Destination & Days, 2: Sights & Scenes, 3: Famous Food
   const [selectedCity, setSelectedCity] = useState('Paris');
   const [daysCount, setDaysCount] = useState(5);
   const [tripTitle, setTripTitle] = useState('Parisian Dream Getaway');
@@ -77,7 +81,6 @@ export default function TripPlannerFlowPage({ onNavigate, onStartItinerary }) {
   const handleSelectCity = (cityKey) => {
     setSelectedCity(cityKey);
     setTripTitle(`${cityKey} Travel Exploration`);
-    // Pre-select default items for city
     const data = CITY_DATABASE[cityKey];
     if (data) {
       setSelectedAttractions(data.attractions.slice(0, 2).map(a => a.id));
@@ -97,338 +100,360 @@ export default function TripPlannerFlowPage({ onNavigate, onStartItinerary }) {
     );
   };
 
-  const handleProceedToItinerary = () => {
-    const plannedTrip = {
-      city: selectedCity,
-      country: cityData.country,
-      title: tripTitle,
-      days: daysCount,
-      attractions: cityData.attractions.filter(a => selectedAttractions.includes(a.id)),
-      foodSpots: cityData.foodSpots.filter(f => selectedFoodSpots.includes(f.id)),
-      cover: cityData.cover
-    };
-
-    if (onStartItinerary) {
-      onStartItinerary(plannedTrip);
+  const handleProceedToNextStep = () => {
+    if (wizardStep < 3) {
+      setWizardStep(wizardStep + 1);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     } else {
-      onNavigate('itinerary-builder');
+      const plannedTrip = {
+        city: selectedCity,
+        country: cityData.country,
+        title: tripTitle,
+        days: daysCount,
+        attractions: cityData.attractions.filter(a => selectedAttractions.includes(a.id)),
+        foodSpots: cityData.foodSpots.filter(f => selectedFoodSpots.includes(f.id)),
+        cover: cityData.cover
+      };
+
+      if (onStartItinerary) {
+        onStartItinerary(plannedTrip);
+      } else {
+        onNavigate('itinerary-builder');
+      }
     }
   };
 
   return (
-    <div className="w-100 min-vh-100 py-4 px-3" style={{ background: 'linear-gradient(180deg, #591D26 0%, #501A22 72%, #42141B 100%)', color: '#F5EFE9' }}>
-      <div className="container" style={{ maxWidth: '1240px' }}>
+    <div className="w-100 min-vh-100 py-5 px-3 d-flex flex-column align-items-center" style={{ background: 'linear-gradient(180deg, #591D26 0%, #501A22 72%, #42141B 100%)', color: '#F5EFE9' }}>
+      
+      <div className="container" style={{ maxWidth: '980px' }}>
         
-        {/* HEADER BAR & DAYS SELECTOR */}
-        <div className="p-4 rounded-4 mb-4" style={{ background: '#3e181c', border: '1.5px solid #63262c', boxShadow: '0 16px 36px rgba(0,0,0,0.35)' }}>
-          <div className="row g-3 align-items-center">
-            
-            <div className="col-md-5">
-              <span className="small text-cream-muted display-heading" style={{ letterSpacing: '0.12em', color: '#D8C8C3' }}>
-                TRIP CREATION & MAP DISCOVERY
-              </span>
-              <input 
-                type="text"
-                className="itinera-input fw-bold w-100 mt-1"
-                style={{ fontSize: '1.4rem', border: 'none', background: '#290d10', color: '#F5EFE9' }}
-                value={tripTitle}
-                onChange={(e) => setTripTitle(e.target.value)}
-              />
-            </div>
+        {/* STEPPER PROGRESS NAVIGATION HEADER */}
+        <div className="d-flex align-items-center justify-content-between mb-4 pb-3" style={{ borderBottom: '1px solid rgba(245, 239, 233, 0.25)' }}>
+          <div>
+            <span className="small text-cream-muted display-heading" style={{ letterSpacing: '0.14em', color: '#D8C8C3' }}>
+              INTERACTIVE TRIP BUILDER
+            </span>
+            <h1 className="display-heading text-cream mb-0" style={{ fontSize: '2.4rem' }}>
+              Design Your Journey
+            </h1>
+          </div>
 
-            {/* Days Selector Section */}
-            <div className="col-md-4">
-              <label className="itinera-label text-cream mb-1 d-flex justify-content-between">
-                <span>Duration of Stay</span>
-                <strong className="text-cream" style={{ color: '#F5EFE9' }}>{daysCount} Days</strong>
-              </label>
-              <div className="d-flex align-items-center gap-2">
-                {[3, 5, 7, 10, 14].map((d) => (
-                  <button
-                    key={d}
-                    className={`btn btn-sm ${daysCount === d ? 'btn-pill-cream' : 'btn-pill-outline'} flex-grow-1`}
-                    style={{ fontSize: '0.82rem', padding: '0.45rem 0.5rem' }}
-                    onClick={() => setDaysCount(d)}
-                  >
-                    {d} Days
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            {/* Launch Itinerary Button */}
-            <div className="col-md-3 text-md-end">
-              <button 
-                onClick={handleProceedToItinerary}
-                className="btn btn-pill-cream hover-lift d-inline-flex align-items-center gap-2 w-100 justify-content-center"
-                style={{ padding: '0.85rem 1.4rem' }}
+          {/* Clean Step Indicators */}
+          <div className="d-flex align-items-center gap-2">
+            {[
+              { num: 1, label: 'Destination' },
+              { num: 2, label: 'Sights & Scenes' },
+              { num: 3, label: 'Food Places' }
+            ].map((st) => (
+              <div 
+                key={st.num}
+                onClick={() => st.num <= wizardStep && setWizardStep(st.num)}
+                className="d-flex align-items-center gap-2 px-3 py-1.5 rounded-pill cursor-pointer"
+                style={{ 
+                  background: wizardStep === st.num ? '#F5EFE9' : '#3e181c', 
+                  color: wizardStep === st.num ? '#3e181c' : '#F5EFE9',
+                  border: '1px solid #63262c',
+                  fontSize: '0.85rem',
+                  fontWeight: 600,
+                  cursor: st.num <= wizardStep ? 'pointer' : 'default'
+                }}
               >
-                <span>Build Itinerary</span>
-                <ArrowRight size={18} />
-              </button>
-            </div>
-
+                <span>0{st.num}. {st.label}</span>
+              </div>
+            ))}
           </div>
         </div>
 
+        {/* WIZARD CONTENT STEP ANIMATION */}
+        <AnimatePresence mode="wait">
+          
+          {/* STEP 1: DESTINATION & DAYS SELECTOR */}
+          {wizardStep === 1 && (
+            <motion.div
+              key="step1"
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -15 }}
+              transition={{ duration: 0.3 }}
+              className="d-flex flex-column gap-4"
+            >
+              {/* Trip Title & Duration Configuration Box */}
+              <div className="p-4 rounded-4" style={{ background: '#3e181c', border: '1.5px solid #63262c', boxShadow: '0 16px 36px rgba(0,0,0,0.35)' }}>
+                <div className="row g-3 align-items-center">
+                  <div className="col-md-6">
+                    <label className="itinera-label text-cream mb-1">Trip Name</label>
+                    <input 
+                      type="text"
+                      className="itinera-input fw-bold w-100"
+                      style={{ fontSize: '1.25rem', background: '#290d10', color: '#F5EFE9' }}
+                      value={tripTitle}
+                      onChange={(e) => setTripTitle(e.target.value)}
+                    />
+                  </div>
 
-        {/* STEP 1: INTERACTIVE MAP & DESTINATION SELECTION */}
-        <section className="mb-5">
-          <div className="d-flex align-items-center justify-content-between mb-3">
-            <div>
-              <span className="badge px-3 py-1.5 rounded-pill mb-2" style={{ background: '#591D26', border: '1px solid #F5EFE9', color: '#F5EFE9', fontSize: '0.8rem' }}>
-                STEP 01
-              </span>
-              <h2 className="display-heading text-cream mb-0" style={{ fontSize: '2rem' }}>
-                1. Select Your Destination on Map
-              </h2>
-            </div>
-            <span className="small text-cream-muted" style={{ color: '#D8C8C3' }}>
-              Selected: <strong style={{ color: '#F5EFE9' }}>{selectedCity}, {cityData.country}</strong>
-            </span>
-          </div>
+                  <div className="col-md-6">
+                    <label className="itinera-label text-cream mb-1">Duration of Stay</label>
+                    <div className="d-flex align-items-center gap-2">
+                      {[3, 5, 7, 10, 14].map((d) => (
+                        <button
+                          key={d}
+                          type="button"
+                          className={`btn btn-sm ${daysCount === d ? 'btn-pill-cream' : 'btn-pill-outline'} flex-grow-1`}
+                          style={{ fontSize: '0.82rem', padding: '0.5rem 0.5rem' }}
+                          onClick={() => setDaysCount(d)}
+                        >
+                          {d} Days
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </div>
 
-          {/* Interactive World Map SVG Container */}
-          <div 
-            className="rounded-4 position-relative overflow-hidden p-4 d-flex align-items-center justify-content-center"
-            style={{ 
-              height: '340px', 
-              background: '#290d10', 
-              border: '1.5px solid #63262c',
-              backgroundImage: 'radial-gradient(#4d191f 1.5px, transparent 1.5px)',
-              backgroundSize: '24px 24px'
-            }}
-          >
-            {/* World Continent Outlines Overlay SVG */}
-            <svg viewBox="0 0 1000 500" className="w-100 h-100 position-absolute inset-0" style={{ opacity: 0.25 }}>
-              <path fill="#F5EFE9" d="M150,120 Q200,80 300,110 T400,200 T250,300 Z M500,100 Q650,50 800,120 T850,250 T650,350 Z M750,320 Q850,300 900,380 Z" />
-            </svg>
+              {/* Clean Interactive Map */}
+              <div className="p-4 rounded-4" style={{ background: '#3e181c', border: '1.5px solid #63262c' }}>
+                <div className="d-flex align-items-center justify-content-between mb-3">
+                  <div>
+                    <h4 className="display-heading text-cream mb-0">Select Destination City</h4>
+                    <small style={{ color: '#D8C8C3' }}>Click any location pin on the map to set your target destination.</small>
+                  </div>
+                  <span className="badge px-3 py-1.5 rounded-pill" style={{ background: '#290d10', color: '#F5EFE9' }}>
+                    Selected: {selectedCity}, {cityData.country}
+                  </span>
+                </div>
 
-            {/* Clickable Destination Pins */}
-            {Object.keys(CITY_DATABASE).map((cityName) => {
-              const cityInfo = CITY_DATABASE[cityName];
-              const isSelected = selectedCity === cityName;
-              return (
-                <motion.div
-                  key={cityName}
-                  whileHover={{ scale: 1.18 }}
-                  onClick={() => handleSelectCity(cityName)}
-                  className="position-absolute cursor-pointer d-flex flex-column align-items-center"
+                <div 
+                  className="rounded-4 position-relative overflow-hidden p-4 d-flex align-items-center justify-content-center"
                   style={{ 
-                    top: cityInfo.mapCoords.top, 
-                    left: cityInfo.mapCoords.left, 
-                    cursor: 'pointer',
-                    zIndex: isSelected ? 20 : 10 
+                    height: '360px', 
+                    background: '#290d10', 
+                    border: '1.5px solid #63262c',
+                    backgroundImage: 'radial-gradient(#4d191f 1.5px, transparent 1.5px)',
+                    backgroundSize: '24px 24px'
                   }}
                 >
-                  <div 
-                    className="p-2.5 rounded-circle d-flex align-items-center justify-content-center shadow-lg"
-                    style={{ 
-                      background: isSelected ? '#F5EFE9' : '#591D26', 
-                      color: isSelected ? '#3e181c' : '#F5EFE9',
-                      border: '2px solid #F5EFE9',
-                      width: isSelected ? '44px' : '36px',
-                      height: isSelected ? '44px' : '36px',
-                      transition: 'all 0.2s ease'
-                    }}
-                  >
-                    <MapPin size={isSelected ? 22 : 18} />
+                  <svg viewBox="0 0 1000 500" className="w-100 h-100 position-absolute inset-0" style={{ opacity: 0.22 }}>
+                    <path fill="#F5EFE9" d="M150,120 Q200,80 300,110 T400,200 T250,300 Z M500,100 Q650,50 800,120 T850,250 T650,350 Z M750,320 Q850,300 900,380 Z" />
+                  </svg>
+
+                  {Object.keys(CITY_DATABASE).map((cityName) => {
+                    const cityInfo = CITY_DATABASE[cityName];
+                    const isSelected = selectedCity === cityName;
+                    return (
+                      <motion.div
+                        key={cityName}
+                        whileHover={{ scale: 1.15 }}
+                        onClick={() => handleSelectCity(cityName)}
+                        className="position-absolute cursor-pointer d-flex flex-column align-items-center"
+                        style={{ 
+                          top: cityInfo.mapCoords.top, 
+                          left: cityInfo.mapCoords.left, 
+                          cursor: 'pointer',
+                          zIndex: isSelected ? 20 : 10 
+                        }}
+                      >
+                        <div 
+                          className="p-2 rounded-circle d-flex align-items-center justify-content-center shadow-lg"
+                          style={{ 
+                            background: isSelected ? '#F5EFE9' : '#591D26', 
+                            color: isSelected ? '#3e181c' : '#F5EFE9',
+                            border: '2px solid #F5EFE9',
+                            width: isSelected ? '42px' : '34px',
+                            height: isSelected ? '42px' : '34px'
+                          }}
+                        >
+                          <MapPin size={isSelected ? 20 : 16} />
+                        </div>
+                        <span 
+                          className="badge rounded-pill mt-1.5 px-2.5 py-1"
+                          style={{ 
+                            background: isSelected ? '#F5EFE9' : '#1e090c', 
+                            color: isSelected ? '#3e181c' : '#F5EFE9',
+                            fontSize: '0.78rem',
+                            fontWeight: 700,
+                            border: '1px solid #63262c'
+                          }}
+                        >
+                          {cityName}
+                        </span>
+                      </motion.div>
+                    );
+                  })}
+                </div>
+              </div>
+            </motion.div>
+          )}
+
+          {/* STEP 2: SIGHTS & SCENES SELECTION */}
+          {wizardStep === 2 && (
+            <motion.div
+              key="step2"
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -15 }}
+              transition={{ duration: 0.3 }}
+              className="d-flex flex-column gap-4"
+            >
+              <div className="p-4 rounded-4" style={{ background: '#3e181c', border: '1.5px solid #63262c' }}>
+                <div className="d-flex align-items-center justify-content-between mb-3">
+                  <div>
+                    <h4 className="display-heading text-cream mb-0">Select Sights & Attractions in {selectedCity}</h4>
+                    <small style={{ color: '#D8C8C3' }}>Choose what sights you want to visit during your {daysCount}-day stay.</small>
                   </div>
-                  <span 
-                    className="badge rounded-pill mt-1.5 px-2.5 py-1"
-                    style={{ 
-                      background: isSelected ? '#F5EFE9' : '#1e090c', 
-                      color: isSelected ? '#3e181c' : '#F5EFE9',
-                      fontSize: '0.78rem',
-                      fontWeight: 700,
-                      border: '1px solid #63262c'
-                    }}
-                  >
-                    {cityName}
+                  <span className="badge px-3 py-1.5 rounded-pill" style={{ background: '#591D26', color: '#F5EFE9' }}>
+                    {selectedAttractions.length} Selected
                   </span>
-                </motion.div>
-              );
-            })}
-          </div>
-        </section>
+                </div>
 
-
-        {/* STEP 2: SIGHTS & SCENES SELECTION */}
-        <section className="mb-5">
-          <div className="d-flex align-items-center justify-content-between mb-3">
-            <div>
-              <span className="badge px-3 py-1.5 rounded-pill mb-2" style={{ background: '#591D26', border: '1px solid #F5EFE9', color: '#F5EFE9', fontSize: '0.8rem' }}>
-                STEP 02
-              </span>
-              <h2 className="display-heading text-cream mb-0" style={{ fontSize: '2rem' }}>
-                2. Select Sights & Scenes to Visit in {selectedCity}
-              </h2>
-            </div>
-            <span className="small text-cream-muted" style={{ color: '#D8C8C3' }}>
-              {selectedAttractions.length} Attractions Selected
-            </span>
-          </div>
-
-          <div className="row g-4">
-            {cityData.attractions.map((attr) => {
-              const isSelected = selectedAttractions.includes(attr.id);
-              return (
-                <div key={attr.id} className="col-md-6 col-lg-3">
-                  <motion.div 
-                    whileHover={{ y: -4 }}
-                    onClick={() => toggleAttraction(attr.id)}
-                    className="rounded-4 overflow-hidden h-100 d-flex flex-column justify-content-between cursor-pointer"
-                    style={{
-                      background: isSelected ? '#4e1c22' : '#3e181c',
-                      border: isSelected ? '2px solid #F5EFE9' : '1.5px solid #63262c',
-                      boxShadow: '0 12px 28px rgba(0,0,0,0.3)',
-                      cursor: 'pointer'
-                    }}
-                  >
-                    <div className="position-relative" style={{ height: '160px', overflow: 'hidden' }}>
-                      <img src={attr.image} alt={attr.title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                      <div className="position-absolute top-0 end-0 m-2">
-                        <span 
-                          className="badge rounded-circle p-2 d-flex align-items-center justify-content-center"
-                          style={{ 
-                            background: isSelected ? '#F5EFE9' : 'rgba(0,0,0,0.6)', 
-                            color: isSelected ? '#3e181c' : '#F5EFE9',
-                            width: '32px',
-                            height: '32px'
+                <div className="row g-4 mt-1">
+                  {cityData.attractions.map((attr) => {
+                    const isSelected = selectedAttractions.includes(attr.id);
+                    return (
+                      <div key={attr.id} className="col-md-6">
+                        <div 
+                          onClick={() => toggleAttraction(attr.id)}
+                          className="p-3 rounded-4 d-flex align-items-center justify-content-between gap-3 cursor-pointer"
+                          style={{
+                            background: isSelected ? '#4e1c22' : '#290d10',
+                            border: isSelected ? '2px solid #F5EFE9' : '1.5px solid #63262c',
+                            cursor: 'pointer'
                           }}
                         >
-                          {isSelected ? <Check size={18} /> : <Plus size={18} />}
-                        </span>
-                      </div>
-                    </div>
+                          <div className="d-flex align-items-center gap-3">
+                            <img src={attr.image} alt={attr.title} className="rounded-3" style={{ width: '75px', height: '75px', objectFit: 'cover' }} />
+                            <div>
+                              <div className="d-flex align-items-center gap-2 mb-1">
+                                <span className="badge px-2 py-0.5 rounded-pill" style={{ background: '#591D26', color: '#F5EFE9', fontSize: '0.7rem' }}>
+                                  {attr.category}
+                                </span>
+                                <span className="small text-cream d-flex align-items-center gap-1" style={{ fontSize: '0.75rem' }}>
+                                  <Star size={12} fill="#F5EFE9" /> {attr.rating}
+                                </span>
+                              </div>
+                              <h5 className="display-heading text-cream mb-0" style={{ fontSize: '1.1rem' }}>
+                                {attr.title}
+                              </h5>
+                              <small style={{ color: '#D8C8C3', fontSize: '0.78rem' }}>{attr.duration}</small>
+                            </div>
+                          </div>
 
-                    <div className="p-3.5 d-flex flex-column justify-content-between flex-grow-1">
-                      <div>
-                        <div className="d-flex align-items-center justify-content-between mb-1">
-                          <span className="badge rounded-pill" style={{ background: '#591D26', color: '#F5EFE9', fontSize: '0.72rem' }}>
-                            {attr.category}
-                          </span>
-                          <span className="small text-cream d-flex align-items-center gap-1" style={{ fontSize: '0.78rem' }}>
-                            <Star size={13} fill="#F5EFE9" /> {attr.rating}
+                          <span 
+                            className="badge rounded-circle p-2 d-flex align-items-center justify-content-center"
+                            style={{ 
+                              background: isSelected ? '#F5EFE9' : 'transparent', 
+                              color: isSelected ? '#3e181c' : '#F5EFE9',
+                              border: isSelected ? 'none' : '1.5px solid #63262c',
+                              width: '32px',
+                              height: '32px'
+                            }}
+                          >
+                            {isSelected ? <Check size={18} /> : <Plus size={18} />}
                           </span>
                         </div>
-
-                        <h5 className="display-heading text-cream mb-2" style={{ fontSize: '1.1rem' }}>
-                          {attr.title}
-                        </h5>
                       </div>
-
-                      <div className="d-flex align-items-center justify-content-between pt-2 mt-2 border-top border-secondary-subtle">
-                        <span className="small text-cream-muted d-flex align-items-center gap-1" style={{ fontSize: '0.78rem' }}>
-                          <Clock size={13} /> {attr.duration}
-                        </span>
-                        <span className={`small fw-bold ${isSelected ? 'text-cream' : 'text-cream-muted'}`} style={{ fontSize: '0.78rem' }}>
-                          {isSelected ? '✓ Added' : '+ Add'}
-                        </span>
-                      </div>
-                    </div>
-                  </motion.div>
+                    );
+                  })}
                 </div>
-              );
-            })}
-          </div>
-        </section>
+              </div>
+            </motion.div>
+          )}
 
+          {/* STEP 3: FAMOUS FOOD PLACES SELECTION */}
+          {wizardStep === 3 && (
+            <motion.div
+              key="step3"
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -15 }}
+              transition={{ duration: 0.3 }}
+              className="d-flex flex-column gap-4"
+            >
+              <div className="p-4 rounded-4" style={{ background: '#3e181c', border: '1.5px solid #63262c' }}>
+                <div className="d-flex align-items-center justify-content-between mb-3">
+                  <div>
+                    <h4 className="display-heading text-cream mb-0">Select Famous Food Places in {selectedCity}</h4>
+                    <small style={{ color: '#D8C8C3' }}>Pick iconic cafes, bistros, and local dining spots.</small>
+                  </div>
+                  <span className="badge px-3 py-1.5 rounded-pill" style={{ background: '#591D26', color: '#F5EFE9' }}>
+                    {selectedFoodSpots.length} Selected
+                  </span>
+                </div>
 
-        {/* STEP 3: FAMOUS FOOD PLACES SELECTION */}
-        <section className="mb-5">
-          <div className="d-flex align-items-center justify-content-between mb-3">
-            <div>
-              <span className="badge px-3 py-1.5 rounded-pill mb-2" style={{ background: '#591D26', border: '1px solid #F5EFE9', color: '#F5EFE9', fontSize: '0.8rem' }}>
-                STEP 03
-              </span>
-              <h2 className="display-heading text-cream mb-0" style={{ fontSize: '2rem' }}>
-                3. Select Famous Food & Dining Places in {selectedCity}
-              </h2>
-            </div>
-            <span className="small text-cream-muted" style={{ color: '#D8C8C3' }}>
-              {selectedFoodSpots.length} Food Spots Selected
-            </span>
-          </div>
-
-          <div className="row g-4">
-            {cityData.foodSpots.map((food) => {
-              const isSelected = selectedFoodSpots.includes(food.id);
-              return (
-                <div key={food.id} className="col-md-6 col-lg-4">
-                  <motion.div 
-                    whileHover={{ y: -4 }}
-                    onClick={() => toggleFoodSpot(food.id)}
-                    className="rounded-4 overflow-hidden h-100 d-flex flex-column justify-content-between cursor-pointer"
-                    style={{
-                      background: isSelected ? '#4e1c22' : '#3e181c',
-                      border: isSelected ? '2px solid #F5EFE9' : '1.5px solid #63262c',
-                      boxShadow: '0 12px 28px rgba(0,0,0,0.3)',
-                      cursor: 'pointer'
-                    }}
-                  >
-                    <div className="position-relative" style={{ height: '160px', overflow: 'hidden' }}>
-                      <img src={food.image} alt={food.title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                      <div className="position-absolute top-0 end-0 m-2">
-                        <span 
-                          className="badge rounded-circle p-2 d-flex align-items-center justify-content-center"
-                          style={{ 
-                            background: isSelected ? '#F5EFE9' : 'rgba(0,0,0,0.6)', 
-                            color: isSelected ? '#3e181c' : '#F5EFE9',
-                            width: '32px',
-                            height: '32px'
+                <div className="row g-4 mt-1">
+                  {cityData.foodSpots.map((food) => {
+                    const isSelected = selectedFoodSpots.includes(food.id);
+                    return (
+                      <div key={food.id} className="col-md-6">
+                        <div 
+                          onClick={() => toggleFoodSpot(food.id)}
+                          className="p-3 rounded-4 d-flex align-items-center justify-content-between gap-3 cursor-pointer"
+                          style={{
+                            background: isSelected ? '#4e1c22' : '#290d10',
+                            border: isSelected ? '2px solid #F5EFE9' : '1.5px solid #63262c',
+                            cursor: 'pointer'
                           }}
                         >
-                          {isSelected ? <Check size={18} /> : <Plus size={18} />}
-                        </span>
-                      </div>
-                    </div>
+                          <div className="d-flex align-items-center gap-3">
+                            <img src={food.image} alt={food.title} className="rounded-3" style={{ width: '75px', height: '75px', objectFit: 'cover' }} />
+                            <div>
+                              <div className="d-flex align-items-center gap-2 mb-1">
+                                <span className="badge px-2 py-0.5 rounded-pill" style={{ background: '#290d10', color: '#F5EFE9', fontSize: '0.7rem' }}>
+                                  {food.cuisine}
+                                </span>
+                                <span className="small text-cream fw-bold" style={{ fontSize: '0.78rem' }}>
+                                  {food.price}
+                                </span>
+                              </div>
+                              <h5 className="display-heading text-cream mb-0" style={{ fontSize: '1.1rem' }}>
+                                {food.title}
+                              </h5>
+                              <small style={{ color: '#D8C8C3', fontSize: '0.78rem' }}>★ {food.rating} Rating</small>
+                            </div>
+                          </div>
 
-                    <div className="p-3.5 d-flex flex-column justify-content-between flex-grow-1">
-                      <div>
-                        <div className="d-flex align-items-center justify-content-between mb-1">
-                          <span className="badge rounded-pill" style={{ background: '#290d10', color: '#F5EFE9', fontSize: '0.72rem' }}>
-                            {food.cuisine}
-                          </span>
-                          <span className="small text-cream fw-bold" style={{ fontSize: '0.85rem' }}>
-                            {food.price}
+                          <span 
+                            className="badge rounded-circle p-2 d-flex align-items-center justify-content-center"
+                            style={{ 
+                              background: isSelected ? '#F5EFE9' : 'transparent', 
+                              color: isSelected ? '#3e181c' : '#F5EFE9',
+                              border: isSelected ? 'none' : '1.5px solid #63262c',
+                              width: '32px',
+                              height: '32px'
+                            }}
+                          >
+                            {isSelected ? <Check size={18} /> : <Plus size={18} />}
                           </span>
                         </div>
-
-                        <h5 className="display-heading text-cream mb-2" style={{ fontSize: '1.15rem' }}>
-                          {food.title}
-                        </h5>
                       </div>
-
-                      <div className="d-flex align-items-center justify-content-between pt-2 mt-2 border-top border-secondary-subtle">
-                        <span className="small text-cream d-flex align-items-center gap-1" style={{ fontSize: '0.78rem' }}>
-                          <Star size={13} fill="#F5EFE9" /> {food.rating} Rating
-                        </span>
-                        <span className={`small fw-bold ${isSelected ? 'text-cream' : 'text-cream-muted'}`} style={{ fontSize: '0.78rem' }}>
-                          {isSelected ? '✓ Added' : '+ Add Food'}
-                        </span>
-                      </div>
-                    </div>
-                  </motion.div>
+                    );
+                  })}
                 </div>
-              );
-            })}
-          </div>
-        </section>
+              </div>
+            </motion.div>
+          )}
 
+        </AnimatePresence>
 
-        {/* FINAL ACTION BANNER */}
-        <div className="p-4 rounded-4 text-center mt-5" style={{ background: '#290d10', border: '1.5px solid #63262c' }}>
-          <h3 className="display-heading text-cream mb-2">Ready to Build Day-Wise Schedule?</h3>
-          <p className="small text-cream-muted mb-4 mx-auto" style={{ maxWidth: '540px' }}>
-            We'll automatically organize your selected {selectedAttractions.length} attractions and {selectedFoodSpots.length} food places across your {daysCount}-day itinerary!
-          </p>
+        {/* WIZARD NAVIGATION FOOTER BUTTONS */}
+        <div className="d-flex align-items-center justify-content-between mt-4 pt-3 w-100">
+          {wizardStep > 1 ? (
+            <button 
+              className="btn btn-pill-outline d-inline-flex align-items-center gap-2"
+              onClick={() => setWizardStep(wizardStep - 1)}
+            >
+              <ArrowLeft size={16} />
+              <span>Back</span>
+            </button>
+          ) : <div />}
+
           <button 
-            onClick={handleProceedToItinerary}
             className="btn btn-pill-cream hover-lift d-inline-flex align-items-center gap-2"
-            style={{ width: 'auto', padding: '0.9rem 2.5rem' }}
+            onClick={handleProceedToNextStep}
+            style={{ padding: '0.85rem 2.2rem' }}
           >
-            <span>Generate Itinerary Builder &rarr;</span>
+            <span>{wizardStep === 3 ? 'Generate Itinerary Builder &rarr;' : 'Continue to Next Step'}</span>
+            <ChevronRight size={18} />
           </button>
         </div>
 
