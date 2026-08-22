@@ -6,9 +6,12 @@ export default function Globe3D() {
   const mountRef = useRef(null);
   const [scrollY, setScrollY] = useState(0);
   const globeGroupRef = useRef(null);
+  const cloudMeshRef = useRef(null);
   const modelsGroupRef = useRef(null);
   const loadedModelsRef = useRef([]);
   const pulseParticlesRef = useRef([]);
+  const shockwavesRef = useRef([]);
+  const mousePosRef = useRef({ x: 0, y: 0, targetX: 0, targetY: 0 });
 
   useEffect(() => {
     const handleScroll = () => {
@@ -18,22 +21,36 @@ export default function Globe3D() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Helper to Create Ultra-Detailed World Map Texture for the Masterpiece Globe
+  // Track Mouse Movement for Interactive Hover Tilt
+  useEffect(() => {
+    const handleMouseMove = (e) => {
+      if (!mountRef.current) return;
+      const rect = mountRef.current.getBoundingClientRect();
+      const x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
+      const y = -(((e.clientY - rect.top) / rect.height) * 2 - 1);
+      mousePosRef.current.targetX = x * 0.35;
+      mousePosRef.current.targetY = y * 0.25;
+    };
+    window.addEventListener('mousemove', handleMouseMove);
+    return () => window.removeEventListener('mousemove', handleMouseMove);
+  }, []);
+
+  // Helper to Create High-Definition Masterpiece World Map Texture
   const createDetailedWorldMapTexture = () => {
     const canvas = document.createElement('canvas');
     canvas.width = 2048;
     canvas.height = 1024;
     const ctx = canvas.getContext('2d');
 
-    // 1. Rich Warm Burgundy Ocean Base
-    const oceanGrad = ctx.createLinearGradient(0, 0, 0, canvas.height);
-    oceanGrad.addColorStop(0, '#2e0f13');
-    oceanGrad.addColorStop(0.5, '#4a191f');
-    oceanGrad.addColorStop(1, '#2e0f13');
+    // 1. Glowing Deep Obsidian & Ruby Ocean Base
+    const oceanGrad = ctx.createRadialGradient(canvas.width / 2, canvas.height / 2, 100, canvas.width / 2, canvas.height / 2, canvas.width / 1.2);
+    oceanGrad.addColorStop(0, '#3b1217');
+    oceanGrad.addColorStop(0.5, '#260b0e');
+    oceanGrad.addColorStop(1, '#140507');
     ctx.fillStyle = oceanGrad;
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-    // 2. Global Lat / Long Graticule Lines (15-degree grid)
+    // 2. Lat / Long Graticule Coordinate Grid (15-degree grid)
     ctx.strokeStyle = 'rgba(239, 226, 211, 0.08)';
     ctx.lineWidth = 1;
     for (let lng = -180; lng <= 180; lng += 15) {
@@ -51,15 +68,15 @@ export default function Globe3D() {
       ctx.stroke();
     }
 
-    // Faint Equator & Prime Meridian Grid Lines
-    ctx.strokeStyle = 'rgba(239, 226, 211, 0.22)';
+    // Glowing Equator & Prime Meridian Grid Lines
+    ctx.strokeStyle = 'rgba(251, 191, 36, 0.25)';
     ctx.lineWidth = 2;
     const equatorY = canvas.height / 2;
     const primeX = canvas.width / 2;
     ctx.beginPath(); ctx.moveTo(0, equatorY); ctx.lineTo(canvas.width, equatorY); ctx.stroke();
     ctx.beginPath(); ctx.moveTo(primeX, 0); ctx.lineTo(primeX, canvas.height); ctx.stroke();
 
-    // 3. High-Detail Landmass Polygon Coordinates & Drawer
+    // 3. Detailed Continent Polygon Drawer
     const mapCoords = (lng, lat) => ({
       x: ((lng + 180) / 360) * canvas.width,
       y: ((90 - lat) / 180) * canvas.height
@@ -76,13 +93,13 @@ export default function Globe3D() {
       }
       ctx.closePath();
 
-      // Warm Cream Continent Fill
-      ctx.fillStyle = isIsland ? 'rgba(245, 239, 233, 0.58)' : 'rgba(245, 239, 233, 0.48)';
+      // Radiant Warm Champagne-Gold Land Fill
+      ctx.fillStyle = isIsland ? 'rgba(244, 233, 221, 0.65)' : 'rgba(244, 233, 221, 0.52)';
       ctx.fill();
 
-      // Glowing Coastline Outline
-      ctx.strokeStyle = 'rgba(245, 239, 233, 0.85)';
-      ctx.lineWidth = 2.2;
+      // Glowing Gold Coastline Outline
+      ctx.strokeStyle = 'rgba(251, 191, 36, 0.95)';
+      ctx.lineWidth = 2.5;
       ctx.stroke();
     };
 
@@ -119,23 +136,46 @@ export default function Globe3D() {
     drawLandmass(australia);
     drawLandmass(greenland, true);
 
-    // 4. Glowing City Night Light Dots (Amber Gold)
+    // 4. Glowing Amber City Lights (20+ World Megacities)
     const majorCities = [
       [-74, 40.7], [-0.1, 51.5], [2.35, 48.8], [139.6, 35.6], [55.2, 25.2], [72.8, 18.9],
       [116.4, 39.9], [151.2, -33.8], [-43.1, -22.9], [-99.1, 19.4], [-122.4, 37.7],
-      [37.6, 55.7], [31.2, 30.0], [103.8, 1.3], [126.9, 37.5]
+      [37.6, 55.7], [31.2, 30.0], [103.8, 1.3], [126.9, 37.5], [77.2, 28.6], [100.5, 13.7]
     ];
     majorCities.forEach(([lng, lat]) => {
       const pt = mapCoords(lng, lat);
       ctx.beginPath();
-      ctx.arc(pt.x, pt.y, 4, 0, Math.PI * 2);
-      ctx.fillStyle = 'rgba(251, 191, 36, 0.95)';
+      ctx.arc(pt.x, pt.y, 4.5, 0, Math.PI * 2);
+      ctx.fillStyle = '#fbbf24';
       ctx.fill();
       ctx.beginPath();
-      ctx.arc(pt.x, pt.y, 8, 0, Math.PI * 2);
-      ctx.fillStyle = 'rgba(251, 191, 36, 0.35)';
+      ctx.arc(pt.x, pt.y, 10, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(251, 191, 36, 0.4)';
       ctx.fill();
     });
+
+    return new THREE.CanvasTexture(canvas);
+  };
+
+  // Helper to Create Procedural Semi-Transparent Cloud Texture
+  const createCloudTexture = () => {
+    const canvas = document.createElement('canvas');
+    canvas.width = 1024;
+    canvas.height = 512;
+    const ctx = canvas.getContext('2d');
+    ctx.fillStyle = 'rgba(0, 0, 0, 0)';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    ctx.fillStyle = 'rgba(255, 255, 255, 0.28)';
+    for (let i = 0; i < 90; i++) {
+      const x = Math.random() * canvas.width;
+      const y = Math.random() * canvas.height;
+      const rx = 40 + Math.random() * 80;
+      const ry = 15 + Math.random() * 30;
+      ctx.beginPath();
+      ctx.ellipse(x, y, rx, ry, Math.random() * Math.PI, 0, Math.PI * 2);
+      ctx.fill();
+    }
 
     return new THREE.CanvasTexture(canvas);
   };
@@ -147,7 +187,7 @@ export default function Globe3D() {
     const width = currentMount.clientWidth;
     const height = currentMount.clientHeight;
 
-    // 1. Scene & Camera
+    // 1. Scene & Camera Setup
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(40, width / height, 0.1, 1000);
     camera.position.set(0, 0, 8.8);
@@ -163,49 +203,77 @@ export default function Globe3D() {
     scene.add(globeGroup);
     globeGroupRef.current = globeGroup;
 
-    // 3. Detailed Globe Sphere Mesh
+    // 3. High-Definition Globe Sphere Mesh
     const worldTexture = createDetailedWorldMapTexture();
     const globeGeometry = new THREE.SphereGeometry(2.05, 128, 128);
     const globeMaterial = new THREE.MeshPhongMaterial({
       map: worldTexture,
-      specular: 0x8c353f,
-      shininess: 30,
+      specular: 0xfbbf24,
+      shininess: 45,
       transparent: true,
       opacity: 0.98
     });
     const globeMesh = new THREE.Mesh(globeGeometry, globeMaterial);
     globeGroup.add(globeMesh);
 
-    // 4. Multi-Layer Atmosphere Glow
-    const atmosphereGeometry = new THREE.SphereGeometry(2.18, 128, 128);
+    // 4. Floating Animated Cloud Layer Mesh
+    const cloudTexture = createCloudTexture();
+    const cloudGeometry = new THREE.SphereGeometry(2.11, 64, 64);
+    const cloudMaterial = new THREE.MeshLambertMaterial({
+      map: cloudTexture,
+      transparent: true,
+      opacity: 0.45,
+      blending: THREE.AdditiveBlending
+    });
+    const cloudMesh = new THREE.Mesh(cloudGeometry, cloudMaterial);
+    globeGroup.add(cloudMesh);
+    cloudMeshRef.current = cloudMesh;
+
+    // 5. Dual-Layer Atmospheric Glow
+    const atmosphereGeometry = new THREE.SphereGeometry(2.20, 128, 128);
     const atmosphereMaterial = new THREE.MeshBasicMaterial({
-      color: 0x8c353f,
+      color: 0xd96b74,
       side: THREE.BackSide,
       transparent: true,
-      opacity: 0.35
+      opacity: 0.38
     });
     const atmosphereMesh = new THREE.Mesh(atmosphereGeometry, atmosphereMaterial);
     globeGroup.add(atmosphereMesh);
 
-    // Outer Soft Ambient Aura
-    const outerAuraGeometry = new THREE.SphereGeometry(2.26, 64, 64);
+    // Outer Champagne Gold Aura Ring
+    const outerAuraGeometry = new THREE.SphereGeometry(2.32, 64, 64);
     const outerAuraMaterial = new THREE.MeshBasicMaterial({
-      color: 0xefe2d3,
+      color: 0xfbbf24,
       side: THREE.BackSide,
       transparent: true,
-      opacity: 0.08
+      opacity: 0.12
     });
     const outerAuraMesh = new THREE.Mesh(outerAuraGeometry, outerAuraMaterial);
     globeGroup.add(outerAuraMesh);
 
-    // 5. 3D Flight Arcs & Moving Energy Pulse Particles
+    // 6. Holographic Orbital Ring & Satellites
+    const ringGeometry = new THREE.RingGeometry(2.52, 2.56, 128);
+    const ringMaterial = new THREE.MeshBasicMaterial({
+      color: 0xfbbf24,
+      side: THREE.DoubleSide,
+      transparent: true,
+      opacity: 0.35
+    });
+    const orbitalRing = new THREE.Mesh(ringGeometry, ringMaterial);
+    orbitalRing.rotation.x = Math.PI / 2.8;
+    orbitalRing.rotation.y = Math.PI / 6;
+    globeGroup.add(orbitalRing);
+
+    // 7. 3D City Beacons with Vertical Light Rays & Pulse Shockwaves
     const cityCoords = [
-      { lat: 40.7128, lng: -74.0060 }, // NYC
-      { lat: 51.5074, lng: -0.1278 },  // London
-      { lat: 48.8566, lng: 2.3522 },   // Paris
-      { lat: 25.2048, lng: 55.2708 },  // Dubai
-      { lat: 20.5937, lng: 78.9629 },  // India
-      { lat: 35.6762, lng: 139.6503 }  // Tokyo
+      { name: 'NYC', lat: 40.7128, lng: -74.0060 },
+      { name: 'London', lat: 51.5074, lng: -0.1278 },
+      { name: 'Paris', lat: 48.8566, lng: 2.3522 },
+      { name: 'Dubai', lat: 25.2048, lng: 55.2708 },
+      { name: 'Mumbai', lat: 19.0760, lng: 72.8777 },
+      { name: 'Tokyo', lat: 35.6762, lng: 139.6503 },
+      { name: 'Sydney', lat: -33.8688, lng: 151.2093 },
+      { name: 'Rio', lat: -22.9068, lng: -43.1729 }
     ];
 
     const convertLatLngToVector3 = (lat, lng, radius) => {
@@ -217,55 +285,103 @@ export default function Globe3D() {
       return new THREE.Vector3(x, y, z);
     };
 
-    // City Marker Nodes
+    const shockwavesList = [];
+
     cityCoords.forEach((city) => {
-      const pos = convertLatLngToVector3(city.lat, city.lng, 2.06);
-      const pinGeometry = new THREE.SphereGeometry(0.045, 16, 16);
-      const pinMaterial = new THREE.MeshBasicMaterial({ color: 0xfbbf24 });
-      const pinMesh = new THREE.Mesh(pinGeometry, pinMaterial);
-      pinMesh.position.copy(pos);
+      const surfacePos = convertLatLngToVector3(city.lat, city.lng, 2.06);
+      const rayEndPos = convertLatLngToVector3(city.lat, city.lng, 2.32);
+
+      // Glowing Node Sphere
+      const pinGeo = new THREE.SphereGeometry(0.045, 16, 16);
+      const pinMat = new THREE.MeshBasicMaterial({ color: 0xfbbf24 });
+      const pinMesh = new THREE.Mesh(pinGeo, pinMat);
+      pinMesh.position.copy(surfacePos);
       globeGroup.add(pinMesh);
+
+      // Vertical Light Ray Beam
+      const rayGeo = new THREE.BufferGeometry().setFromPoints([surfacePos, rayEndPos]);
+      const rayMat = new THREE.LineBasicMaterial({ color: 0xfbbf24, transparent: true, opacity: 0.85 });
+      const rayLine = new THREE.Line(rayGeo, rayMat);
+      globeGroup.add(rayLine);
+
+      // Pulsing Shockwave Ring on Surface
+      const waveGeo = new THREE.RingGeometry(0.02, 0.08, 32);
+      const waveMat = new THREE.MeshBasicMaterial({ color: 0xfbbf24, side: THREE.DoubleSide, transparent: true, opacity: 0.8 });
+      const waveMesh = new THREE.Mesh(waveGeo, waveMat);
+      waveMesh.position.copy(surfacePos);
+      waveMesh.lookAt(surfacePos.clone().multiplyScalar(2));
+      globeGroup.add(waveMesh);
+
+      shockwavesList.push({ mesh: waveMesh, scale: 1, opacity: 0.8 });
     });
+
+    shockwavesRef.current = shockwavesList;
+
+    // 8. Intercontinental Flight Curves & Sparkling Comet Trails
+    const flightPairs = [
+      [0, 1], // NYC -> London
+      [1, 2], // London -> Paris
+      [2, 3], // Paris -> Dubai
+      [3, 4], // Dubai -> Mumbai
+      [4, 5], // Mumbai -> Tokyo
+      [5, 6], // Tokyo -> Sydney
+      [0, 7]  // NYC -> Rio
+    ];
 
     const pulsesList = [];
 
-    // Animated Curved Flight Paths
-    for (let i = 0; i < cityCoords.length - 1; i++) {
-      const start = convertLatLngToVector3(cityCoords[i].lat, cityCoords[i].lng, 2.06);
-      const end = convertLatLngToVector3(cityCoords[i + 1].lat, cityCoords[i + 1].lng, 2.06);
+    flightPairs.forEach(([sIdx, eIdx], fIndex) => {
+      const start = convertLatLngToVector3(cityCoords[sIdx].lat, cityCoords[sIdx].lng, 2.06);
+      const end = convertLatLngToVector3(cityCoords[eIdx].lat, cityCoords[eIdx].lng, 2.06);
       
       const mid = start.clone().add(end).multiplyScalar(0.5);
-      mid.normalize().multiplyScalar(2.55);
+      mid.normalize().multiplyScalar(2.65);
 
       const curve = new THREE.QuadraticBezierCurve3(start, mid, end);
-      const points = curve.getPoints(50);
+      const points = curve.getPoints(60);
       const arcGeometry = new THREE.BufferGeometry().setFromPoints(points);
-      const arcMaterial = new THREE.LineBasicMaterial({ color: 0xefe2d3, transparent: true, opacity: 0.6 });
+      const arcMaterial = new THREE.LineBasicMaterial({ color: 0xefe2d3, transparent: true, opacity: 0.55 });
       const arcLine = new THREE.Line(arcGeometry, arcMaterial);
       globeGroup.add(arcLine);
 
-      // Moving Pulse Particle on Arc Path
-      const pulseGeo = new THREE.SphereGeometry(0.035, 16, 16);
-      const pulseMat = new THREE.MeshBasicMaterial({ color: 0xfbbf24 });
-      const pulseMesh = new THREE.Mesh(pulseGeo, pulseMat);
-      globeGroup.add(pulseMesh);
+      // 2 Comet Tail Particles per Arc
+      for (let p = 0; p < 2; p++) {
+        const pulseGeo = new THREE.SphereGeometry(0.038 - p * 0.01, 16, 16);
+        const pulseMat = new THREE.MeshBasicMaterial({ color: 0xfbbf24 });
+        const pulseMesh = new THREE.Mesh(pulseGeo, pulseMat);
+        globeGroup.add(pulseMesh);
 
-      pulsesList.push({ mesh: pulseMesh, curve, progress: i * 0.16 });
-    }
+        pulsesList.push({ mesh: pulseMesh, curve, speed: 0.0035 + fIndex * 0.0005, progress: (fIndex * 0.15 + p * 0.08) % 1 });
+      }
+    });
 
     pulseParticlesRef.current = pulsesList;
 
-    // 6. Real 3D Models Group with Bounding-Box Normalization & Organic Staggered Arc Positioning
+    // 9. Floating Ambient Space Dust Particles
+    const dustCount = 100;
+    const dustGeometry = new THREE.BufferGeometry();
+    const dustPositions = new Float32Array(dustCount * 3);
+    for (let i = 0; i < dustCount * 3; i += 3) {
+      dustPositions[i] = (Math.random() - 0.5) * 16;
+      dustPositions[i + 1] = (Math.random() - 0.5) * 12;
+      dustPositions[i + 2] = (Math.random() - 0.5) * 6 - 2;
+    }
+    dustGeometry.setAttribute('position', new THREE.BufferAttribute(dustPositions, 3));
+    const dustMaterial = new THREE.PointsMaterial({ color: 0xefe2d3, size: 0.035, transparent: true, opacity: 0.4 });
+    const dustPoints = new THREE.Points(dustGeometry, dustMaterial);
+    scene.add(dustPoints);
+
+    // 10. Real 3D Side Models with Bounding-Box Normalization & Organic Staggered Arc Positioning
     const modelsGroup = new THREE.Group();
     scene.add(modelsGroup);
     modelsGroupRef.current = modelsGroup;
 
     const gltfLoader = new GLTFLoader();
 
-    // Equalized scale (0.70 units) across ALL elements
+    // Equalized scale (0.70 units) across ALL 8 side elements
     const TARGET_MODEL_SIZE = 0.70;
 
-    // Equal vertical step = 1.20 units (1.85, 0.65, -0.55, -1.75)
+    // Equal vertical gap = 1.20 units (+1.85, +0.65, -0.55, -1.75)
     // Organic staggered horizontal X offsets (-3.3, -4.1, -3.4, -3.9) to eliminate straight line feel
     const modelConfigs = [
       // Left Side (Organic Arc)
@@ -322,31 +438,56 @@ export default function Globe3D() {
 
     loadedModelsRef.current = loadedList;
 
-    // 7. Lighting System
-    const ambientLight = new THREE.AmbientLight(0xffffff, 1.1);
+    // 11. Multi-Point Lighting Architecture
+    const ambientLight = new THREE.AmbientLight(0xffffff, 1.25);
     scene.add(ambientLight);
 
-    const dirLight1 = new THREE.DirectionalLight(0xfff5ea, 1.5);
-    dirLight1.position.set(6, 5, 7);
+    const dirLight1 = new THREE.DirectionalLight(0xfff5ea, 1.8);
+    dirLight1.position.set(7, 6, 8);
     scene.add(dirLight1);
 
-    const dirLight2 = new THREE.DirectionalLight(0x8c353f, 1.0);
-    dirLight2.position.set(-6, -4, -6);
+    const dirLight2 = new THREE.DirectionalLight(0xd96b74, 1.2);
+    dirLight2.position.set(-7, -5, -6);
     scene.add(dirLight2);
 
-    // 8. Render & Animation Loop
+    const pointLight = new THREE.PointLight(0xfbbf24, 1.5, 10);
+    pointLight.position.set(0, 0, 4);
+    scene.add(pointLight);
+
+    // 12. Master Animation Loop
     let animationFrameId;
     const animate = () => {
       animationFrameId = requestAnimationFrame(animate);
 
-      // Continuous subtle globe rotation
+      // Interactive Mouse Tilt Lerp
+      mousePosRef.current.x += (mousePosRef.current.targetX - mousePosRef.current.x) * 0.05;
+      mousePosRef.current.y += (mousePosRef.current.targetY - mousePosRef.current.y) * 0.05;
+
+      // Continuous Globe & Cloud Rotation
       if (globeGroupRef.current) {
-        globeGroupRef.current.rotation.y += 0.0012;
+        globeGroupRef.current.rotation.y += 0.0016;
+        globeGroupRef.current.rotation.x = mousePosRef.current.y * 0.15;
       }
+      if (cloudMeshRef.current) {
+        cloudMeshRef.current.rotation.y += 0.0024;
+      }
+      orbitalRing.rotation.z += 0.002;
+
+      // Animate City Beacon Shockwaves
+      shockwavesList.forEach((sw) => {
+        sw.scale += 0.015;
+        sw.opacity -= 0.015;
+        if (sw.scale > 2.5) {
+          sw.scale = 1;
+          sw.opacity = 0.8;
+        }
+        sw.mesh.scale.set(sw.scale, sw.scale, sw.scale);
+        sw.mesh.material.opacity = sw.opacity;
+      });
 
       // Animate Flight Arc Energy Pulses
       pulsesList.forEach((pulse) => {
-        pulse.progress = (pulse.progress + 0.004) % 1;
+        pulse.progress = (pulse.progress + pulse.speed) % 1;
         const pt = pulse.curve.getPoint(pulse.progress);
         pulse.mesh.position.copy(pt);
       });
@@ -364,7 +505,7 @@ export default function Globe3D() {
     };
     animate();
 
-    // 9. Resize Handler
+    // 13. Resize Handler
     const handleResize = () => {
       if (!mountRef.current) return;
       const w = mountRef.current.clientWidth;
@@ -391,7 +532,7 @@ export default function Globe3D() {
 
   // Scroll Down -> Globe Rotates & Zooms smoothly
   useEffect(() => {
-    // Smoothly distribute models gently outward on scroll down without going off-screen
+    // Smoothly distribute side models outward on scroll down without going off-screen
     loadedModelsRef.current.forEach((item) => {
       if (item.wrapper) {
         item.wrapper.position.x = item.basePos[0] + item.dir[0] * scrollProgress * 0.5;
@@ -406,7 +547,7 @@ export default function Globe3D() {
   return (
     <div className="position-relative w-100 d-flex align-items-center justify-content-center" style={{ height: '560px', overflow: 'hidden' }}>
       
-      {/* 3D WebGL Globe & Organic Staggered 3D Models Canvas */}
+      {/* Eye-Catching Masterpiece 3D WebGL Globe Canvas */}
       <div 
         ref={mountRef} 
         style={{ 
@@ -414,7 +555,7 @@ export default function Globe3D() {
           height: '100%', 
           transform: `scale(${globeScale})`,
           transition: 'transform 0.1s ease-out',
-          pointerEvents: 'none'
+          pointerEvents: 'auto'
         }} 
       />
 
