@@ -28,30 +28,30 @@ export default function Globe3D() {
       const rect = mountRef.current.getBoundingClientRect();
       const x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
       const y = -(((e.clientY - rect.top) / rect.height) * 2 - 1);
-      mousePosRef.current.targetX = x * 0.35;
-      mousePosRef.current.targetY = y * 0.25;
+      mousePosRef.current.targetX = x * 0.30;
+      mousePosRef.current.targetY = y * 0.20;
     };
     window.addEventListener('mousemove', handleMouseMove);
     return () => window.removeEventListener('mousemove', handleMouseMove);
   }, []);
 
-  // Helper to Create High-Definition Masterpiece World Map Texture
+  // Helper to Create Refined Detailed World Map Texture (Warm Cream & Rich Burgundy Theme)
   const createDetailedWorldMapTexture = () => {
     const canvas = document.createElement('canvas');
     canvas.width = 2048;
     canvas.height = 1024;
     const ctx = canvas.getContext('2d');
 
-    // 1. Glowing Deep Obsidian & Ruby Ocean Base
+    // 1. Rich Deep Burgundy Ocean Base
     const oceanGrad = ctx.createRadialGradient(canvas.width / 2, canvas.height / 2, 100, canvas.width / 2, canvas.height / 2, canvas.width / 1.2);
-    oceanGrad.addColorStop(0, '#3b1217');
-    oceanGrad.addColorStop(0.5, '#260b0e');
-    oceanGrad.addColorStop(1, '#140507');
+    oceanGrad.addColorStop(0, '#361216');
+    oceanGrad.addColorStop(0.5, '#220a0d');
+    oceanGrad.addColorStop(1, '#130507');
     ctx.fillStyle = oceanGrad;
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
     // 2. Lat / Long Graticule Coordinate Grid (15-degree grid)
-    ctx.strokeStyle = 'rgba(239, 226, 211, 0.08)';
+    ctx.strokeStyle = 'rgba(239, 226, 211, 0.07)';
     ctx.lineWidth = 1;
     for (let lng = -180; lng <= 180; lng += 15) {
       const x = ((lng + 180) / 360) * canvas.width;
@@ -68,9 +68,9 @@ export default function Globe3D() {
       ctx.stroke();
     }
 
-    // Glowing Equator & Prime Meridian Grid Lines
-    ctx.strokeStyle = 'rgba(251, 191, 36, 0.25)';
-    ctx.lineWidth = 2;
+    // Equator & Prime Meridian Grid Lines
+    ctx.strokeStyle = 'rgba(239, 226, 211, 0.18)';
+    ctx.lineWidth = 1.5;
     const equatorY = canvas.height / 2;
     const primeX = canvas.width / 2;
     ctx.beginPath(); ctx.moveTo(0, equatorY); ctx.lineTo(canvas.width, equatorY); ctx.stroke();
@@ -93,13 +93,13 @@ export default function Globe3D() {
       }
       ctx.closePath();
 
-      // Radiant Warm Champagne-Gold Land Fill
-      ctx.fillStyle = isIsland ? 'rgba(244, 233, 221, 0.65)' : 'rgba(244, 233, 221, 0.52)';
+      // Warm Cream Continent Fill
+      ctx.fillStyle = isIsland ? 'rgba(239, 226, 211, 0.52)' : 'rgba(239, 226, 211, 0.42)';
       ctx.fill();
 
-      // Glowing Gold Coastline Outline
-      ctx.strokeStyle = 'rgba(251, 191, 36, 0.95)';
-      ctx.lineWidth = 2.5;
+      // Warm Cream Coastline Contour
+      ctx.strokeStyle = 'rgba(239, 226, 211, 0.85)';
+      ctx.lineWidth = 2.2;
       ctx.stroke();
     };
 
@@ -136,7 +136,7 @@ export default function Globe3D() {
     drawLandmass(australia);
     drawLandmass(greenland, true);
 
-    // 4. Glowing Amber City Lights (20+ World Megacities)
+    // 4. Subtle Cream City Night Light Dots
     const majorCities = [
       [-74, 40.7], [-0.1, 51.5], [2.35, 48.8], [139.6, 35.6], [55.2, 25.2], [72.8, 18.9],
       [116.4, 39.9], [151.2, -33.8], [-43.1, -22.9], [-99.1, 19.4], [-122.4, 37.7],
@@ -145,12 +145,12 @@ export default function Globe3D() {
     majorCities.forEach(([lng, lat]) => {
       const pt = mapCoords(lng, lat);
       ctx.beginPath();
-      ctx.arc(pt.x, pt.y, 4.5, 0, Math.PI * 2);
-      ctx.fillStyle = '#fbbf24';
+      ctx.arc(pt.x, pt.y, 4, 0, Math.PI * 2);
+      ctx.fillStyle = '#efe2d3';
       ctx.fill();
       ctx.beginPath();
-      ctx.arc(pt.x, pt.y, 10, 0, Math.PI * 2);
-      ctx.fillStyle = 'rgba(251, 191, 36, 0.4)';
+      ctx.arc(pt.x, pt.y, 8, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(239, 226, 211, 0.3)';
       ctx.fill();
     });
 
@@ -166,12 +166,12 @@ export default function Globe3D() {
     ctx.fillStyle = 'rgba(0, 0, 0, 0)';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-    ctx.fillStyle = 'rgba(255, 255, 255, 0.28)';
-    for (let i = 0; i < 90; i++) {
+    ctx.fillStyle = 'rgba(255, 255, 255, 0.22)';
+    for (let i = 0; i < 80; i++) {
       const x = Math.random() * canvas.width;
       const y = Math.random() * canvas.height;
-      const rx = 40 + Math.random() * 80;
-      const ry = 15 + Math.random() * 30;
+      const rx = 35 + Math.random() * 70;
+      const ry = 12 + Math.random() * 25;
       ctx.beginPath();
       ctx.ellipse(x, y, rx, ry, Math.random() * Math.PI, 0, Math.PI * 2);
       ctx.fill();
@@ -203,13 +203,13 @@ export default function Globe3D() {
     scene.add(globeGroup);
     globeGroupRef.current = globeGroup;
 
-    // 3. High-Definition Globe Sphere Mesh
+    // 3. High-Definition Globe Sphere Mesh with Rich Burgundy Specular Shading
     const worldTexture = createDetailedWorldMapTexture();
     const globeGeometry = new THREE.SphereGeometry(2.05, 128, 128);
     const globeMaterial = new THREE.MeshPhongMaterial({
       map: worldTexture,
-      specular: 0xfbbf24,
-      shininess: 45,
+      specular: 0x8c353f,
+      shininess: 40,
       transparent: true,
       opacity: 0.98
     });
@@ -222,7 +222,7 @@ export default function Globe3D() {
     const cloudMaterial = new THREE.MeshLambertMaterial({
       map: cloudTexture,
       transparent: true,
-      opacity: 0.45,
+      opacity: 0.35,
       blending: THREE.AdditiveBlending
     });
     const cloudMesh = new THREE.Mesh(cloudGeometry, cloudMaterial);
@@ -230,41 +230,41 @@ export default function Globe3D() {
     cloudMeshRef.current = cloudMesh;
 
     // 5. Dual-Layer Atmospheric Glow
-    const atmosphereGeometry = new THREE.SphereGeometry(2.20, 128, 128);
+    const atmosphereGeometry = new THREE.SphereGeometry(2.19, 128, 128);
     const atmosphereMaterial = new THREE.MeshBasicMaterial({
       color: 0xd96b74,
       side: THREE.BackSide,
       transparent: true,
-      opacity: 0.38
+      opacity: 0.32
     });
     const atmosphereMesh = new THREE.Mesh(atmosphereGeometry, atmosphereMaterial);
     globeGroup.add(atmosphereMesh);
 
-    // Outer Champagne Gold Aura Ring
-    const outerAuraGeometry = new THREE.SphereGeometry(2.32, 64, 64);
+    // Outer Warm Cream Aura Ring
+    const outerAuraGeometry = new THREE.SphereGeometry(2.28, 64, 64);
     const outerAuraMaterial = new THREE.MeshBasicMaterial({
-      color: 0xfbbf24,
+      color: 0xefe2d3,
       side: THREE.BackSide,
       transparent: true,
-      opacity: 0.12
+      opacity: 0.08
     });
     const outerAuraMesh = new THREE.Mesh(outerAuraGeometry, outerAuraMaterial);
     globeGroup.add(outerAuraMesh);
 
-    // 6. Holographic Orbital Ring & Satellites
-    const ringGeometry = new THREE.RingGeometry(2.52, 2.56, 128);
+    // 6. Subtle Warm Cream Orbital Ring
+    const ringGeometry = new THREE.RingGeometry(2.50, 2.53, 128);
     const ringMaterial = new THREE.MeshBasicMaterial({
-      color: 0xfbbf24,
+      color: 0xefe2d3,
       side: THREE.DoubleSide,
       transparent: true,
-      opacity: 0.35
+      opacity: 0.20
     });
     const orbitalRing = new THREE.Mesh(ringGeometry, ringMaterial);
     orbitalRing.rotation.x = Math.PI / 2.8;
     orbitalRing.rotation.y = Math.PI / 6;
     globeGroup.add(orbitalRing);
 
-    // 7. 3D City Beacons with Vertical Light Rays & Pulse Shockwaves
+    // 7. 3D City Beacons with Soft Cream Nodes & Burgundy Rays
     const cityCoords = [
       { name: 'NYC', lat: 40.7128, lng: -74.0060 },
       { name: 'London', lat: 51.5074, lng: -0.1278 },
@@ -289,35 +289,35 @@ export default function Globe3D() {
 
     cityCoords.forEach((city) => {
       const surfacePos = convertLatLngToVector3(city.lat, city.lng, 2.06);
-      const rayEndPos = convertLatLngToVector3(city.lat, city.lng, 2.32);
+      const rayEndPos = convertLatLngToVector3(city.lat, city.lng, 2.28);
 
-      // Glowing Node Sphere
-      const pinGeo = new THREE.SphereGeometry(0.045, 16, 16);
-      const pinMat = new THREE.MeshBasicMaterial({ color: 0xfbbf24 });
+      // Glowing Cream Node Sphere
+      const pinGeo = new THREE.SphereGeometry(0.04, 16, 16);
+      const pinMat = new THREE.MeshBasicMaterial({ color: 0xf5efe9 });
       const pinMesh = new THREE.Mesh(pinGeo, pinMat);
       pinMesh.position.copy(surfacePos);
       globeGroup.add(pinMesh);
 
-      // Vertical Light Ray Beam
+      // Vertical Light Ray Beam (Rose Burgundy)
       const rayGeo = new THREE.BufferGeometry().setFromPoints([surfacePos, rayEndPos]);
-      const rayMat = new THREE.LineBasicMaterial({ color: 0xfbbf24, transparent: true, opacity: 0.85 });
+      const rayMat = new THREE.LineBasicMaterial({ color: 0xd96b74, transparent: true, opacity: 0.75 });
       const rayLine = new THREE.Line(rayGeo, rayMat);
       globeGroup.add(rayLine);
 
       // Pulsing Shockwave Ring on Surface
-      const waveGeo = new THREE.RingGeometry(0.02, 0.08, 32);
-      const waveMat = new THREE.MeshBasicMaterial({ color: 0xfbbf24, side: THREE.DoubleSide, transparent: true, opacity: 0.8 });
+      const waveGeo = new THREE.RingGeometry(0.02, 0.07, 32);
+      const waveMat = new THREE.MeshBasicMaterial({ color: 0xefe2d3, side: THREE.DoubleSide, transparent: true, opacity: 0.6 });
       const waveMesh = new THREE.Mesh(waveGeo, waveMat);
       waveMesh.position.copy(surfacePos);
       waveMesh.lookAt(surfacePos.clone().multiplyScalar(2));
       globeGroup.add(waveMesh);
 
-      shockwavesList.push({ mesh: waveMesh, scale: 1, opacity: 0.8 });
+      shockwavesList.push({ mesh: waveMesh, scale: 1, opacity: 0.6 });
     });
 
     shockwavesRef.current = shockwavesList;
 
-    // 8. Intercontinental Flight Curves & Sparkling Comet Trails
+    // 8. Intercontinental Flight Curves & Cream Pulse Particles
     const flightPairs = [
       [0, 1], // NYC -> London
       [1, 2], // London -> Paris
@@ -335,23 +335,23 @@ export default function Globe3D() {
       const end = convertLatLngToVector3(cityCoords[eIdx].lat, cityCoords[eIdx].lng, 2.06);
       
       const mid = start.clone().add(end).multiplyScalar(0.5);
-      mid.normalize().multiplyScalar(2.65);
+      mid.normalize().multiplyScalar(2.60);
 
       const curve = new THREE.QuadraticBezierCurve3(start, mid, end);
       const points = curve.getPoints(60);
       const arcGeometry = new THREE.BufferGeometry().setFromPoints(points);
-      const arcMaterial = new THREE.LineBasicMaterial({ color: 0xefe2d3, transparent: true, opacity: 0.55 });
+      const arcMaterial = new THREE.LineBasicMaterial({ color: 0xefe2d3, transparent: true, opacity: 0.5 });
       const arcLine = new THREE.Line(arcGeometry, arcMaterial);
       globeGroup.add(arcLine);
 
-      // 2 Comet Tail Particles per Arc
+      // 2 Cream Pulse Particles per Arc
       for (let p = 0; p < 2; p++) {
-        const pulseGeo = new THREE.SphereGeometry(0.038 - p * 0.01, 16, 16);
-        const pulseMat = new THREE.MeshBasicMaterial({ color: 0xfbbf24 });
+        const pulseGeo = new THREE.SphereGeometry(0.035 - p * 0.01, 16, 16);
+        const pulseMat = new THREE.MeshBasicMaterial({ color: 0xf5efe9 });
         const pulseMesh = new THREE.Mesh(pulseGeo, pulseMat);
         globeGroup.add(pulseMesh);
 
-        pulsesList.push({ mesh: pulseMesh, curve, speed: 0.0035 + fIndex * 0.0005, progress: (fIndex * 0.15 + p * 0.08) % 1 });
+        pulsesList.push({ mesh: pulseMesh, curve, speed: 0.003 + fIndex * 0.0005, progress: (fIndex * 0.15 + p * 0.08) % 1 });
       }
     });
 
@@ -367,7 +367,7 @@ export default function Globe3D() {
       dustPositions[i + 2] = (Math.random() - 0.5) * 6 - 2;
     }
     dustGeometry.setAttribute('position', new THREE.BufferAttribute(dustPositions, 3));
-    const dustMaterial = new THREE.PointsMaterial({ color: 0xefe2d3, size: 0.035, transparent: true, opacity: 0.4 });
+    const dustMaterial = new THREE.PointsMaterial({ color: 0xefe2d3, size: 0.032, transparent: true, opacity: 0.35 });
     const dustPoints = new THREE.Points(dustGeometry, dustMaterial);
     scene.add(dustPoints);
 
@@ -438,19 +438,19 @@ export default function Globe3D() {
 
     loadedModelsRef.current = loadedList;
 
-    // 11. Multi-Point Lighting Architecture
-    const ambientLight = new THREE.AmbientLight(0xffffff, 1.25);
+    // 11. Multi-Point Lighting Architecture (Warm Cream & Rose Burgundy)
+    const ambientLight = new THREE.AmbientLight(0xffffff, 1.2);
     scene.add(ambientLight);
 
-    const dirLight1 = new THREE.DirectionalLight(0xfff5ea, 1.8);
+    const dirLight1 = new THREE.DirectionalLight(0xf5efe9, 1.7);
     dirLight1.position.set(7, 6, 8);
     scene.add(dirLight1);
 
-    const dirLight2 = new THREE.DirectionalLight(0xd96b74, 1.2);
+    const dirLight2 = new THREE.DirectionalLight(0xd96b74, 1.1);
     dirLight2.position.set(-7, -5, -6);
     scene.add(dirLight2);
 
-    const pointLight = new THREE.PointLight(0xfbbf24, 1.5, 10);
+    const pointLight = new THREE.PointLight(0xefe2d3, 1.1, 10);
     pointLight.position.set(0, 0, 4);
     scene.add(pointLight);
 
@@ -465,21 +465,21 @@ export default function Globe3D() {
 
       // Continuous Globe & Cloud Rotation
       if (globeGroupRef.current) {
-        globeGroupRef.current.rotation.y += 0.0016;
+        globeGroupRef.current.rotation.y += 0.0015;
         globeGroupRef.current.rotation.x = mousePosRef.current.y * 0.15;
       }
       if (cloudMeshRef.current) {
-        cloudMeshRef.current.rotation.y += 0.0024;
+        cloudMeshRef.current.rotation.y += 0.0022;
       }
-      orbitalRing.rotation.z += 0.002;
+      orbitalRing.rotation.z += 0.0018;
 
       // Animate City Beacon Shockwaves
       shockwavesList.forEach((sw) => {
-        sw.scale += 0.015;
-        sw.opacity -= 0.015;
-        if (sw.scale > 2.5) {
+        sw.scale += 0.012;
+        sw.opacity -= 0.012;
+        if (sw.scale > 2.4) {
           sw.scale = 1;
-          sw.opacity = 0.8;
+          sw.opacity = 0.6;
         }
         sw.mesh.scale.set(sw.scale, sw.scale, sw.scale);
         sw.mesh.material.opacity = sw.opacity;
@@ -547,7 +547,7 @@ export default function Globe3D() {
   return (
     <div className="position-relative w-100 d-flex align-items-center justify-content-center" style={{ height: '560px', overflow: 'hidden' }}>
       
-      {/* Eye-Catching Masterpiece 3D WebGL Globe Canvas */}
+      {/* Refined Globe Canvas (Warm Vanilla Cream & Rich Burgundy Theme) */}
       <div 
         ref={mountRef} 
         style={{ 
