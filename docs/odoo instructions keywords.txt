@@ -1,0 +1,32 @@
+Thoughtful
+scalable
+well structured, clear code
+Logical
+Dynamic
+DBMS, API
+SQL Databases instead of firebase or supabase
+
+no static JSON, great error handling
+GIT MANAGING, Version Control
+
+W UI
+
+Everyone Presents
+
+Evaluation Criteria:
+1. Coding Standards
+2. Logic
+3. Modularity
+4. Frontend
+5. Performance
+6. scalability
+7. Security
+8. Usability
+9. Debugging
+10. MOST IMP - Database design
+11. Second Most Important - Attention To Detail
+
+
+
+Push code regularly, 1hr 2hr frequency
+last QnA and then done

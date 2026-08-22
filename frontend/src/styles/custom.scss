@@ -1,0 +1,164 @@
+// Import Bootstrap SCSS
+@import "bootstrap/scss/bootstrap";
+
+// Design Tokens matching docs/design.img/background.png & font.png
+:root {
+  --color-burgundy-top: #68252b;
+  --color-burgundy-mid: #4c1a1f;
+  --color-burgundy-bottom: #331014;
+  --color-burgundy-card: #45181d;
+  --color-burgundy-input: #290d10;
+  --color-burgundy-border: #63262c;
+  --color-cream: #f5efe9;
+  --color-cream-muted: #cbb8ac;
+  --color-cream-light: #fcefe6;
+  --font-display: 'Plus Jakarta Sans', 'Inter', sans-serif;
+  --font-body: 'Inter', sans-serif;
+}
+
+body {
+  font-family: var(--font-body);
+  /* Top-down light to dark burgundy gradient */
+  background: linear-gradient(180deg, #6b262d 0%, #4c1a1f 55%, #2e0d11 100%);
+  background-attachment: fixed;
+  color: var(--color-cream);
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Typography Rules */
+.display-heading {
+  font-family: var(--font-display);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  color: var(--color-cream);
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--font-display);
+  letter-spacing: -0.02em;
+}
+
+/* Auth Container Card - SOLID MATTE SURFACE (STRICTLY NO GLASSMORPHISM) */
+.auth-card-centered {
+  background-color: var(--color-burgundy-card);
+  border: 1px solid var(--color-burgundy-border);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.4);
+  border-radius: 24px;
+  padding: 2.75rem 2.5rem;
+  width: 100%;
+  max-width: 440px;
+  margin: 0 auto;
+}
+
+/* Input Fields - SOLID MATTE SURFACE */
+.itinera-input {
+  background-color: var(--color-burgundy-input);
+  border: 1.5px solid var(--color-burgundy-border);
+  color: var(--color-cream);
+  border-radius: 12px;
+  padding: 0.85rem 1rem;
+  font-size: 0.95rem;
+  transition: border-color 0.2s ease;
+}
+
+.itinera-input:focus {
+  background-color: #1f090b;
+  border-color: var(--color-cream);
+  color: var(--color-cream);
+  box-shadow: 0 0 0 3px rgba(245, 239, 233, 0.1);
+  outline: none;
+}
+
+.itinera-input::placeholder {
+  color: #856369;
+}
+
+/* Labels */
+.itinera-label {
+  font-size: 0.88rem;
+  font-weight: 500;
+  color: var(--color-cream-muted);
+  margin-bottom: 0.45rem;
+  display: block;
+}
+
+/* Tab Selector Buttons - SOLID SURFACE */
+.auth-tab-group {
+  background-color: var(--color-burgundy-input);
+  padding: 4px;
+  border-radius: 14px;
+  border: 1px solid var(--color-burgundy-border);
+  display: flex;
+}
+
+.auth-tab-btn {
+  flex: 1;
+  padding: 0.65rem 1.2rem;
+  border: none;
+  background: transparent;
+  color: var(--color-cream-muted);
+  font-weight: 600;
+  font-size: 0.95rem;
+  border-radius: 10px;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.auth-tab-btn.active {
+  background-color: var(--color-cream);
+  color: #3b1317;
+  font-weight: 700;
+}
+
+/* Pill Buttons */
+.btn-pill-cream {
+  background-color: var(--color-cream);
+  color: #3b1317;
+  font-weight: 700;
+  border: none;
+  border-radius: 9999px;
+  padding: 0.85rem 1.8rem;
+  font-size: 1rem;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  width: 100%;
+}
+
+.btn-pill-cream:hover {
+  background-color: #ffffff;
+  transform: translateY(-1px);
+  color: #2b0c0f;
+}
+
+.btn-pill-outline {
+  background-color: transparent;
+  color: var(--color-cream);
+  border: 1.5px solid var(--color-burgundy-border);
+  font-weight: 600;
+  border-radius: 9999px;
+  padding: 0.75rem 1.5rem;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.btn-pill-outline:hover {
+  background-color: #521c22;
+  border-color: var(--color-cream);
+  color: var(--color-cream);
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #2e0d11;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-burgundy-border);
+  border-radius: 4px;
+}
