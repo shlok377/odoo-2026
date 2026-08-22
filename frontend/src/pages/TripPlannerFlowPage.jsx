@@ -3,8 +3,7 @@ import L from 'leaflet';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
   MapPin, Calendar, Clock, Star, Plus, Check, ArrowRight, ArrowLeft,
-  Utensils, Camera, ChevronRight, Sparkles, Navigation, Globe, Sun, CheckCircle2, Compass, ShieldCheck, Zap,
-  CloudRain, Wind, Droplets, ShieldAlert, Search
+  Utensils, Camera, ChevronRight, Sparkles, Navigation, Globe, Sun, CheckCircle2, Compass, ShieldCheck, Zap, CloudRain
 } from 'lucide-react';
 
 const CITY_DATABASE = {
@@ -13,6 +12,7 @@ const CITY_DATABASE = {
     subtitle: 'The City of Light & Art',
     lat: 48.8566,
     lng: 2.3522,
+    mapCoords: { top: '34%', left: '47%' },
     cover: 'https://images.unsplash.com/photo-1502602898657-3e91760cbb34?auto=format&fit=crop&w=1000&q=80',
     attractions: [
       { id: 'p1', title: 'Eiffel Tower & Champ de Mars', category: 'Landmark', duration: '2.5 hrs', rating: 4.9, image: 'https://images.unsplash.com/photo-1511739001486-6bfe10ce785f?auto=format&fit=crop&w=600&q=80' },
@@ -31,6 +31,7 @@ const CITY_DATABASE = {
     subtitle: 'High Tech & Ancient Culture',
     lat: 35.6762,
     lng: 139.6503,
+    mapCoords: { top: '40%', left: '84%' },
     cover: 'https://images.unsplash.com/photo-1503899036084-c55cdd92da26?auto=format&fit=crop&w=1000&q=80',
     attractions: [
       { id: 't1', title: 'Shinjuku Gyoen National Garden', category: 'Nature', duration: '2.0 hrs', rating: 4.9, image: 'https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?auto=format&fit=crop&w=600&q=80' },
@@ -47,6 +48,7 @@ const CITY_DATABASE = {
     subtitle: 'Eternal City & Architecture',
     lat: 41.9028,
     lng: 12.4964,
+    mapCoords: { top: '40%', left: '50%' },
     cover: 'https://images.unsplash.com/photo-1552832230-c0197dd311b5?auto=format&fit=crop&w=1000&q=80',
     attractions: [
       { id: 'r1', title: 'Colosseum & Roman Forum', category: 'Ancient Ruins', duration: '3.0 hrs', rating: 4.9, image: 'https://images.unsplash.com/photo-1552832230-c0197dd311b5?auto=format&fit=crop&w=600&q=80' },
@@ -63,6 +65,7 @@ const CITY_DATABASE = {
     subtitle: 'Royal Palaces & Global Cuisine',
     lat: 51.5074,
     lng: -0.1278,
+    mapCoords: { top: '30%', left: '45%' },
     cover: 'https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?auto=format&fit=crop&w=1000&q=80',
     attractions: [
       { id: 'l1', title: 'Tower Bridge & Tower of London', category: 'Landmark', duration: '2.5 hrs', rating: 4.8, image: 'https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?auto=format&fit=crop&w=600&q=80' },
@@ -74,6 +77,153 @@ const CITY_DATABASE = {
   }
 };
 
+function TripPlannerInteractiveMap({ selectedCity, onSelectCity }) {
+  const mapRef = useRef(null);
+  const mapInstanceRef = useRef(null);
+  const markersRef = useRef([]);
+
+  const [weatherData, setWeatherData] = useState(null);
+  const [isLoadingWeather, setIsLoadingWeather] = useState(false);
+
+  // Fetch Open-Meteo Weather Data for Selected City
+  useEffect(() => {
+    const city = CITY_DATABASE[selectedCity];
+    if (!city) return;
+    setIsLoadingWeather(true);
+    fetch(`https://api.open-meteo.com/v1/forecast?latitude=${city.lat}&longitude=${city.lng}&current=temperature_2m,relative_humidity_2m,precipitation,rain,weather_code,wind_speed_10m&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_sum,precipitation_probability_max&timezone=auto`)
+      .then(res => res.json())
+      .then(data => setWeatherData(data))
+      .catch(err => console.error('Error fetching Open-Meteo weather:', err))
+      .finally(() => setIsLoadingWeather(false));
+  }, [selectedCity]);
+
+  // Leaflet Map Init
+  useEffect(() => {
+    if (!mapRef.current) return;
+    if (!mapInstanceRef.current) {
+      const map = L.map(mapRef.current, {
+        center: [30, 15],
+        zoom: 2.2,
+        zoomControl: false
+      });
+      L.control.zoom({ position: 'bottomright' }).addTo(map);
+
+      L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+        attribution: '&copy; OpenStreetMap &copy; CARTO',
+        maxZoom: 18
+      }).addTo(map);
+
+      mapInstanceRef.current = map;
+    }
+  }, []);
+
+  // Update Markers & Pan to Selected City
+  useEffect(() => {
+    if (!mapInstanceRef.current) return;
+    const map = mapInstanceRef.current;
+
+    markersRef.current.forEach(m => m.remove());
+    markersRef.current = [];
+
+    Object.keys(CITY_DATABASE).forEach(cityName => {
+      const city = CITY_DATABASE[cityName];
+      const isSelected = selectedCity === cityName;
+
+      const customIcon = L.divIcon({
+        className: 'city-picker-pin',
+        html: `
+          <div style="
+            background-color: ${isSelected ? '#efe2d3' : '#591d26'};
+            color: ${isSelected ? '#3b1417' : '#efe2d3'};
+            border: 2px solid ${isSelected ? '#ffffff' : '#efe2d3'};
+            border-radius: 9999px;
+            padding: 6px 14px;
+            font-size: 0.82rem;
+            font-weight: 700;
+            white-space: nowrap;
+            box-shadow: 0 6px 18px rgba(0,0,0,0.6);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            cursor: pointer;
+          ">
+            <span>📍</span>
+            <span>${cityName}</span>
+          </div>
+        `,
+        iconSize: [100, 32],
+        iconAnchor: [50, 16]
+      });
+
+      const marker = L.marker([city.lat, city.lng], { icon: customIcon })
+        .addTo(map)
+        .on('click', () => onSelectCity(cityName));
+
+      markersRef.current.push(marker);
+
+      if (isSelected) {
+        map.flyTo([city.lat, city.lng], 5, { duration: 1.2 });
+      }
+    });
+  }, [selectedCity]);
+
+  const rainProb = weatherData?.daily?.precipitation_probability_max?.[0] ?? 0;
+  const temp = weatherData?.current?.temperature_2m;
+  const isRainy = rainProb >= 50 || (weatherData?.current?.rain && weatherData.current.rain > 0);
+
+  return (
+    <div className="d-flex flex-column gap-3">
+      {/* Real-time Open-Meteo Weather Banner */}
+      <div 
+        className="p-3 rounded-4 d-flex align-items-center justify-content-between flex-wrap gap-2 shadow-sm"
+        style={{ 
+          backgroundColor: isRainy ? 'rgba(217, 107, 116, 0.18)' : 'rgba(19, 115, 51, 0.18)', 
+          border: `1.5px solid ${isRainy ? '#d96b74' : '#137333'}`
+        }}
+      >
+        <div className="d-flex align-items-center gap-2.5">
+          <CloudRain size={22} style={{ color: isRainy ? '#d96b74' : '#efe2d3' }} />
+          <div>
+            <div className="fw-bold small text-cream" style={{ color: '#efe2d3', fontSize: '0.92rem' }}>
+              Live Weather in {selectedCity}: {temp !== undefined ? `${Math.round(temp)}°C` : 'Loading...'}
+            </div>
+            <div className="small" style={{ color: '#ddc9c3', fontSize: '0.78rem' }}>
+              {isRainy ? `Rain Check Warning: ${rainProb}% precipitation probability — Pack waterproof gear!` : `Optimal Travel Conditions: ${rainProb}% rain probability — Clear skies!`}
+            </div>
+          </div>
+        </div>
+        <span className="badge rounded-pill px-3 py-1.5 fw-bold" style={{ backgroundColor: isRainy ? '#d96b74' : '#137333', color: '#ffffff', fontSize: '0.76rem' }}>
+          {isRainy ? 'Rain Alert 🌧️' : 'Optimal Weather ☀️'}
+        </span>
+      </div>
+
+      {/* Interactive Leaflet Map Box */}
+      <div className="rounded-4 overflow-hidden position-relative" style={{ height: '420px', border: '1.5px solid #4a2027', boxShadow: '0 12px 30px rgba(0,0,0,0.4)' }}>
+        <div ref={mapRef} className="w-100 h-100" style={{ zIndex: 1 }} />
+      </div>
+
+      {/* Quick City Selection Buttons */}
+      <div className="d-flex flex-wrap gap-2 justify-content-center pt-1">
+        {Object.keys(CITY_DATABASE).map(cityName => (
+          <button
+            key={cityName}
+            onClick={() => onSelectCity(cityName)}
+            className="btn btn-sm rounded-pill px-3.5 py-1.5 fw-semibold transition-all"
+            style={{
+              backgroundColor: selectedCity === cityName ? '#efe2d3' : '#1c0d10',
+              color: selectedCity === cityName ? '#3b1417' : '#ddc9c3',
+              border: selectedCity === cityName ? '1.5px solid #efe2d3' : '1px solid #4a2027',
+              fontSize: '0.84rem'
+            }}
+          >
+            📍 {cityName}
+          </button>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 export default function TripPlannerFlowPage({ onNavigate, onStartItinerary }) {
   const [wizardStep, setWizardStep] = useState(1);
   const [selectedCity, setSelectedCity] = useState('Paris');
@@ -82,110 +232,10 @@ export default function TripPlannerFlowPage({ onNavigate, onStartItinerary }) {
   const [selectedAttractions, setSelectedAttractions] = useState(['p1', 'p2']);
   const [selectedFoodSpots, setSelectedFoodSpots] = useState(['pf1']);
 
-  // Leaflet & Open-Meteo Weather state for Step 1
-  const mapContainerRef = useRef(null);
-  const mapInstanceRef = useRef(null);
-  const markersRef = useRef([]);
-  const [weatherData, setWeatherData] = useState(null);
-  const [isLoadingWeather, setIsLoadingWeather] = useState(false);
-
   const cityData = CITY_DATABASE[selectedCity] || CITY_DATABASE.Paris;
 
   const chosenAttractionsList = cityData.attractions.filter(a => selectedAttractions.includes(a.id));
   const chosenFoodSpotsList = cityData.foodSpots.filter(f => selectedFoodSpots.includes(f.id));
-
-  // Fetch Open-Meteo Live Weather & Rain Data for Selected City
-  const fetchOpenMeteoWeather = async (lat, lng) => {
-    setIsLoadingWeather(true);
-    try {
-      const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lng}&current=temperature_2m,relative_humidity_2m,apparent_temperature,precipitation,rain,weather_code,wind_speed_10m&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_sum,precipitation_probability_max&timezone=auto`;
-      const res = await fetch(url);
-      const data = await res.json();
-      setWeatherData(data);
-    } catch (err) {
-      console.error('Error fetching Open-Meteo weather data:', err);
-    } finally {
-      setIsLoadingWeather(false);
-    }
-  };
-
-  useEffect(() => {
-    if (cityData) {
-      fetchOpenMeteoWeather(cityData.lat, cityData.lng);
-    }
-  }, [selectedCity]);
-
-  // Initialize Leaflet Map inside Step 1 Container
-  useEffect(() => {
-    if (wizardStep !== 1 || !mapContainerRef.current) return;
-
-    if (!mapInstanceRef.current) {
-      const map = L.map(mapContainerRef.current, {
-        center: [cityData.lat, cityData.lng],
-        zoom: 4,
-        zoomControl: false
-      });
-
-      L.control.zoom({ position: 'bottomright' }).addTo(map);
-
-      // CartoDB Dark Matter Tile Layer
-      const tileLayer = L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/">CARTO</a>',
-        maxZoom: 18
-      }).addTo(map);
-
-      mapInstanceRef.current = { map, tileLayer };
-    }
-
-    // Refresh markers & pan map to city
-    const { map } = mapInstanceRef.current;
-    markersRef.current.forEach(m => m.remove());
-    markersRef.current = [];
-
-    const createCustomIcon = (isSelected) => L.divIcon({
-      className: 'custom-leaflet-pin',
-      html: `
-        <div style="
-          width: ${isSelected ? '36px' : '28px'};
-          height: ${isSelected ? '36px' : '28px'};
-          background-color: ${isSelected ? '#efe2d3' : '#591d26'};
-          border: 2px solid ${isSelected ? '#591d26' : '#efe2d3'};
-          border-radius: 50%;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          box-shadow: 0 4px 14px rgba(0,0,0,0.6);
-          cursor: pointer;
-          transition: all 0.25s ease;
-        ">
-          <div style="
-            width: ${isSelected ? '12px' : '8px'};
-            height: ${isSelected ? '12px' : '8px'};
-            background-color: ${isSelected ? '#591d26' : '#efe2d3'};
-            border-radius: 50%;
-          "></div>
-        </div>
-      `,
-      iconSize: [36, 36],
-      iconAnchor: [18, 18]
-    });
-
-    Object.keys(CITY_DATABASE).forEach(cityName => {
-      const info = CITY_DATABASE[cityName];
-      const isSel = selectedCity === cityName;
-      const marker = L.marker([info.lat, info.lng], { icon: createCustomIcon(isSel) })
-        .addTo(map)
-        .on('click', () => handleSelectCity(cityName));
-
-      markersRef.current.push(marker);
-    });
-
-    map.flyTo([cityData.lat, cityData.lng], 5, {
-      duration: 1.2,
-      easeLinearity: 0.25
-    });
-
-  }, [wizardStep, selectedCity]);
 
   const handleSelectCity = (cityKey) => {
     setSelectedCity(cityKey);
@@ -227,15 +277,8 @@ export default function TripPlannerFlowPage({ onNavigate, onStartItinerary }) {
     }
   };
 
-  // Weather Assessment Helpers
-  const currWeather = weatherData?.current;
-  const dailyWeather = weatherData?.daily;
-  const rainProb = dailyWeather?.precipitation_probability_max?.[0] ?? 0;
-  const rainSum = dailyWeather?.precipitation_sum?.[0] ?? 0;
-  const isRainWarning = rainProb >= 50 || (currWeather?.rain && currWeather.rain > 0) || rainSum > 1.0;
-
   return (
-    <div className="w-100 min-vh-100 py-5 px-3 d-flex flex-column align-items-center" style={{ color: '#efe2d3', fontFamily: "'Plus Jakarta Sans', system-ui, -apple-system, sans-serif" }}>
+    <div className="w-100 min-vh-100 py-5 px-3 d-flex flex-column align-items-center" style={{ color: '#efe2d3' }}>
       
       <div className="container" style={{ maxWidth: '980px' }}>
         
@@ -281,7 +324,7 @@ export default function TripPlannerFlowPage({ onNavigate, onStartItinerary }) {
         {/* WIZARD CONTENT ANIMATION */}
         <AnimatePresence mode="wait">
           
-          {/* STEP 1: DESTINATION & DAYS SELECTOR WITH INTERACTIVE LEAFLET MAP & OPEN-METEO WEATHER */}
+          {/* STEP 1: DESTINATION & DAYS SELECTOR */}
           {wizardStep === 1 && (
             <motion.div
               key="step1"
@@ -394,136 +437,23 @@ export default function TripPlannerFlowPage({ onNavigate, onStartItinerary }) {
                 </div>
               </div>
 
-              {/* REAL INTERACTIVE LEAFLET MAP CONTAINER */}
+              {/* Clean Interactive Map Container */}
               <div className="pt-2">
-                <div className="d-flex align-items-center justify-content-between mb-3 flex-wrap gap-2">
+                <div className="d-flex align-items-center justify-content-between mb-3">
                   <div>
                     <h4 className="display-heading text-cream mb-1" style={{ fontSize: '1.35rem' }}>Select Destination City</h4>
-                    <small style={{ color: '#d5c3b5' }}>Click a location pin on the interactive map to set your destination.</small>
+                    <small style={{ color: '#d5c3b5' }}>Click a location pin on the map to set your destination.</small>
                   </div>
-                  <div className="d-flex align-items-center gap-2">
-                    {Object.keys(CITY_DATABASE).map(cityName => (
-                      <button
-                        key={cityName}
-                        type="button"
-                        onClick={() => handleSelectCity(cityName)}
-                        className="btn btn-sm rounded-pill px-3 py-1 fw-semibold"
-                        style={{
-                          backgroundColor: selectedCity === cityName ? '#efe2d3' : '#1c0d10',
-                          color: selectedCity === cityName ? '#3e181c' : '#efe2d3',
-                          border: '1px solid #4a2027',
-                          fontSize: '0.8rem'
-                        }}
-                      >
-                        {cityName}
-                      </button>
-                    ))}
-                  </div>
+                  <span className="badge px-3 py-2 rounded-pill" style={{ backgroundColor: '#1c0d10', color: '#efe2d3', fontSize: '0.82rem', border: '1px solid #4a2027' }}>
+                    Selected: {selectedCity}, {cityData.country}
+                  </span>
                 </div>
 
-                {/* Leaflet Map Box */}
-                <div 
-                  className="rounded-4 position-relative overflow-hidden shadow-lg mb-4"
-                  style={{ 
-                    height: '400px', 
-                    backgroundColor: '#1c0d10', 
-                    border: '1px solid #4a2027'
-                  }}
-                >
-                  <div ref={mapContainerRef} className="w-100 h-100" style={{ zIndex: 1 }} />
-                </div>
-
-                {/* REAL-TIME OPEN-METEO WEATHER & LIVE RAIN CHECK WIDGET */}
-                <div className="p-4 rounded-4 shadow-sm" style={{ backgroundColor: '#2d0f14', border: '1px solid #4a2027' }}>
-                  <div className="d-flex align-items-center justify-content-between mb-3 flex-wrap gap-2">
-                    <div className="d-flex align-items-center gap-2">
-                      <CloudRain size={20} style={{ color: isRainWarning ? '#d96b74' : '#efe2d3' }} />
-                      <h5 className="fw-bold m-0" style={{ color: '#efe2d3', fontSize: '1.1rem' }}>
-                        Live Weather & Rain Check for {selectedCity} (Open-Meteo)
-                      </h5>
-                    </div>
-                    <span 
-                      className="badge rounded-pill px-3 py-1.5 fw-bold d-inline-flex align-items-center gap-1.5"
-                      style={{ 
-                        backgroundColor: isRainWarning ? 'rgba(217, 107, 116, 0.2)' : 'rgba(19, 115, 51, 0.2)', 
-                        color: isRainWarning ? '#fce4e6' : '#e6f4ea',
-                        border: `1px solid ${isRainWarning ? '#d96b74' : '#137333'}`,
-                        fontSize: '0.82rem'
-                      }}
-                    >
-                      {isRainWarning ? <ShieldAlert size={14} /> : <CheckCircle2 size={14} />}
-                      {isRainWarning ? 'Rain Check Warning 🌧️ (Pack Umbrella)' : 'No Rain Expected ☀️ (Optimal Conditions)'}
-                    </span>
-                  </div>
-
-                  {isLoadingWeather ? (
-                    <div className="text-center py-3">
-                      <div className="spinner-border spinner-border-sm text-light" role="status" />
-                      <span className="ms-2 small text-muted">Fetching live Open-Meteo weather metrics...</span>
-                    </div>
-                  ) : currWeather ? (
-                    <div className="row g-3 text-cream">
-                      <div className="col-6 col-md-3">
-                        <div className="p-3 rounded-3" style={{ backgroundColor: '#1c0d10', border: '1px solid rgba(239, 226, 211, 0.1)' }}>
-                          <div className="small text-uppercase fw-semibold" style={{ color: '#d5c3b5', fontSize: '0.7rem' }}>TEMPERATURE</div>
-                          <div className="fw-bold h4 m-0 mt-1" style={{ color: '#efe2d3' }}>
-                            {Math.round(currWeather.temperature_2m)}°C
-                          </div>
-                          <div className="small" style={{ color: '#a89498', fontSize: '0.75rem' }}>
-                            Feels {Math.round(currWeather.apparent_temperature)}°C
-                          </div>
-                        </div>
-                      </div>
-
-                      <div className="col-6 col-md-3">
-                        <div className="p-3 rounded-3" style={{ backgroundColor: '#1c0d10', border: '1px solid rgba(239, 226, 211, 0.1)' }}>
-                          <div className="small text-uppercase fw-semibold" style={{ color: '#d5c3b5', fontSize: '0.7rem' }}>RAIN PROBABILITY</div>
-                          <div className="fw-bold h4 m-0 mt-1 d-flex align-items-center gap-1" style={{ color: isRainWarning ? '#d96b74' : '#efe2d3' }}>
-                            <CloudRain size={16} /> {rainProb}%
-                          </div>
-                          <div className="small" style={{ color: '#a89498', fontSize: '0.75rem' }}>
-                            Precip: {rainSum} mm
-                          </div>
-                        </div>
-                      </div>
-
-                      <div className="col-6 col-md-3">
-                        <div className="p-3 rounded-3" style={{ backgroundColor: '#1c0d10', border: '1px solid rgba(239, 226, 211, 0.1)' }}>
-                          <div className="small text-uppercase fw-semibold" style={{ color: '#d5c3b5', fontSize: '0.7rem' }}>HUMIDITY</div>
-                          <div className="fw-bold h4 m-0 mt-1 d-flex align-items-center gap-1" style={{ color: '#efe2d3' }}>
-                            <Droplets size={16} /> {currWeather.relative_humidity_2m}%
-                          </div>
-                          <div className="small" style={{ color: '#a89498', fontSize: '0.75rem' }}>Relative humidity</div>
-                        </div>
-                      </div>
-
-                      <div className="col-6 col-md-3">
-                        <div className="p-3 rounded-3" style={{ backgroundColor: '#1c0d10', border: '1px solid rgba(239, 226, 211, 0.1)' }}>
-                          <div className="small text-uppercase fw-semibold" style={{ color: '#d5c3b5', fontSize: '0.7rem' }}>WIND SPEED</div>
-                          <div className="fw-bold h4 m-0 mt-1 d-flex align-items-center gap-1" style={{ color: '#efe2d3' }}>
-                            <Wind size={16} /> {currWeather.wind_speed_10m} km/h
-                          </div>
-                          <div className="small" style={{ color: '#a89498', fontSize: '0.75rem' }}>Breeze speed</div>
-                        </div>
-                      </div>
-                    </div>
-                  ) : null}
-                </div>
-              </div>
-
-              {/* Next Step Action Button */}
-              <div className="d-flex justify-content-end pt-3">
-                <motion.button 
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                  type="button"
-                  onClick={() => setWizardStep(2)}
-                  className="btn btn-pill-cream fw-bold py-3 px-5 d-flex align-items-center gap-2 hover-lift"
-                  style={{ backgroundColor: '#efe2d3', color: '#3e181c', borderRadius: '9999px', fontSize: '1.02rem' }}
-                >
-                  <span>Continue to Sights & Food</span>
-                  <ArrowRight size={18} />
-                </motion.button>
+                <TripPlannerInteractiveMap 
+                  selectedCity={selectedCity}
+                  onSelectCity={handleSelectCity}
+                  cityData={cityData}
+                />
               </div>
             </motion.div>
           )}
@@ -538,76 +468,63 @@ export default function TripPlannerFlowPage({ onNavigate, onStartItinerary }) {
               transition={{ duration: 0.3 }}
               className="d-flex flex-column gap-4"
             >
-              <div className="d-flex align-items-center justify-content-between mb-2">
-                <div>
-                  <span className="badge rounded-pill px-3 py-1 mb-1" style={{ backgroundColor: '#1c0d10', color: '#efe2d3', border: '1px solid #4a2027' }}>
-                    Destination: {selectedCity}, {cityData.country}
+              {/* Sights Selection */}
+              <div className="pb-4" style={{ borderBottom: '1px solid rgba(239, 226, 211, 0.15)' }}>
+                <div className="d-flex align-items-center justify-content-between mb-4">
+                  <div>
+                    <h4 className="display-heading text-cream mb-1" style={{ fontSize: '1.35rem' }}>Select Sights & Attractions in {selectedCity}</h4>
+                    <small style={{ color: '#d5c3b5' }}>Choose what sights you want to visit during your {daysCount}-day stay.</small>
+                  </div>
+                  <span className="badge px-3 py-2 rounded-pill" style={{ backgroundColor: '#1c0d10', color: '#efe2d3', fontSize: '0.82rem', border: '1px solid #4a2027' }}>
+                    {selectedAttractions.length} Selected
                   </span>
-                  <h3 className="display-heading text-cream m-0" style={{ fontSize: '1.6rem' }}>
-                    Select Sights & Culinary Experiences
-                  </h3>
                 </div>
-                <button 
-                  type="button" 
-                  onClick={() => setWizardStep(1)}
-                  className="btn btn-sm btn-outline-light rounded-pill px-3 py-1.5 d-flex align-items-center gap-1.5"
-                  style={{ borderColor: 'rgba(239, 226, 211, 0.3)', color: '#efe2d3' }}
-                >
-                  <ArrowLeft size={15} /> Back
-                </button>
-              </div>
 
-              {/* Attractions Selection Grid */}
-              <div>
-                <h5 className="fw-bold mb-3 d-flex align-items-center gap-2" style={{ color: '#efe2d3' }}>
-                  <Camera size={18} style={{ color: '#d5c3b5' }} /> Top Must-Visit Sights
-                </h5>
-                <div className="row g-3">
+                <div className="row g-4">
                   {cityData.attractions.map((attr) => {
                     const isSelected = selectedAttractions.includes(attr.id);
                     return (
                       <div key={attr.id} className="col-md-6">
                         <div 
                           onClick={() => toggleAttraction(attr.id)}
-                          className="p-3 rounded-4 cursor-pointer d-flex gap-3 align-items-center hover-lift transition-all"
-                          style={{ 
-                            backgroundColor: isSelected ? '#efe2d3' : '#1c0d10', 
-                            color: isSelected ? '#3e181c' : '#efe2d3',
-                            border: isSelected ? '2px solid #efe2d3' : '1px solid #4a2027',
-                            cursor: 'pointer'
+                          className="py-3 px-2 d-flex align-items-center justify-content-between gap-3 cursor-pointer"
+                          style={{
+                            backgroundColor: isSelected ? 'rgba(239, 226, 211, 0.06)' : 'transparent',
+                            borderBottom: isSelected ? '2px solid #efe2d3' : '1px solid rgba(239, 226, 211, 0.16)',
+                            cursor: 'pointer',
+                            transition: 'all 0.2s ease'
                           }}
                         >
-                          <img 
-                            src={attr.image} 
-                            alt={attr.title} 
-                            className="rounded-3 object-fit-cover"
-                            style={{ width: '70px', height: '70px' }}
-                          />
-                          <div className="flex-grow-1">
-                            <div className="d-flex align-items-center justify-content-between">
-                              <span className="badge rounded-pill px-2 py-0.5" style={{ backgroundColor: isSelected ? '#3e181c' : '#591d26', color: '#efe2d3', fontSize: '0.68rem' }}>
-                                {attr.category}
-                              </span>
-                              <span className="small fw-bold d-flex align-items-center gap-1" style={{ color: isSelected ? '#3e181c' : '#d96b74' }}>
-                                <Star size={13} fill={isSelected ? '#3e181c' : '#d96b74'} /> {attr.rating}
-                              </span>
+                          <div className="d-flex align-items-center gap-3">
+                            <img src={attr.image} alt={attr.title} className="rounded-3" style={{ width: '75px', height: '75px', objectFit: 'cover' }} />
+                            <div>
+                              <div className="d-flex align-items-center gap-2 mb-1">
+                                <span className="badge px-2.5 py-0.5 rounded-pill" style={{ backgroundColor: '#6b262d', color: '#efe2d3', fontSize: '0.72rem' }}>
+                                  {attr.category}
+                                </span>
+                                <span className="small text-cream d-flex align-items-center gap-1" style={{ fontSize: '0.78rem' }}>
+                                  <Star size={13} fill="#efe2d3" /> {attr.rating}
+                                </span>
+                              </div>
+                              <h5 className="display-heading text-cream mb-0" style={{ fontSize: '1.1rem' }}>
+                                {attr.title}
+                              </h5>
+                              <small style={{ color: '#d5c3b5', fontSize: '0.78rem' }}>{attr.duration}</small>
                             </div>
-                            <h6 className="fw-bold m-0 my-1" style={{ fontSize: '0.95rem' }}>{attr.title}</h6>
-                            <small className="d-flex align-items-center gap-1" style={{ opacity: 0.8, fontSize: '0.78rem' }}>
-                              <Clock size={13} /> {attr.duration}
-                            </small>
                           </div>
-                          <div 
-                            className="rounded-circle d-flex align-items-center justify-content-center flex-shrink-0"
+
+                          <span 
+                            className="badge rounded-circle p-2 d-flex align-items-center justify-content-center ms-2"
                             style={{ 
-                              width: '28px', 
-                              height: '28px', 
-                              backgroundColor: isSelected ? '#3e181c' : 'rgba(239, 226, 211, 0.1)', 
-                              color: '#efe2d3' 
+                              backgroundColor: isSelected ? '#efe2d3' : 'transparent', 
+                              color: isSelected ? '#3e181c' : '#efe2d3',
+                              border: isSelected ? 'none' : '1px solid rgba(239, 226, 211, 0.3)',
+                              width: '34px',
+                              height: '34px'
                             }}
                           >
-                            {isSelected ? <Check size={16} /> : <Plus size={16} />}
-                          </div>
+                            {isSelected ? <Check size={18} /> : <Plus size={18} />}
+                          </span>
                         </div>
                       </div>
                     );
@@ -615,53 +532,63 @@ export default function TripPlannerFlowPage({ onNavigate, onStartItinerary }) {
                 </div>
               </div>
 
-              {/* Food Spots Selection Grid */}
+              {/* Food Spots Selection */}
               <div className="pt-2">
-                <h5 className="fw-bold mb-3 d-flex align-items-center gap-2" style={{ color: '#efe2d3' }}>
-                  <Utensils size={18} style={{ color: '#d5c3b5' }} /> Iconic Dining & Bistros
-                </h5>
-                <div className="row g-3">
+                <div className="d-flex align-items-center justify-content-between mb-4">
+                  <div>
+                    <h4 className="display-heading text-cream mb-1" style={{ fontSize: '1.35rem' }}>Select Famous Food Places in {selectedCity}</h4>
+                    <small style={{ color: '#d5c3b5' }}>Pick iconic cafes, bistros, and local dining spots.</small>
+                  </div>
+                  <span className="badge px-3 py-2 rounded-pill" style={{ backgroundColor: 'transparent', color: '#efe2d3', fontSize: '0.82rem', border: '1px solid rgba(239, 226, 211, 0.25)' }}>
+                    {selectedFoodSpots.length} Selected
+                  </span>
+                </div>
+
+                <div className="row g-4">
                   {cityData.foodSpots.map((food) => {
                     const isSelected = selectedFoodSpots.includes(food.id);
                     return (
                       <div key={food.id} className="col-md-6">
                         <div 
                           onClick={() => toggleFoodSpot(food.id)}
-                          className="p-3 rounded-4 cursor-pointer d-flex gap-3 align-items-center hover-lift transition-all"
-                          style={{ 
-                            backgroundColor: isSelected ? '#efe2d3' : '#1c0d10', 
-                            color: isSelected ? '#3e181c' : '#efe2d3',
-                            border: isSelected ? '2px solid #efe2d3' : '1px solid #4a2027',
-                            cursor: 'pointer'
+                          className="py-3 px-2 d-flex align-items-center justify-content-between gap-3 cursor-pointer"
+                          style={{
+                            backgroundColor: isSelected ? 'rgba(239, 226, 211, 0.06)' : 'transparent',
+                            borderBottom: isSelected ? '2px solid #efe2d3' : '1px solid rgba(239, 226, 211, 0.16)',
+                            cursor: 'pointer',
+                            transition: 'all 0.2s ease'
                           }}
                         >
-                          <img 
-                            src={food.image} 
-                            alt={food.title} 
-                            className="rounded-3 object-fit-cover"
-                            style={{ width: '70px', height: '70px' }}
-                          />
-                          <div className="flex-grow-1">
-                            <div className="d-flex align-items-center justify-content-between">
-                              <span className="small fw-semibold" style={{ opacity: 0.8, fontSize: '0.75rem' }}>{food.cuisine}</span>
-                              <span className="fw-bold small">{food.price}</span>
+                          <div className="d-flex align-items-center gap-3">
+                            <img src={food.image} alt={food.title} className="rounded-3" style={{ width: '75px', height: '75px', objectFit: 'cover' }} />
+                            <div>
+                              <div className="d-flex align-items-center gap-2 mb-1">
+                                <span className="badge px-2.5 py-0.5 rounded-pill" style={{ backgroundColor: 'transparent', color: '#efe2d3', fontSize: '0.72rem', border: '1px solid rgba(239, 226, 211, 0.25)' }}>
+                                  {food.cuisine}
+                                </span>
+                                <span className="small text-cream fw-bold" style={{ fontSize: '0.8rem' }}>
+                                  {food.price}
+                                </span>
+                              </div>
+                              <h5 className="display-heading text-cream mb-0" style={{ fontSize: '1.1rem' }}>
+                                {food.title}
+                              </h5>
+                              <small style={{ color: '#d5c3b5', fontSize: '0.78rem' }}>★ {food.rating} Rating</small>
                             </div>
-                            <h6 className="fw-bold m-0 my-1" style={{ fontSize: '0.95rem' }}>{food.title}</h6>
-                            <small className="d-flex align-items-center gap-1" style={{ color: isSelected ? '#3e181c' : '#d96b74', fontSize: '0.78rem' }}>
-                              <Star size={13} fill={isSelected ? '#3e181c' : '#d96b74'} /> {food.rating} rating
-                            </small>
                           </div>
-                          <div 
-                            className="rounded-circle d-flex align-items-center justify-content-center flex-shrink-0"
+
+                          <span 
+                            className="badge rounded-circle p-2 d-flex align-items-center justify-content-center ms-2"
                             style={{ 
-                              width: '28px', 
-                              height: '28px', 
-                              backgroundColor: isSelected ? '#3e181c' : 'rgba(239, 226, 211, 0.1)', 
-                              color: '#efe2d3' 
+                              backgroundColor: isSelected ? '#efe2d3' : 'transparent', 
+                              color: isSelected ? '#3e181c' : '#efe2d3',
+                              border: isSelected ? 'none' : '1px solid rgba(239, 226, 211, 0.3)',
+                              width: '34px',
+                              height: '34px'
                             }}
                           >
-                            {isSelected ? <Check size={16} /> : <Plus size={16} />}
-                          </div>
+                            {isSelected ? <Check size={18} /> : <Plus size={18} />}
+                          </span>
                         </div>
                       </div>
                     );
@@ -669,113 +596,281 @@ export default function TripPlannerFlowPage({ onNavigate, onStartItinerary }) {
                 </div>
               </div>
 
-              {/* Step 2 Action Buttons */}
-              <div className="d-flex justify-content-between pt-4">
-                <button 
-                  type="button" 
-                  onClick={() => setWizardStep(1)}
-                  className="btn btn-outline-light rounded-pill px-4 py-2.5 fw-semibold"
-                  style={{ borderColor: 'rgba(239, 226, 211, 0.3)', color: '#efe2d3' }}
-                >
-                  Back to Destination
-                </button>
-                <motion.button 
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                  type="button"
-                  onClick={() => setWizardStep(3)}
-                  className="btn btn-pill-cream fw-bold py-3 px-5 d-flex align-items-center gap-2 hover-lift"
-                  style={{ backgroundColor: '#efe2d3', color: '#3e181c', borderRadius: '9999px', fontSize: '1.02rem' }}
-                >
-                  <span>Review & Generate Itinerary</span>
-                  <ArrowRight size={18} />
-                </motion.button>
+              {/* Section 3: Community Shared Itineraries */}
+              <div className="pt-4 border-top border-secondary-subtle">
+                <div className="d-flex align-items-center justify-content-between mb-4">
+                  <div>
+                    <span className="small display-heading d-block mb-1" style={{ color: '#d5c3b5', letterSpacing: '0.12em', fontSize: '0.78rem' }}>
+                      COMMUNITY SHOWCASE
+                    </span>
+                    <h4 className="display-heading text-cream mb-0" style={{ fontSize: '1.45rem' }}>
+                      Publicly Shared Itineraries
+                    </h4>
+                    <small style={{ color: '#d5c3b5' }}>Explore or fork popular itineraries crafted by fellow travelers for {selectedCity}.</small>
+                  </div>
+                </div>
+
+                <div className="row g-4">
+                  {[
+                    {
+                      id: 'pub-1',
+                      title: `7 Days Cyberpunk ${selectedCity} Exploration`,
+                      author: '@sara_travels',
+                      avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=150&q=80',
+                      city: `${selectedCity}, ${cityData.country}`,
+                      days: 7,
+                      rating: 4.9,
+                      cost: '₹ 85,000',
+                      cover: cityData.cover
+                    },
+                    {
+                      id: 'pub-2',
+                      title: `5 Days ${selectedCity} Gastronomy & Culture`,
+                      author: '@marco_eats',
+                      avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=150&q=80',
+                      city: `${selectedCity}, ${cityData.country}`,
+                      days: 5,
+                      rating: 4.8,
+                      cost: '₹ 62,000',
+                      cover: cityData.attractions[0]?.image || cityData.cover
+                    },
+                    {
+                      id: 'pub-3',
+                      title: `4 Days Romantic ${selectedCity} Walk`,
+                      author: '@elena_p',
+                      avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=150&q=80',
+                      city: `${selectedCity}, ${cityData.country}`,
+                      days: 4,
+                      rating: 4.9,
+                      cost: '₹ 54,000',
+                      cover: cityData.foodSpots[0]?.image || cityData.cover
+                    }
+                  ].map((item) => (
+                    <div key={item.id} className="col-md-4">
+                      <motion.div 
+                        whileHover={{ y: -4 }}
+                        className="cursor-pointer d-flex flex-column h-100 pb-3"
+                        style={{ borderBottom: '1px solid rgba(239, 226, 211, 0.18)' }}
+                      >
+                        <div className="position-relative mb-3 overflow-hidden rounded-4" style={{ height: '150px' }}>
+                          <img src={item.cover} alt={item.title} className="w-100 h-100" style={{ objectFit: 'cover' }} />
+                          <div className="position-absolute top-0 end-0 m-2">
+                            <span className="badge px-2.5 py-1 rounded-pill" style={{ backgroundColor: 'rgba(28, 13, 16, 0.8)', color: '#efe2d3', fontSize: '0.75rem', border: '1px solid rgba(239, 226, 211, 0.25)' }}>
+                              <Star size={11} fill="#efe2d3" className="me-1" /> {item.rating}
+                            </span>
+                          </div>
+                        </div>
+
+                        <div className="d-flex align-items-center gap-2 mb-2">
+                          <img src={item.avatar} alt={item.author} className="rounded-circle" style={{ width: '22px', height: '22px', objectFit: 'cover' }} />
+                          <span className="small" style={{ fontSize: '0.78rem', color: '#d5c3b5' }}>{item.author}</span>
+                        </div>
+
+                        <h6 className="display-heading text-cream mb-2" style={{ fontSize: '1.08rem', lineHeight: 1.3 }}>
+                          {item.title}
+                        </h6>
+
+                        <div className="d-flex align-items-center gap-2 mb-3">
+                          <span className="badge px-2.5 py-1 rounded-pill" style={{ backgroundColor: 'transparent', border: '1px solid rgba(239, 226, 211, 0.25)', color: '#efe2d3', fontSize: '0.7rem' }}>
+                            <MapPin size={10} className="me-1" /> {item.city}
+                          </span>
+                          <span className="badge px-2.5 py-1 rounded-pill" style={{ backgroundColor: '#6b262d', color: '#efe2d3', fontSize: '0.7rem' }}>
+                            {item.days} Days
+                          </span>
+                        </div>
+
+                        <div className="pt-2 mt-auto border-top border-secondary-subtle d-flex align-items-center justify-content-between">
+                          <div>
+                            <small className="d-block" style={{ fontSize: '0.68rem', color: '#d5c3b5' }}>ESTIMATED</small>
+                            <span className="fw-bold text-cream" style={{ fontSize: '0.95rem' }}>{item.cost}</span>
+                          </div>
+                          <button 
+                            className="btn btn-sm btn-pill-cream px-3 py-1" 
+                            style={{ fontSize: '0.75rem', backgroundColor: '#efe2d3', color: '#3e181c' }}
+                            onClick={() => alert(`Forked ${item.title} into your plan!`)}
+                          >
+                            Fork Trip
+                          </button>
+                        </div>
+                      </motion.div>
+                    </div>
+                  ))}
+                </div>
               </div>
             </motion.div>
           )}
 
-          {/* STEP 3: CONFIRM & GENERATE ITINERARY */}
+          {/* STEP 3: DYNAMIC 3D-STYLE ITINERARY PREVIEW & LAUNCH BOARD (WOW & NOT BORING) */}
           {wizardStep === 3 && (
             <motion.div
               key="step3"
-              initial={{ opacity: 0, y: 15 }}
+              initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -15 }}
-              transition={{ duration: 0.3 }}
-              className="d-flex flex-column gap-4"
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.4 }}
+              className="d-flex flex-column gap-5 w-100"
             >
-              <div className="text-center py-2">
-                <span className="badge rounded-pill px-3 py-1 mb-2" style={{ backgroundColor: '#1c0d10', color: '#efe2d3', border: '1px solid #4a2027' }}>
-                  STEP 03: CONFIRMATION
-                </span>
-                <h2 className="display-heading text-cream mb-1" style={{ fontSize: '2rem' }}>Ready to Generate Your Trip</h2>
-                <p className="small text-cream-muted" style={{ color: '#d5c3b5' }}>Review your choices before starting your custom day-by-day itinerary.</p>
+              {/* HERO SPLIT ROW */}
+              <div className="row g-4 align-items-center">
+                
+                {/* Left Header */}
+                <div className="col-md-7">
+                  <div className="d-inline-flex align-items-center gap-2 px-3 py-1.5 rounded-pill mb-3" style={{ backgroundColor: 'rgba(239, 226, 211, 0.1)', border: '1px solid rgba(239, 226, 211, 0.25)' }}>
+                    <Sparkles size={14} style={{ color: '#efe2d3' }} />
+                    <span className="small fw-bold display-heading" style={{ color: '#efe2d3', letterSpacing: '0.08em', fontSize: '0.82rem' }}>
+                      ITINERARY GENERATOR READY
+                    </span>
+                  </div>
+
+                  <h1 className="display-3 display-heading mb-3" style={{ fontSize: '3rem', color: '#efe2d3', lineHeight: 1.1 }}>
+                    Your {selectedCity} Journey is Configured.
+                  </h1>
+
+                  <p className="lead mb-4" style={{ color: '#d5c3b5', fontSize: '1.1rem', lineHeight: 1.6 }}>
+                    Itinera has constructed your <strong style={{ color: '#efe2d3' }}>{daysCount}-Day {selectedCity} Journey</strong> with rain-check weather forecasts, custom budget allocations, and day-by-day sightseeing.
+                  </p>
+
+                  <div className="d-flex align-items-center gap-3 flex-wrap">
+                    <span className="badge px-3 py-2 rounded-pill" style={{ backgroundColor: '#6b262d', color: '#efe2d3', fontSize: '0.85rem' }}>
+                      <MapPin size={12} className="me-1" /> {selectedCity}, {cityData.country}
+                    </span>
+                    <span className="badge px-3 py-2 rounded-pill" style={{ backgroundColor: 'rgba(251, 191, 36, 0.1)', color: '#fbbf24', border: '1px solid rgba(251, 191, 36, 0.35)', fontSize: '0.85rem' }}>
+                      <Sun size={12} className="me-1" /> Clear Sunny 24°C
+                    </span>
+                    <span className="badge px-3 py-2 rounded-pill" style={{ backgroundColor: '#1c0d10', border: '1px solid #4a2027', color: '#efe2d3', fontSize: '0.85rem' }}>
+                      <Calendar size={12} className="me-1" /> {daysCount} Days Stay
+                    </span>
+                  </div>
+                </div>
+
+                {/* Right Floating 3D Cover Photo */}
+                <div className="col-md-5">
+                  <motion.div 
+                    whileHover={{ y: -8, rotate: 1 }}
+                    transition={{ duration: 0.3 }}
+                    className="position-relative overflow-hidden rounded-4 shadow-lg p-4 d-flex flex-column justify-content-end"
+                    style={{ 
+                      minHeight: '280px', 
+                      backgroundImage: `linear-gradient(180deg, rgba(0,0,0,0.1) 0%, rgba(28, 13, 16, 0.95) 100%), url(${cityData.cover})`,
+                      backgroundSize: 'cover',
+                      backgroundPosition: 'center',
+                      border: '1.5px solid #4a2027',
+                      boxShadow: '0 24px 50px rgba(0,0,0,0.5)'
+                    }}
+                  >
+                    <span className="badge px-3 py-1.5 rounded-pill position-absolute top-0 start-0 m-3" style={{ backgroundColor: 'rgba(28, 13, 16, 0.8)', border: '1px solid rgba(239, 226, 211, 0.3)', color: '#efe2d3', fontSize: '0.78rem' }}>
+                      ● Live Weather Sync
+                    </span>
+
+                    <h3 className="display-heading text-cream mb-1" style={{ fontSize: '1.8rem' }}>
+                      {tripTitle}
+                    </h3>
+                    <small style={{ color: '#d5c3b5' }}>{chosenAttractionsList.length} Sights &bull; {chosenFoodSpotsList.length} Dining Spots</small>
+                  </motion.div>
+                </div>
+
               </div>
 
-              <div className="p-4 rounded-4 shadow-lg" style={{ backgroundColor: '#1c0d10', border: '1px solid #4a2027' }}>
-                <div className="row g-4 align-items-center">
-                  <div className="col-md-5">
-                    <img 
-                      src={cityData.cover} 
-                      alt={selectedCity} 
-                      className="w-100 rounded-4 object-fit-cover shadow-sm"
-                      style={{ height: '200px' }}
-                    />
-                  </div>
-                  <div className="col-md-7">
-                    <div className="d-flex align-items-center gap-2 mb-1">
-                      <MapPin size={16} style={{ color: '#d96b74' }} />
-                      <span className="small text-uppercase fw-bold" style={{ letterSpacing: '0.1em', color: '#d5c3b5' }}>{selectedCity}, {cityData.country}</span>
+              {/* DYNAMIC SNEAK-PEEK DAY CARDS PREVIEW */}
+              <div>
+                <div className="d-flex align-items-center justify-content-between mb-3">
+                  <span className="small display-heading" style={{ letterSpacing: '0.12em', color: '#d5c3b5', fontSize: '0.8rem' }}>
+                    DAY-BY-DAY SNEAK PEEK TIMELINE
+                  </span>
+                  <span className="small text-cream-muted" style={{ color: '#d5c3b5', fontSize: '0.8rem' }}>
+                    Showing first 3 days of your {daysCount}-day plan
+                  </span>
+                </div>
+
+                <div className="row g-3">
+                  {[
+                    { day: 1, title: chosenAttractionsList[0]?.title || 'Arrival & Landmark Visit', tag: 'Sightseeing', time: '09:30 AM', image: chosenAttractionsList[0]?.image || cityData.cover },
+                    { day: 2, title: chosenFoodSpotsList[0]?.title || 'Bistro Dining & Promenade', tag: 'Dining & Food', time: '01:00 PM', image: chosenFoodSpotsList[0]?.image || cityData.cover },
+                    { day: 3, title: chosenAttractionsList[1]?.title || 'Museum Guided Walking Tour', tag: 'Art & Culture', time: '04:00 PM', image: chosenAttractionsList[1]?.image || cityData.cover }
+                  ].map((preview) => (
+                    <div key={preview.day} className="col-md-4">
+                      <motion.div 
+                        whileHover={{ y: -5 }}
+                        className="p-3 rounded-4 d-flex align-items-center gap-3"
+                        style={{ backgroundColor: '#1c0d10', border: '1px solid #4a2027' }}
+                      >
+                        <img src={preview.image} alt={preview.title} className="rounded-3" style={{ width: '60px', height: '60px', objectFit: 'cover' }} />
+                        <div>
+                          <div className="d-flex align-items-center gap-2 mb-1">
+                            <span className="badge px-2 py-0.5 rounded-pill" style={{ backgroundColor: '#6b262d', color: '#efe2d3', fontSize: '0.7rem' }}>
+                              Day 0{preview.day}
+                            </span>
+                            <small style={{ color: '#d5c3b5', fontSize: '0.72rem' }}>{preview.time}</small>
+                          </div>
+                          <h6 className="display-heading text-cream mb-0 text-truncate" style={{ fontSize: '0.95rem', maxWidth: '170px' }}>
+                            {preview.title}
+                          </h6>
+                        </div>
+                      </motion.div>
                     </div>
-                    <h3 className="fw-bold text-cream mb-2" style={{ fontSize: '1.6rem' }}>{tripTitle}</h3>
-                    <p className="small mb-3" style={{ color: '#d5c3b5' }}>{cityData.subtitle}</p>
-
-                    <div className="d-flex gap-3 flex-wrap">
-                      <div className="p-2.5 rounded-3 px-3" style={{ backgroundColor: '#2d0f14', border: '1px solid #4a2027' }}>
-                        <div className="small text-muted" style={{ fontSize: '0.72rem' }}>DURATION</div>
-                        <div className="fw-bold text-cream" style={{ fontSize: '0.95rem' }}>{daysCount} Days</div>
-                      </div>
-
-                      <div className="p-2.5 rounded-3 px-3" style={{ backgroundColor: '#2d0f14', border: '1px solid #4a2027' }}>
-                        <div className="small text-muted" style={{ fontSize: '0.72rem' }}>SIGHTS SELECTED</div>
-                        <div className="fw-bold text-cream" style={{ fontSize: '0.95rem' }}>{chosenAttractionsList.length} Places</div>
-                      </div>
-
-                      <div className="p-2.5 rounded-3 px-3" style={{ backgroundColor: '#2d0f14', border: '1px solid #4a2027' }}>
-                        <div className="small text-muted" style={{ fontSize: '0.72rem' }}>DINING SPOTS</div>
-                        <div className="fw-bold text-cream" style={{ fontSize: '0.95rem' }}>{chosenFoodSpotsList.length} Bistros</div>
-                      </div>
-                    </div>
-                  </div>
+                  ))}
                 </div>
               </div>
 
-              {/* Confirm Step Action Buttons */}
-              <div className="d-flex justify-content-between pt-3">
-                <button 
-                  type="button" 
-                  onClick={() => setWizardStep(2)}
-                  className="btn btn-outline-light rounded-pill px-4 py-2.5 fw-semibold"
-                  style={{ borderColor: 'rgba(239, 226, 211, 0.3)', color: '#efe2d3' }}
-                >
-                  Back to Edit
-                </button>
+              {/* HIGH-IMPACT ANIMATED CTA BUTTON BAR */}
+              <div className="pt-3 border-top border-secondary-subtle d-flex flex-column align-items-center">
                 <motion.button 
                   whileHover={{ scale: 1.03 }}
                   whileTap={{ scale: 0.97 }}
-                  type="button"
                   onClick={handleFinalSubmit}
-                  className="btn btn-pill-cream fw-bold py-3.5 px-5 d-flex align-items-center gap-2.5 hover-lift shadow-lg"
-                  style={{ backgroundColor: '#efe2d3', color: '#3e181c', borderRadius: '9999px', fontSize: '1.1rem' }}
+                  className="btn btn-pill-cream hover-lift d-inline-flex align-items-center justify-content-center gap-3 px-5 py-3.5 shadow-lg"
+                  style={{ 
+                    backgroundColor: '#efe2d3', 
+                    color: '#3e181c', 
+                    fontWeight: 700, 
+                    fontSize: '1.15rem', 
+                    borderRadius: '9999px',
+                    boxShadow: '0 12px 32px rgba(0, 0, 0, 0.4)'
+                  }}
                 >
-                  <Sparkles size={20} />
-                  <span>Start Day-by-Day Itinerary Builder &rarr;</span>
+                  <Zap size={22} fill="#3e181c" />
+                  <span>Generate Full Day-Wise Itinerary</span>
+                  <ArrowRight size={22} />
                 </motion.button>
+
+                <div className="mt-3 text-cream-muted small text-center">
+                  Instant setup &bull; Automated weather check &bull; Multi-currency budget split
+                </div>
               </div>
+
             </motion.div>
           )}
 
         </AnimatePresence>
+
+        {/* FOOTER NAVIGATION CONTROLS */}
+        <div className="d-flex align-items-center justify-content-between gap-3 mt-5 pt-3 w-100" style={{ borderTop: '1px solid rgba(239, 226, 211, 0.18)' }}>
+          {wizardStep > 1 ? (
+            <button 
+              type="button"
+              className="btn btn-pill-outline d-inline-flex align-items-center justify-content-center gap-2 text-nowrap"
+              onClick={() => setWizardStep(wizardStep - 1)}
+              style={{ borderRadius: '9999px', padding: '0.75rem 1.8rem', whiteSpace: 'nowrap', flexShrink: 0 }}
+            >
+              <ArrowLeft size={16} />
+              <span>Back</span>
+            </button>
+          ) : <div />}
+
+          {wizardStep < 3 && (
+            <button 
+              type="button"
+              className="btn btn-pill-cream hover-lift d-inline-flex align-items-center justify-content-center gap-2 text-nowrap"
+              onClick={() => setWizardStep(wizardStep + 1)}
+              style={{ borderRadius: '9999px', padding: '0.75rem 2.2rem', whiteSpace: 'nowrap', flexShrink: 0 }}
+            >
+              <span>
+                {wizardStep === 1 ? 'Continue to Sights & Food' : 'Continue to Final Review'}
+              </span>
+              <ChevronRight size={18} />
+            </button>
+          )}
+        </div>
 
       </div>
     </div>
