@@ -18,8 +18,9 @@
 
 body {
   font-family: var(--font-body);
-  /* Single uniform solid dark burgundy background for clean aesthetic */
-  background-color: #351215;
+  /* Original top-down light to dark burgundy gradient */
+  background: linear-gradient(180deg, #6b262d 0%, #4c1a1f 55%, #2e0d11 100%);
+  background-attachment: fixed;
   color: var(--color-cream);
   min-height: 100vh;
   margin: 0;
