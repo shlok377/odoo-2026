@@ -5,11 +5,12 @@ import AuthPage from './pages/AuthPage';
 import HomePage from './pages/HomePage';
 import TripPlannerFlowPage from './pages/TripPlannerFlowPage';
 import ItineraryBuilderPage from './pages/ItineraryBuilderPage';
+import MyTripsPage from './pages/MyTripsPage';
 import BudgetCostPage from './pages/BudgetCostPage';
 import { useAuthStore } from './store/useAuthStore';
 
 export default function App() {
-  const [currentPage, setCurrentPage] = useState('home'); // 'home', 'planner-flow', 'itinerary-builder', 'auth-login', 'auth-register', 'budget'
+  const [currentPage, setCurrentPage] = useState('home'); // 'home', 'planner-flow', 'trips', 'itinerary-builder', 'auth-login', 'auth-register', 'budget'
   const [activePlannedTrip, setActivePlannedTrip] = useState(null);
   const { user } = useAuthStore();
 
@@ -37,9 +38,16 @@ export default function App() {
           <HomePage onNavigate={handleNavigate} />
         )}
 
-        {(currentPage === 'planner-flow' || currentPage === 'trips') && (
+        {currentPage === 'planner-flow' && (
           <TripPlannerFlowPage 
             onNavigate={handleNavigate} 
+            onStartItinerary={handleStartItinerary}
+          />
+        )}
+
+        {currentPage === 'trips' && (
+          <MyTripsPage 
+            onNavigate={handleNavigate}
             onStartItinerary={handleStartItinerary}
           />
         )}

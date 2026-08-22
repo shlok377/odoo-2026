@@ -34,10 +34,18 @@ export default function Navbar({ onNavigate, currentPage }) {
 
           <button 
             onClick={() => onNavigate('planner-flow')}
-            className={`btn btn-sm text-nowrap ${currentPage === 'planner-flow' || currentPage === 'trips' ? 'btn-pill-cream' : 'btn-pill-outline'}`}
+            className={`btn btn-sm text-nowrap ${currentPage === 'planner-flow' ? 'btn-pill-cream' : 'btn-pill-outline'}`}
             style={{ borderRadius: '9999px', padding: '0.45rem 1.25rem', whiteSpace: 'nowrap' }}
           >
             Destination Explorer
+          </button>
+
+          <button 
+            onClick={() => onNavigate('trips')}
+            className={`btn btn-sm text-nowrap ${currentPage === 'trips' ? 'btn-pill-cream' : 'btn-pill-outline'}`}
+            style={{ borderRadius: '9999px', padding: '0.45rem 1.25rem', whiteSpace: 'nowrap' }}
+          >
+            My Trips
           </button>
 
           {user ? (
