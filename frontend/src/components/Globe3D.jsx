@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
-import { motion } from 'framer-motion';
 
 export default function Globe3D() {
   const mountRef = useRef(null);
@@ -165,19 +164,22 @@ export default function Globe3D() {
       globeGroup.add(arcLine);
     }
 
-    // 6. Real 3D Models Group from /models/ (Loaded via GLTFLoader)
+    // 6. Real 3D Models Group from /models/ with Bounding Box Bounding Normalization
     const modelsGroup = new THREE.Group();
     scene.add(modelsGroup);
     modelsGroupRef.current = modelsGroup;
 
     const gltfLoader = new GLTFLoader();
 
-    // Model Configurations (Initial position, scale, rotation)
+    // Target visual size matching compass perfectly (0.75 units)
+    const TARGET_MODEL_SIZE = 0.75;
+
+    // Symmetrical, perfectly balanced 4-corner positions around the globe
     const modelConfigs = [
-      { name: 'plane', path: '/models/plane.glb', basePos: [-3.2, 1.8, 0], scale: 0.45, rot: [0.2, 0.4, -0.2], dir: [-1.2, 0.5] },
-      { name: 'compass', path: '/models/compass.glb', basePos: [3.3, 1.7, 0], scale: 0.85, rot: [0.4, -0.3, 0.1], dir: [1.2, 0.5] },
-      { name: 'pin', path: '/models/pin.glb', basePos: [-3.4, -1.5, 0], scale: 1.2, rot: [0.1, 0.5, 0], dir: [-1.2, -0.5] },
-      { name: 'island', path: '/models/island.glb', basePos: [3.3, -1.6, 0], scale: 0.35, rot: [0.3, -0.4, 0.2], dir: [1.2, -0.5] }
+      { name: 'plane', path: '/models/plane.glb', basePos: [-3.6, 1.5, 0], rot: [0.2, 0.4, -0.2], dir: [-1.4, 0.4] },
+      { name: 'compass', path: '/models/compass.glb', basePos: [3.6, 1.5, 0], rot: [0.3, -0.3, 0.1], dir: [1.4, 0.4] },
+      { name: 'pin', path: '/models/pin.glb', basePos: [-3.6, -1.3, 0], rot: [0.1, 0.5, 0], dir: [-1.4, -0.4] },
+      { name: 'island', path: '/models/island.glb', basePos: [3.6, -1.3, 0], rot: [0.3, -0.4, 0.1], dir: [1.4, -0.4] }
     ];
 
     const loadedList = [];
@@ -186,17 +188,35 @@ export default function Globe3D() {
       gltfLoader.load(
         cfg.path,
         (gltf) => {
-          const modelObj = gltf.scene;
-          modelObj.scale.set(cfg.scale, cfg.scale, cfg.scale);
-          modelObj.position.set(...cfg.basePos);
-          modelObj.rotation.set(...cfg.rot);
-          
-          modelsGroup.add(modelObj);
-          loadedList.push({ obj: modelObj, basePos: cfg.basePos, dir: cfg.dir });
+          const rawMesh = gltf.scene;
+
+          // Compute exact natural bounding box
+          const box = new THREE.Box3().setFromObject(rawMesh);
+          const size = new THREE.Vector3();
+          box.getSize(size);
+          const maxDim = Math.max(size.x, size.y, size.z);
+
+          // Equalize scale so EVERY model matches TARGET_MODEL_SIZE (compass size)
+          const normScale = maxDim > 0 ? (TARGET_MODEL_SIZE / maxDim) : 1;
+          rawMesh.scale.set(normScale, normScale, normScale);
+
+          // Center the geometry origin
+          const center = new THREE.Vector3();
+          box.getCenter(center);
+          rawMesh.position.sub(center.multiplyScalar(normScale));
+
+          // Pivot wrapper at balanced position
+          const wrapper = new THREE.Group();
+          wrapper.position.set(...cfg.basePos);
+          wrapper.rotation.set(...cfg.rot);
+          wrapper.add(rawMesh);
+
+          modelsGroup.add(wrapper);
+          loadedList.push({ wrapper, basePos: cfg.basePos, dir: cfg.dir });
         },
         undefined,
         (err) => {
-          console.warn(`Could not load GLB model ${cfg.path}, fallback active:`, err);
+          console.warn(`Could not load GLB model ${cfg.path}:`, err);
         }
       );
     });
@@ -220,12 +240,12 @@ export default function Globe3D() {
     const animate = () => {
       animationFrameId = requestAnimationFrame(animate);
 
-      // Gentle floating animation on loaded 3D models
+      // Gentle floating levitation animation
       const time = Date.now() * 0.0015;
       loadedList.forEach((item, idx) => {
-        if (item.obj) {
-          item.obj.position.y = item.basePos[1] + Math.sin(time + idx * 1.5) * 0.12;
-          item.obj.rotation.y += 0.005;
+        if (item.wrapper) {
+          item.wrapper.position.y = item.basePos[1] + Math.sin(time + idx * 1.5) * 0.1;
+          item.wrapper.rotation.y += 0.005;
         }
       });
 
@@ -264,11 +284,11 @@ export default function Globe3D() {
       globeGroupRef.current.rotation.y = scrollProgress * Math.PI * 1.25;
     }
 
-    // Move loaded 3D GLB models outward away from the globe on scroll down
+    // Smoothly distribute models outward on scroll down
     loadedModelsRef.current.forEach((item) => {
-      if (item.obj) {
-        item.obj.position.x = item.basePos[0] + item.dir[0] * scrollProgress * 1.8;
-        item.obj.position.y = item.basePos[1] + item.dir[1] * scrollProgress * 1.2;
+      if (item.wrapper) {
+        item.wrapper.position.x = item.basePos[0] + item.dir[0] * scrollProgress * 1.6;
+        item.wrapper.position.y = item.basePos[1] + item.dir[1] * scrollProgress * 1.1;
       }
     });
   }, [scrollProgress]);
@@ -279,7 +299,7 @@ export default function Globe3D() {
   return (
     <div className="position-relative w-100 d-flex align-items-center justify-content-center" style={{ height: '560px', overflow: 'hidden' }}>
       
-      {/* 3D WebGL Globe & Loaded Real 3D Models Canvas */}
+      {/* 3D WebGL Globe & Bounding-Box Equalized 3D Models Canvas */}
       <div 
         ref={mountRef} 
         style={{ 
