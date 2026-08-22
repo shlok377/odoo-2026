@@ -2,8 +2,62 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { TrendingUp, Globe, DollarSign, CloudSun, Compass, ShieldCheck, MapPin, Star, ArrowUpRight, Filter, PieChart, BarChart2, Zap } from 'lucide-react';
 
-export default function AnalyticsDashboardPage({ onNavigate }) {
+const TIMEFRAME_METRICS = {
+  '2025-2026': {
+    totalSpend: '₹2,84,500',
+    spendChange: '+12.4% vs last year',
+    cities: '21 Cities',
+    countries: 'Across 08 Countries',
+    carbon: '1.42 Tons',
+    duration: '5.8 Days',
+    categories: [
+      { cat: 'Flights & Transit', pct: '42%', amount: '₹1,19,490', color: '#efe2d3' },
+      { cat: 'Lodging & Resorts', pct: '35%', amount: '₹99,575', color: '#d96b74' },
+      { cat: 'Dining & Food', pct: '15%', amount: '₹42,675', color: '#e8cfc8' },
+      { cat: 'Sightseeing & Tours', pct: '8%', amount: '₹22,760', color: '#a87e85' }
+    ]
+  },
+  'Last 12 Months': {
+    totalSpend: '₹1,95,200',
+    spendChange: '+8.1% vs prev 12m',
+    cities: '14 Cities',
+    countries: 'Across 05 Countries',
+    carbon: '0.98 Tons',
+    duration: '6.2 Days',
+    categories: [
+      { cat: 'Flights & Transit', pct: '45%', amount: '₹87,840', color: '#efe2d3' },
+      { cat: 'Lodging & Resorts', pct: '32%', amount: '₹62,464', color: '#d96b74' },
+      { cat: 'Dining & Food', pct: '14%', amount: '₹27,328', color: '#e8cfc8' },
+      { cat: 'Sightseeing & Tours', pct: '9%', amount: '₹17,568', color: '#a87e85' }
+    ]
+  },
+  'All Time': {
+    totalSpend: '₹4,52,000',
+    spendChange: 'Lifetime Total',
+    cities: '38 Cities',
+    countries: 'Across 16 Countries',
+    carbon: '2.85 Tons',
+    duration: '5.5 Days',
+    categories: [
+      { cat: 'Flights & Transit', pct: '40%', amount: '₹1,80,800', color: '#efe2d3' },
+      { cat: 'Lodging & Resorts', pct: '38%', amount: '₹1,71,760', color: '#d96b74' },
+      { cat: 'Dining & Food', pct: '13%', amount: '₹58,760', color: '#e8cfc8' },
+      { cat: 'Sightseeing & Tours', pct: '9%', amount: '₹40,680', color: '#a87e85' }
+    ]
+  }
+};
+
+export default function AnalyticsDashboardPage({ onNavigate, onStartItinerary }) {
   const [selectedTimeframe, setSelectedTimeframe] = useState('2025-2026');
+  const metrics = TIMEFRAME_METRICS[selectedTimeframe] || TIMEFRAME_METRICS['2025-2026'];
+
+  const handleDestinationClick = (destName) => {
+    if (onStartItinerary) {
+      onStartItinerary({ city: destName });
+    } else if (onNavigate) {
+      onNavigate('planner-flow');
+    }
+  };
 
   return (
     <div 
@@ -51,15 +105,15 @@ export default function AnalyticsDashboardPage({ onNavigate }) {
           </div>
         </div>
 
-        {/* 4 Spacious KPI Cards Grid */}
+        {/* 4 Dynamic KPI Cards Grid */}
         <div className="row g-4 mb-5">
           {/* Card 1: Highlighted Total Spend */}
           <div className="col-6 col-md-3">
             <div className="p-4 rounded-4 h-100 shadow-sm" style={{ backgroundColor: '#efe2d3', color: '#3e181c', border: '1px solid #dfd2c9' }}>
               <div className="text-uppercase fw-bold small mb-2" style={{ color: '#591d26', letterSpacing: '0.1em', fontSize: '0.72rem' }}>TOTAL SPEND</div>
-              <div className="fw-bold my-1" style={{ color: '#3e181c', fontSize: '2.1rem', lineHeight: 1.1, letterSpacing: '-0.02em' }}>₹2,84,500</div>
+              <div className="fw-bold my-1" style={{ color: '#3e181c', fontSize: '2.1rem', lineHeight: 1.1, letterSpacing: '-0.02em' }}>{metrics.totalSpend}</div>
               <div className="small d-flex align-items-center gap-1 fw-bold mt-2" style={{ color: '#137333', fontSize: '0.8rem' }}>
-                <ArrowUpRight size={14} /> +12.4% vs last year
+                <ArrowUpRight size={14} /> {metrics.spendChange}
               </div>
             </div>
           </div>
@@ -68,8 +122,8 @@ export default function AnalyticsDashboardPage({ onNavigate }) {
           <div className="col-6 col-md-3">
             <div className="p-4 rounded-4 h-100" style={{ backgroundColor: '#48171f', border: '1px solid rgba(223, 210, 201, 0.15)' }}>
               <div className="text-uppercase fw-bold small mb-2" style={{ color: '#cbb8b0', letterSpacing: '0.1em', fontSize: '0.72rem' }}>CITIES VISITED</div>
-              <div className="fw-bold text-cream my-1" style={{ color: '#efe2d3', fontSize: '2.1rem', lineHeight: 1.1, letterSpacing: '-0.02em' }}>21 Cities</div>
-              <div className="small mt-2" style={{ color: '#cbb8b0', fontSize: '0.8rem' }}>Across 08 Countries</div>
+              <div className="fw-bold text-cream my-1" style={{ color: '#efe2d3', fontSize: '2.1rem', lineHeight: 1.1, letterSpacing: '-0.02em' }}>{metrics.cities}</div>
+              <div className="small mt-2" style={{ color: '#cbb8b0', fontSize: '0.8rem' }}>{metrics.countries}</div>
             </div>
           </div>
 
@@ -77,7 +131,7 @@ export default function AnalyticsDashboardPage({ onNavigate }) {
           <div className="col-6 col-md-3">
             <div className="p-4 rounded-4 h-100" style={{ backgroundColor: '#48171f', border: '1px solid rgba(223, 210, 201, 0.15)' }}>
               <div className="text-uppercase fw-bold small mb-2" style={{ color: '#cbb8b0', letterSpacing: '0.1em', fontSize: '0.72rem' }}>CARBON OFFSET</div>
-              <div className="fw-bold text-cream my-1" style={{ color: '#efe2d3', fontSize: '2.1rem', lineHeight: 1.1, letterSpacing: '-0.02em' }}>1.42 Tons</div>
+              <div className="fw-bold text-cream my-1" style={{ color: '#efe2d3', fontSize: '2.1rem', lineHeight: 1.1, letterSpacing: '-0.02em' }}>{metrics.carbon}</div>
               <div className="small mt-2" style={{ color: '#cbb8b0', fontSize: '0.8rem' }}>100% Eco-certified</div>
             </div>
           </div>
@@ -86,7 +140,7 @@ export default function AnalyticsDashboardPage({ onNavigate }) {
           <div className="col-6 col-md-3">
             <div className="p-4 rounded-4 h-100" style={{ backgroundColor: '#48171f', border: '1px solid rgba(223, 210, 201, 0.15)' }}>
               <div className="text-uppercase fw-bold small mb-2" style={{ color: '#cbb8b0', letterSpacing: '0.1em', fontSize: '0.72rem' }}>AVG TRIP DURATION</div>
-              <div className="fw-bold text-cream my-1" style={{ color: '#efe2d3', fontSize: '2.1rem', lineHeight: 1.1, letterSpacing: '-0.02em' }}>5.8 Days</div>
+              <div className="fw-bold text-cream my-1" style={{ color: '#efe2d3', fontSize: '2.1rem', lineHeight: 1.1, letterSpacing: '-0.02em' }}>{metrics.duration}</div>
               <div className="small mt-2" style={{ color: '#cbb8b0', fontSize: '0.8rem' }}>Optimal travel pace</div>
             </div>
           </div>
@@ -114,8 +168,9 @@ export default function AnalyticsDashboardPage({ onNavigate }) {
             ].map((d, i) => (
               <div 
                 key={i} 
-                className="rounded-4 overflow-hidden flex-shrink-0 text-cream shadow-sm hover-lift"
-                style={{ width: '275px', backgroundColor: '#48171f', border: '1px solid rgba(223, 210, 201, 0.15)' }}
+                onClick={() => handleDestinationClick(d.name)}
+                className="rounded-4 overflow-hidden flex-shrink-0 text-cream shadow-sm hover-lift cursor-pointer"
+                style={{ width: '275px', backgroundColor: '#48171f', border: '1px solid rgba(223, 210, 201, 0.15)', cursor: 'pointer' }}
               >
                 <div 
                   style={{ 
@@ -133,7 +188,10 @@ export default function AnalyticsDashboardPage({ onNavigate }) {
                     </span>
                   </div>
                   <h4 className="fw-bold text-cream m-0 my-1" style={{ color: '#efe2d3', fontSize: '1.15rem' }}>{d.name}</h4>
-                  <div className="small mt-1" style={{ color: '#cbb8b0', fontSize: '0.8rem' }}>{d.trips} planned</div>
+                  <div className="small mt-1 d-flex justify-content-between align-items-center" style={{ color: '#cbb8b0', fontSize: '0.8rem' }}>
+                    <span>{d.trips} planned</span>
+                    <span style={{ color: '#efe2d3', fontSize: '0.78rem' }}>Plan trip &rarr;</span>
+                  </div>
                 </div>
               </div>
             ))}
@@ -150,12 +208,7 @@ export default function AnalyticsDashboardPage({ onNavigate }) {
                 <PieChart size={18} style={{ color: '#ddc9c3' }} />
               </div>
               <div className="d-flex flex-column gap-3.5 gap-3 mt-2">
-                {[
-                  { cat: 'Flights & Transit', pct: '42%', amount: '₹1,19,490', color: '#efe2d3' },
-                  { cat: 'Lodging & Resorts', pct: '35%', amount: '₹99,575', color: '#d96b74' },
-                  { cat: 'Dining & Food', pct: '15%', amount: '₹42,675', color: '#e8cfc8' },
-                  { cat: 'Sightseeing & Tours', pct: '8%', amount: '₹22,760', color: '#a87e85' }
-                ].map((c, i) => (
+                {metrics.categories.map((c, i) => (
                   <div key={i}>
                     <div className="d-flex justify-content-between small text-cream mb-1.5" style={{ fontSize: '0.86rem' }}>
                       <span style={{ color: '#efe2d3', fontWeight: 500 }}>{c.cat}</span>
