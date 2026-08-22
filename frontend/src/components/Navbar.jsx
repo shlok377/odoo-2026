@@ -48,6 +48,22 @@ export default function Navbar({ onNavigate, currentPage }) {
             My Trips
           </button>
 
+          <button 
+            onClick={() => onNavigate('analytics')}
+            className={`btn btn-sm text-nowrap ${currentPage === 'analytics' ? 'btn-pill-cream' : 'btn-pill-outline'}`}
+            style={{ borderRadius: '9999px', padding: '0.45rem 1.25rem', whiteSpace: 'nowrap' }}
+          >
+            Analytics
+          </button>
+
+          <button 
+            onClick={() => onNavigate('profile')}
+            className={`btn btn-sm text-nowrap ${currentPage === 'profile' ? 'btn-pill-cream' : 'btn-pill-outline'}`}
+            style={{ borderRadius: '9999px', padding: '0.45rem 1.25rem', whiteSpace: 'nowrap' }}
+          >
+            Profile & Settings
+          </button>
+
           {user ? (
             <div className="d-flex align-items-center gap-3 flex-nowrap">
               <div className="d-flex align-items-center gap-2 px-3 py-1.5 rounded-pill text-nowrap" style={{ background: '#260d10', border: '1px solid #572227', whiteSpace: 'nowrap' }}>

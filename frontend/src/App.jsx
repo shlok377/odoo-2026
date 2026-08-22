@@ -7,10 +7,12 @@ import TripPlannerFlowPage from './pages/TripPlannerFlowPage';
 import ItineraryBuilderPage from './pages/ItineraryBuilderPage';
 import MyTripsPage from './pages/MyTripsPage';
 import BudgetCostPage from './pages/BudgetCostPage';
+import ProfileSettingsPage from './pages/ProfileSettingsPage';
+import AnalyticsDashboardPage from './pages/AnalyticsDashboardPage';
 import { useAuthStore } from './store/useAuthStore';
 
 export default function App() {
-  const [currentPage, setCurrentPage] = useState('home'); // 'home', 'planner-flow', 'trips', 'itinerary-builder', 'auth-login', 'auth-register', 'budget'
+  const [currentPage, setCurrentPage] = useState('home'); // 'home', 'planner-flow', 'trips', 'itinerary-builder', 'auth-login', 'auth-register', 'budget', 'profile', 'analytics'
   const [activePlannedTrip, setActivePlannedTrip] = useState(null);
   const { user } = useAuthStore();
 
@@ -57,6 +59,14 @@ export default function App() {
             plannedTrip={activePlannedTrip} 
             onNavigate={handleNavigate} 
           />
+        )}
+
+        {currentPage === 'profile' && (
+          <ProfileSettingsPage onNavigate={handleNavigate} />
+        )}
+
+        {currentPage === 'analytics' && (
+          <AnalyticsDashboardPage onNavigate={handleNavigate} />
         )}
 
         {(currentPage === 'auth-login' || currentPage === 'auth-register') && (
