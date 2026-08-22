@@ -3,10 +3,11 @@ import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import AuthPage from './pages/AuthPage';
 import HomePage from './pages/HomePage';
+import BudgetCostPage from './pages/BudgetCostPage';
 import { useAuthStore } from './store/useAuthStore';
 
 export default function App() {
-  const [currentPage, setCurrentPage] = useState('home'); // 'home', 'auth-login', 'auth-register'
+  const [currentPage, setCurrentPage] = useState('home'); // 'home', 'auth-login', 'auth-register', 'budget'
   const { user } = useAuthStore();
 
   const handleNavigate = (page) => {
@@ -16,8 +17,10 @@ export default function App() {
 
   return (
     <div className="d-flex flex-column min-vh-100">
-      {/* Top Navbar Header with logo.png */}
-      <Navbar onNavigate={handleNavigate} currentPage={currentPage} />
+      {/* Show Navbar on non-budget pages or customized nav inside budget */}
+      {currentPage !== 'budget' && (
+        <Navbar onNavigate={handleNavigate} currentPage={currentPage} />
+      )}
 
       {/* Main Content Router */}
       <main className="flex-grow-1 d-flex flex-column">
@@ -31,10 +34,16 @@ export default function App() {
             onAuthSuccess={() => handleNavigate('home')} 
           />
         )}
+
+        {currentPage === 'budget' && (
+          <BudgetCostPage onNavigate={handleNavigate} />
+        )}
       </main>
 
-      {/* Footer */}
-      <Footer />
+      {/* Show Footer on non-budget pages */}
+      {currentPage !== 'budget' && (
+        <Footer />
+      )}
     </div>
   );
 }

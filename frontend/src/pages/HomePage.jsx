@@ -98,11 +98,11 @@ export default function HomePage({ onNavigate }) {
             </button>
 
             <button 
-              onClick={() => onNavigate('auth-login')} 
+              onClick={() => onNavigate('budget')} 
               className="btn btn-pill-outline hover-lift d-inline-flex align-items-center gap-2"
               style={{ width: 'auto', padding: '0.85rem 2rem' }}
             >
-              <span>Explore Demo Trip</span>
+              <span>Explore Budget & Expenses</span>
               <Compass size={18} />
             </button>
           </div>
