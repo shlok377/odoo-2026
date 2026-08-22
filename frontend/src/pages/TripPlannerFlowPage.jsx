@@ -197,22 +197,23 @@ export default function TripPlannerFlowPage({ onNavigate, onStartItinerary }) {
                       Duration of Stay
                     </label>
                     
-                    {/* SINGLE UNIFIED WARM CREAM PILL COUNTER CONTROL */}
-                    <div className="d-flex align-items-center gap-3">
+                    {/* ELEGANT WARM CREAM PILL COUNTER CONTROL */}
+                    <div className="d-flex align-items-center">
                       <div 
-                        className="d-inline-flex align-items-center justify-content-between p-1.5 rounded-pill w-100"
+                        className="d-inline-flex align-items-center justify-content-between px-2 py-1 rounded-pill"
                         style={{ 
                           backgroundColor: '#efe2d3', 
-                          border: 'none',
-                          maxWidth: '260px',
-                          boxShadow: '0 8px 24px rgba(0, 0, 0, 0.3)'
+                          border: '1px solid #d5c3b5',
+                          width: '230px',
+                          height: '50px',
+                          boxShadow: '0 6px 20px rgba(0, 0, 0, 0.25)'
                         }}
                       >
                         <motion.button 
                           whileHover={{ scale: 1.08 }}
                           whileTap={{ scale: 0.92 }}
                           type="button"
-                          className="btn rounded-circle d-flex align-items-center justify-content-center"
+                          className="btn rounded-circle d-flex align-items-center justify-content-center p-0"
                           style={{ 
                             width: '36px', 
                             height: '36px', 
@@ -220,15 +221,16 @@ export default function TripPlannerFlowPage({ onNavigate, onStartItinerary }) {
                             color: '#efe2d3', 
                             border: 'none',
                             fontWeight: 700,
-                            fontSize: '1.2rem',
+                            fontSize: '1.25rem',
+                            lineHeight: 1,
                             flexShrink: 0
                           }}
                           onClick={() => setDaysCount(prev => Math.max(1, prev - 1))}
                         >
-                          -
+                          &minus;
                         </motion.button>
 
-                        <div className="d-flex align-items-center justify-content-center gap-1 px-2">
+                        <div className="d-flex align-items-center justify-content-center gap-1 flex-grow-1 px-1">
                           <input 
                             type="number" 
                             min="1"
@@ -238,9 +240,9 @@ export default function TripPlannerFlowPage({ onNavigate, onStartItinerary }) {
                               const val = parseInt(e.target.value) || 1;
                               setDaysCount(Math.min(30, Math.max(1, val)));
                             }}
-                            className="bg-transparent border-0 text-center font-bold"
+                            className="bg-transparent border-0 text-center p-0"
                             style={{ 
-                              width: '45px', 
+                              width: '35px', 
                               color: '#3e181c', 
                               fontSize: '1.25rem', 
                               outline: 'none', 
@@ -257,7 +259,7 @@ export default function TripPlannerFlowPage({ onNavigate, onStartItinerary }) {
                           whileHover={{ scale: 1.08 }}
                           whileTap={{ scale: 0.92 }}
                           type="button"
-                          className="btn rounded-circle d-flex align-items-center justify-content-center"
+                          className="btn rounded-circle d-flex align-items-center justify-content-center p-0"
                           style={{ 
                             width: '36px', 
                             height: '36px', 
@@ -265,12 +267,13 @@ export default function TripPlannerFlowPage({ onNavigate, onStartItinerary }) {
                             color: '#efe2d3', 
                             border: 'none',
                             fontWeight: 700,
-                            fontSize: '1.2rem',
+                            fontSize: '1.25rem',
+                            lineHeight: 1,
                             flexShrink: 0
                           }}
                           onClick={() => setDaysCount(prev => Math.min(30, prev + 1))}
                         >
-                          +
+                          &#43;
                         </motion.button>
                       </div>
                     </div>
