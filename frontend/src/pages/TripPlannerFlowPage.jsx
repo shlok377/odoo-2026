@@ -657,7 +657,9 @@ export default function TripPlannerFlowPage({ onNavigate, onStartItinerary }) {
               onClick={() => setWizardStep(wizardStep + 1)}
               style={{ borderRadius: '9999px', padding: '0.75rem 2.2rem', whiteSpace: 'nowrap', flexShrink: 0 }}
             >
-              <span>Continue to Final Review</span>
+              <span>
+                {wizardStep === 1 ? 'Continue to Sights & Food' : 'Continue to Final Review'}
+              </span>
               <ChevronRight size={18} />
             </button>
           )}
