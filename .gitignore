@@ -38,6 +38,6 @@ yarn-error.log*
 # IDE files
 .idea/
 .vscode/
-*.swp
-*.swo
 .vs/
+.vercel
+*:Zone.Identifier

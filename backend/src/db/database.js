@@ -3,8 +3,8 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 
 const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-const dbPath = path.resolve(__dirname, '../../itinera.sqlite');
+const isVercel = process.env.VERCEL || process.env.AWS_LAMBDA_FUNCTION_NAME;
+const dbPath = process.env.DB_PATH || (isVercel ? path.resolve('/tmp', 'itinera.sqlite') : path.resolve(__dirname, '../../itinera.sqlite'));
 
 const db = new sqlite3.Database(dbPath, (err) => {
   if (err) {

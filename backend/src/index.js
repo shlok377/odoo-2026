@@ -36,6 +36,11 @@ app.use((err, req, res, next) => {
   res.status(500).json({ error: 'Internal Server Error', details: err.message });
 });
 
-app.listen(PORT, () => {
-  console.log(`🚀 Itinera Express Server running on http://localhost:${PORT}`);
-});
+if (!process.env.VERCEL) {
+  app.listen(PORT, () => {
+    console.log(`🚀 Itinera Express Server running on http://localhost:${PORT}`);
+  });
+}
+
+export default app;
+
