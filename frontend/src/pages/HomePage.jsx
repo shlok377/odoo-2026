@@ -3,46 +3,11 @@ import { motion } from 'framer-motion';
 import { 
   ArrowRight, Compass, MapPin, Calendar, DollarSign, 
   Share2, CloudRain, Users, ShieldCheck, Sparkles, CheckCircle2, ChevronRight,
-  Play, Pause, Film, Layers, Award, Clock, FileText, Smartphone
+  Play, Pause, Film, Layers, Award, Clock, FileText, Smartphone, Sun, Utensils, Star, Check
 } from 'lucide-react';
 import Globe3D from '../components/Globe3D';
 
 export default function HomePage({ onNavigate }) {
-  const [activeVideoChapter, setActiveVideoChapter] = useState(0);
-  const [isPlaying, setIsPlaying] = useState(false);
-
-  // Video Chapter Data
-  const videoChapters = [
-    {
-      id: 0,
-      title: '01. Multi-City Itinerary Setup',
-      desc: 'Pick your start & end dates, choose destinations from 10,000+ global cities, and define stop durations.',
-      tag: 'Interactive Builder',
-      previewImg: 'https://images.unsplash.com/photo-1488646953014-85cb44e25828?auto=format&fit=crop&w=1200&q=80'
-    },
-    {
-      id: 1,
-      title: '02. Day-Wise Activity Builder',
-      desc: 'Assign sightseeing, dining, and adventure activities with drag & drop time slot adjustments.',
-      tag: 'Timeline Builder',
-      previewImg: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1200&q=80'
-    },
-    {
-      id: 2,
-      title: '03. Rain Check & Live Weather',
-      desc: 'Receive real-time weather forecasts and rain check warnings for your planned outdoor dates.',
-      tag: 'Weather Engine',
-      previewImg: 'https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1200&q=80'
-    },
-    {
-      id: 3,
-      title: '04. Multi-Currency & PDF Export',
-      desc: 'Instant FX conversion between USD, EUR, GBP, INR, JPY and one-click PDF schedule download.',
-      tag: 'Financial Splitter',
-      previewImg: 'https://images.unsplash.com/photo-1526772662000-3f88f10405ff?auto=format&fit=crop&w=1200&q=80'
-    }
-  ];
-
   // Framer Motion Animation Variants
   const fadeInUp = {
     hidden: { opacity: 0, y: 30 },
@@ -51,11 +16,11 @@ export default function HomePage({ onNavigate }) {
 
   const staggerContainer = {
     hidden: {},
-    visible: { transition: { staggerChildren: 0.12 } }
+    visible: { transition: { staggerChildren: 0.15 } }
   };
 
   return (
-    <div className="w-100 overflow-hidden">
+    <div className="w-100 overflow-hidden" style={{ color: '#F5EFE9' }}>
       
       {/* SECTION 1: HERO BANNER WITH PROMINENT LOGO & 3D GLOBE MASTERPIECE */}
       <section className="position-relative pt-5 pb-4 px-3 d-flex flex-column align-items-center text-center">
@@ -116,136 +81,135 @@ export default function HomePage({ onNavigate }) {
       </section>
 
 
-      {/* SECTION 2: CONNECTED TIMELINE TUTORIAL SECTION (SOLID MATTE #120608) */}
-      <section className="py-5 px-3" style={{ background: '#120608', borderTop: '1px solid #2a0d10', borderBottom: '1px solid #2a0d10' }}>
-        <div className="container py-4">
+      {/* SECTION 2: THREE STEPS "HOW IT WORKS" (EXACT ESTRIA.AI REFERENCE DESIGN) */}
+      <section className="py-5 px-3" style={{ background: '#120507', borderTop: '1px solid #2a0d10', borderBottom: '1px solid #2a0d10' }}>
+        <div className="container py-4" style={{ maxWidth: '1140px' }}>
           
+          {/* Section Header matching dev.estria.ai */}
           <motion.div 
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true }}
             variants={fadeInUp}
-            className="text-center mb-5"
+            className="mb-5"
           >
-            <span className="badge rounded-pill mb-2 px-3 py-2" style={{ background: '#3b1417', border: '1px solid #572227', color: '#f5efe9', fontSize: '0.85rem' }}>
-              Interactive Experience
-            </span>
-            <h2 className="display-4 display-heading text-cream" style={{ fontSize: '2.6rem' }}>
-              How Itinera Simplifies Travel
+            <div className="d-flex align-items-center gap-2 mb-2" style={{ color: '#d96b74', letterSpacing: '0.15em', fontSize: '0.85rem', fontWeight: 700 }}>
+              <span>—</span> <span>HOW IT WORKS</span>
+            </div>
+            
+            <h2 className="display-4 display-heading text-cream mb-3" style={{ fontSize: '3rem', fontWeight: 700 }}>
+              Three steps. No detail left behind.
             </h2>
-            <p className="small text-cream-muted mx-auto" style={{ maxWidth: '560px', color: '#cbb8ac' }}>
-              A connected 4-stage pipeline taking you from destination discovery to a finished travel itinerary.
+            
+            <p className="lead" style={{ color: '#cbb8ac', maxWidth: '640px', fontSize: '1.1rem', lineHeight: 1.6 }}>
+              Itinera discovers your ideal destination, schedules your daily sights & dining, and provides live rain checks with multi-currency tracking.
             </p>
           </motion.div>
 
-          {/* 4 Interactive Cards (SOLID MATTE SURFACES) */}
+          {/* 3-Column Layout (01, 02, 03) */}
           <motion.div 
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true }}
             variants={staggerContainer}
-            className="row g-4"
+            className="row g-5"
           >
-            {/* Step 1 */}
-            <motion.div variants={fadeInUp} className="col-md-6 col-lg-3">
-              <div 
-                className="p-4 rounded-4 h-100 hover-lift d-flex flex-column justify-content-between"
-                style={{ background: '#1e090c', border: '1.5px solid #3d1418', boxShadow: '0 12px 24px rgba(0,0,0,0.35)' }}
-              >
-                <div>
-                  <div className="d-flex align-items-center justify-content-between mb-3">
-                    <div className="px-3 py-1 rounded-pill" style={{ background: '#532328', color: '#f5efe9', fontSize: '0.82rem', fontWeight: 700 }}>
-                      STAGE 01
-                    </div>
-                    <MapPin size={22} style={{ color: '#f5efe9' }} />
-                  </div>
-                  <h5 className="display-heading text-cream mb-2" style={{ fontSize: '1.25rem' }}>Discover & Filter</h5>
-                  <p className="small mb-3" style={{ color: '#cbb8ac', lineHeight: 1.5, fontSize: '0.88rem' }}>
-                    Browse 10,000+ cities with popularity ratings, region filters, and estimated daily cost indexes.
-                  </p>
+            {/* Step 01 */}
+            <motion.div variants={fadeInUp} className="col-md-4 d-flex flex-column justify-content-between">
+              <div>
+                <div className="display-1 display-heading mb-2" style={{ color: '#d96b74', fontSize: '3.5rem', fontWeight: 800 }}>
+                  01
                 </div>
+                <h4 className="display-heading text-cream mb-2" style={{ fontSize: '1.4rem' }}>
+                  Select Destination & Days
+                </h4>
+                <p className="small mb-4" style={{ color: '#cbb8ac', lineHeight: 1.65, fontSize: '0.92rem' }}>
+                  Pick from 10,000+ global cities on an interactive map, set your duration of stay, and name your trip.
+                </p>
+              </div>
 
-                <div className="p-2.5 rounded-3 mt-2 d-flex align-items-center justify-content-between" style={{ background: '#2d0e12', border: '1px solid #4a171c' }}>
-                  <span className="small text-cream fw-semibold" style={{ fontSize: '0.78rem' }}>Paris &bull; $140/day</span>
-                  <span className="badge rounded-pill" style={{ background: '#532328', color: '#f5efe9', fontSize: '0.7rem' }}>+ Add Stop</span>
+              {/* Step 01 Widget Card */}
+              <div 
+                className="p-3 rounded-4 mt-3" 
+                style={{ backgroundColor: '#20080b', border: '1px solid #3d1216' }}
+              >
+                <div className="d-flex align-items-center justify-content-between mb-2">
+                  <span className="badge px-2.5 py-1 rounded-pill" style={{ backgroundColor: '#591D26', color: '#F5EFE9', fontSize: '0.72rem' }}>
+                    <MapPin size={10} className="me-1" /> Paris, France
+                  </span>
+                  <span className="badge px-2.5 py-1 rounded-pill" style={{ backgroundColor: '#120507', color: '#a7f3d0', fontSize: '0.72rem', border: '1px solid #3d1216' }}>
+                    ● Selected
+                  </span>
                 </div>
+                <div className="fw-bold text-cream" style={{ fontSize: '0.95rem' }}>Parisian Dream Getaway</div>
+                <small style={{ color: '#D8C8C3', fontSize: '0.78rem' }}>5 Days Duration &bull; Summer Season</small>
               </div>
             </motion.div>
 
-            {/* Step 2 */}
-            <motion.div variants={fadeInUp} className="col-md-6 col-lg-3">
-              <div 
-                className="p-4 rounded-4 h-100 hover-lift d-flex flex-column justify-content-between"
-                style={{ background: '#1e090c', border: '1.5px solid #3d1418', boxShadow: '0 12px 24px rgba(0,0,0,0.35)' }}
-              >
-                <div>
-                  <div className="d-flex align-items-center justify-content-between mb-3">
-                    <div className="px-3 py-1 rounded-pill" style={{ background: '#532328', color: '#f5efe9', fontSize: '0.82rem', fontWeight: 700 }}>
-                      STAGE 02
-                    </div>
-                    <Calendar size={22} style={{ color: '#f5efe9' }} />
-                  </div>
-                  <h5 className="display-heading text-cream mb-2" style={{ fontSize: '1.25rem' }}>Day-Wise Builder</h5>
-                  <p className="small mb-3" style={{ color: '#cbb8ac', lineHeight: 1.5, fontSize: '0.88rem' }}>
-                    Schedule sightseeing, meals, and transport with interactive drag & drop timeline ordering.
-                  </p>
+            {/* Step 02 */}
+            <motion.div variants={fadeInUp} className="col-md-4 d-flex flex-column justify-content-between">
+              <div>
+                <div className="display-1 display-heading mb-2" style={{ color: '#d96b74', fontSize: '3.5rem', fontWeight: 800 }}>
+                  02
                 </div>
+                <h4 className="display-heading text-cream mb-2" style={{ fontSize: '1.4rem' }}>
+                  Pick Sights & Famous Food
+                </h4>
+                <p className="small mb-4" style={{ color: '#cbb8ac', lineHeight: 1.65, fontSize: '0.92rem' }}>
+                  Select famous landmarks, museums, bistros, and cafes with real user ratings and duration estimates.
+                </p>
+              </div>
 
-                <div className="p-2.5 rounded-3 mt-2 d-flex align-items-center justify-content-between" style={{ background: '#2d0e12', border: '1px solid #4a171c' }}>
-                  <span className="small text-cream fw-semibold" style={{ fontSize: '0.78rem' }}>Day 1: Louvre Tour</span>
-                  <span className="badge rounded-pill" style={{ background: '#532328', color: '#f5efe9', fontSize: '0.7rem' }}>2.5 Hrs</span>
+              {/* Step 02 Widget Card */}
+              <div 
+                className="p-3 rounded-4 mt-3" 
+                style={{ backgroundColor: '#20080b', border: '1px solid #3d1216' }}
+              >
+                <div className="d-flex align-items-center gap-2 mb-2">
+                  <span className="badge px-2.5 py-1 rounded-pill" style={{ backgroundColor: '#120507', color: '#F5EFE9', fontSize: '0.72rem', border: '1px solid #3d1216' }}>
+                    Eiffel Tower + Louvre Tour
+                  </span>
                 </div>
+                <div className="d-flex align-items-center justify-content-between">
+                  <span className="fw-bold text-cream" style={{ fontSize: '0.95rem' }}>₹ 4,600 / person</span>
+                  <span className="badge px-2 py-0.5 rounded-circle" style={{ backgroundColor: '#224833', color: '#a7f3d0' }}>
+                    <Check size={12} />
+                  </span>
+                </div>
+                <small style={{ color: '#D8C8C3', fontSize: '0.78rem' }}>2 Sights &bull; 1 Food Spot Selected</small>
               </div>
             </motion.div>
 
-            {/* Step 3 */}
-            <motion.div variants={fadeInUp} className="col-md-6 col-lg-3">
-              <div 
-                className="p-4 rounded-4 h-100 hover-lift d-flex flex-column justify-content-between"
-                style={{ background: '#1e090c', border: '1.5px solid #3d1418', boxShadow: '0 12px 24px rgba(0,0,0,0.35)' }}
-              >
-                <div>
-                  <div className="d-flex align-items-center justify-content-between mb-3">
-                    <div className="px-3 py-1 rounded-pill" style={{ background: '#532328', color: '#f5efe9', fontSize: '0.82rem', fontWeight: 700 }}>
-                      STAGE 03
-                    </div>
-                    <CloudRain size={22} style={{ color: '#f5efe9' }} />
-                  </div>
-                  <h5 className="display-heading text-cream mb-2" style={{ fontSize: '1.25rem' }}>Rain Check & FX</h5>
-                  <p className="small mb-3" style={{ color: '#cbb8ac', lineHeight: 1.5, fontSize: '0.88rem' }}>
-                    Automated weather forecasts for outdoor dates and live multi-currency expense conversions.
-                  </p>
+            {/* Step 03 */}
+            <motion.div variants={fadeInUp} className="col-md-4 d-flex flex-column justify-content-between">
+              <div>
+                <div className="display-1 display-heading mb-2" style={{ color: '#d96b74', fontSize: '3.5rem', fontWeight: 800 }}>
+                  03
                 </div>
-
-                <div className="p-2.5 rounded-3 mt-2 d-flex align-items-center justify-content-between" style={{ background: '#2d0e12', border: '1px solid #4a171c' }}>
-                  <span className="small text-cream fw-semibold" style={{ fontSize: '0.78rem' }}>Weather: Clear 24°C</span>
-                  <span className="badge rounded-pill" style={{ background: '#224833', color: '#a7f3d0', fontSize: '0.7rem' }}>Pass</span>
-                </div>
+                <h4 className="display-heading text-cream mb-2" style={{ fontSize: '1.4rem' }}>
+                  Rain Check & Budget Split
+                </h4>
+                <p className="small mb-4" style={{ color: '#cbb8ac', lineHeight: 1.65, fontSize: '0.92rem' }}>
+                  Automated weather forecasts for outdoor dates and one-click multi-currency budget calculation.
+                </p>
               </div>
-            </motion.div>
 
-            {/* Step 4 */}
-            <motion.div variants={fadeInUp} className="col-md-6 col-lg-3">
+              {/* Step 03 Widget Card */}
               <div 
-                className="p-4 rounded-4 h-100 hover-lift d-flex flex-column justify-content-between"
-                style={{ background: '#1e090c', border: '1.5px solid #3d1418', boxShadow: '0 12px 24px rgba(0,0,0,0.35)' }}
+                className="p-3 rounded-4 mt-3" 
+                style={{ backgroundColor: '#20080b', border: '1px solid #3d1216' }}
               >
-                <div>
-                  <div className="d-flex align-items-center justify-content-between mb-3">
-                    <div className="px-3 py-1 rounded-pill" style={{ background: '#532328', color: '#f5efe9', fontSize: '0.82rem', fontWeight: 700 }}>
-                      STAGE 04
-                    </div>
-                    <Share2 size={22} style={{ color: '#f5efe9' }} />
-                  </div>
-                  <h5 className="display-heading text-cream mb-2" style={{ fontSize: '1.25rem' }}>Share & Export</h5>
-                  <p className="small mb-3" style={{ color: '#cbb8ac', lineHeight: 1.5, fontSize: '0.88rem' }}>
-                    Share public trip URLs with friends, split group contributions, and export clean PDF schedules.
-                  </p>
+                <div className="d-flex align-items-center gap-2 mb-2">
+                  <span className="badge px-2.5 py-1 rounded-pill" style={{ backgroundColor: '#193828', color: '#a7f3d0', fontSize: '0.72rem', border: '1px solid #a7f3d0' }}>
+                    <Sun size={11} className="me-1" /> Rain Check Approved
+                  </span>
                 </div>
-
-                <div className="p-2.5 rounded-3 mt-2 d-flex align-items-center justify-content-between" style={{ background: '#2d0e12', border: '1px solid #4a171c' }}>
-                  <span className="small text-cream fw-semibold" style={{ fontSize: '0.78rem' }}>PDF Schedule ready</span>
-                  <span className="badge rounded-pill" style={{ background: '#532328', color: '#f5efe9', fontSize: '0.7rem' }}>Export</span>
+                <div className="fw-bold text-cream mb-1" style={{ fontSize: '0.95rem' }}>Clear & Sunny (24°C)</div>
+                <div className="d-flex justify-content-between align-items-center">
+                  <span className="badge px-2.5 py-1 rounded-pill" style={{ backgroundColor: '#d96b74', color: '#120507', fontWeight: 700, fontSize: '0.75rem' }}>
+                    Generate Itinerary
+                  </span>
+                  <small style={{ color: '#D8C8C3', fontSize: '0.75rem' }}>FX: EUR &bull; INR &bull; USD</small>
                 </div>
               </div>
             </motion.div>
@@ -256,7 +220,7 @@ export default function HomePage({ onNavigate }) {
       </section>
 
 
-      {/* SECTION 3: MEANINGFULLY PLACED REFERENCE CTA CARD (SOLID MATTE GRADIENT, ZERO GLASSMORPHISM) */}
+      {/* SECTION 3: MEANINGFULLY PLACED REFERENCE CTA CARD (SOLID MATTE, ZERO GLASSMORPHISM) */}
       <section className="py-5 px-3" style={{ background: '#0e0406', borderTop: '1px solid #2a0d10' }}>
         <div className="container py-4">
           <motion.div 
@@ -267,9 +231,9 @@ export default function HomePage({ onNavigate }) {
             className="rounded-5 text-center p-5 mx-auto position-relative overflow-hidden"
             style={{
               maxWidth: '920px',
-              background: 'linear-gradient(180deg, #70262d 0%, #521c22 60%, #3e1418 100%)',
+              backgroundColor: '#3b1417',
               borderRadius: '36px',
-              border: '1.5px solid #7d2e35',
+              border: '1px solid #572227',
               boxShadow: '0 24px 50px rgba(0, 0, 0, 0.45)',
               padding: '4.5rem 3rem'
             }}
@@ -277,7 +241,7 @@ export default function HomePage({ onNavigate }) {
             <h2 className="display-3 display-heading text-cream mb-3 mx-auto" style={{ fontSize: '3.1rem', maxWidth: '680px', lineHeight: 1.15 }}>
               Never miss a moment <br /> on your journey again.
             </h2>
-            <p className="lead mx-auto mb-4" style={{ color: '#e2d5c8', maxWidth: '580px', fontSize: '1.15rem', lineHeight: 1.65 }}>
+            <p className="lead mx-auto mb-4" style={{ color: '#cbb8ac', maxWidth: '580px', fontSize: '1.15rem', lineHeight: 1.65 }}>
               Itinera organizes your routes, weather rain checks, and multi-currency budgets automatically.
             </p>
 
@@ -285,7 +249,7 @@ export default function HomePage({ onNavigate }) {
               <button 
                 onClick={() => onNavigate('planner-flow')} 
                 className="btn btn-pill-cream hover-lift d-inline-flex align-items-center gap-2"
-                style={{ padding: '0.9rem 2.5rem', background: '#f5efe9', color: '#3e181c', fontWeight: 700 }}
+                style={{ padding: '0.9rem 2.5rem', backgroundColor: '#f5efe9', color: '#3e181c', fontWeight: 700 }}
               >
                 <span>Get started free &rarr;</span>
               </button>
