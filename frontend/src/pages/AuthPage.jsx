@@ -141,7 +141,7 @@ export default function AuthPage({ initialTab = 'login', onAuthSuccess }) {
             <Compass size={32} style={{ color: '#f5efe9' }} />
           </div>
 
-          <h2 className="display-heading mb-1" style={{ fontSize: '2.1rem' }}>
+          <h2 className="display-heading text-cream mb-1" style={{ fontSize: '2.1rem' }}>
             Itinera
           </h2>
 
