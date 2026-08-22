@@ -171,15 +171,22 @@ export default function Globe3D() {
 
     const gltfLoader = new GLTFLoader();
 
-    // Target visual size matching compass perfectly (0.75 units)
-    const TARGET_MODEL_SIZE = 0.75;
+    // Target visual size matching compass perfectly (0.70 units) across ALL elements
+    const TARGET_MODEL_SIZE = 0.70;
 
-    // Symmetrical, perfectly balanced 4-corner positions around the globe
+    // Symmetrical, perfectly balanced 8-point orbit positions (4 left, 4 right) around the globe
     const modelConfigs = [
-      { name: 'plane', path: '/models/plane.glb', basePos: [-3.6, 1.5, 0], rot: [0.2, 0.4, -0.2], dir: [-1.4, 0.4] },
-      { name: 'compass', path: '/models/compass.glb', basePos: [3.6, 1.5, 0], rot: [0.3, -0.3, 0.1], dir: [1.4, 0.4] },
-      { name: 'pin', path: '/models/pin.glb', basePos: [-3.6, -1.3, 0], rot: [0.1, 0.5, 0], dir: [-1.4, -0.4] },
-      { name: 'island', path: '/models/island.glb', basePos: [3.6, -1.3, 0], rot: [0.3, -0.4, 0.1], dir: [1.4, -0.4] }
+      // Left Column (Top to Bottom)
+      { name: 'balloon', path: '/models/balloon.glb', basePos: [-3.6, 1.8, 0], rot: [0.1, 0.4, 0], dir: [-0.4, 0.2] },
+      { name: 'plane', path: '/models/plane.glb', basePos: [-3.9, 0.6, 0], rot: [0.2, 0.4, -0.2], dir: [-0.4, 0.1] },
+      { name: 'cowboyhat', path: '/models/cowboyhat.glb', basePos: [-3.9, -0.6, 0], rot: [0.3, 0.3, 0.1], dir: [-0.4, -0.1] },
+      { name: 'pin', path: '/models/pin.glb', basePos: [-3.6, -1.8, 0], rot: [0.1, 0.5, 0], dir: [-0.4, -0.2] },
+      
+      // Right Column (Top to Bottom)
+      { name: 'compass', path: '/models/compass.glb', basePos: [3.6, 1.8, 0], rot: [0.3, -0.3, 0.1], dir: [0.4, 0.2] },
+      { name: 'camera', path: '/models/camera.glb', basePos: [3.9, 0.6, 0], rot: [0.2, -0.4, 0.1], dir: [0.4, 0.1] },
+      { name: 'palmtree', path: '/models/palmtree.glb', basePos: [3.9, -0.6, 0], rot: [0.1, -0.3, 0], dir: [0.4, -0.1] },
+      { name: 'island', path: '/models/island.glb', basePos: [3.6, -1.8, 0], rot: [0.3, -0.4, 0.1], dir: [0.4, -0.2] }
     ];
 
     const loadedList = [];
@@ -284,17 +291,17 @@ export default function Globe3D() {
       globeGroupRef.current.rotation.y = scrollProgress * Math.PI * 1.25;
     }
 
-    // Smoothly distribute models outward on scroll down
+    // Smoothly distribute models gently outward on scroll down without going off-screen
     loadedModelsRef.current.forEach((item) => {
       if (item.wrapper) {
-        item.wrapper.position.x = item.basePos[0] + item.dir[0] * scrollProgress * 1.6;
-        item.wrapper.position.y = item.basePos[1] + item.dir[1] * scrollProgress * 1.1;
+        item.wrapper.position.x = item.basePos[0] + item.dir[0] * scrollProgress * 0.6;
+        item.wrapper.position.y = item.basePos[1] + item.dir[1] * scrollProgress * 0.4;
       }
     });
   }, [scrollProgress]);
 
-  // Clamped Zoom Scale
-  const globeScale = 1 + scrollProgress * 0.32;
+  // Clamped Zoom Scale (1.0 to 1.15)
+  const globeScale = 1 + scrollProgress * 0.15;
 
   return (
     <div className="position-relative w-100 d-flex align-items-center justify-content-center" style={{ height: '560px', overflow: 'hidden' }}>

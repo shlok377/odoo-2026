@@ -18,7 +18,7 @@ export default function Navbar({ onNavigate, currentPage }) {
           <img 
             src="/logo.png" 
             alt="Itinera Logo" 
-            style={{ height: '52px', objectFit: 'contain' }}
+            style={{ height: '60px', objectFit: 'contain' }}
           />
         </div>
 

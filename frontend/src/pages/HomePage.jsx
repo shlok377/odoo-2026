@@ -40,12 +40,12 @@ export default function HomePage({ onNavigate }) {
             </span>
           </div>
 
-          {/* Prominent Large Logo */}
+          {/* Prominent Large Logo above Tagline */}
           <div className="d-inline-flex align-items-center justify-content-center mb-4 w-100">
             <img 
               src="/logo.png" 
               alt="Itinera Logo" 
-              style={{ height: '98px', width: 'auto', objectFit: 'contain' }} 
+              style={{ height: '170px', maxWidth: '90%', width: 'auto', objectFit: 'contain', filter: 'drop-shadow(0 6px 16px rgba(0,0,0,0.4))' }} 
             />
           </div>
 
