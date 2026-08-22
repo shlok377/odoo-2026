@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
-  Plus, MapPin, Calendar, Search, Filter, Trash2, 
-  ChevronRight, Compass, DollarSign, Share2, AlertCircle, Check, ArrowRight
+  Plus, MapPin, Calendar, Search, Trash2, 
+  ChevronRight, Compass, Share2, ArrowUpRight, Sparkles, Check
 } from 'lucide-react';
 import axios from 'axios';
 import CreateTripModal from '../components/CreateTripModal';
@@ -48,23 +48,19 @@ const DEMO_TRIPS = [
 
 export default function MyTripsPage({ onNavigate, onStartItinerary }) {
   const [trips, setTrips] = useState(DEMO_TRIPS);
-  const [loading, setLoading] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
-  const [activeTab, setActiveTab] = useState('all'); // 'all', 'upcoming', 'completed', 'draft'
+  const [activeTab, setActiveTab] = useState('all');
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [toastMessage, setToastMessage] = useState('');
 
   const fetchTrips = async () => {
     try {
-      setLoading(true);
       const res = await axios.get('/api/trips');
       if (res.data.success && res.data.trips.length > 0) {
         setTrips(res.data.trips);
       }
     } catch (err) {
       console.warn('Using demo trips fallback:', err);
-    } finally {
-      setLoading(false);
     }
   };
 
@@ -119,51 +115,52 @@ export default function MyTripsPage({ onNavigate, onStartItinerary }) {
   });
 
   return (
-    <div className="w-100 min-vh-100 py-5 px-3" style={{ color: '#F5EFE9' }}>
+    <div className="w-100 min-vh-100 py-5 px-3" style={{ color: '#efe2d3' }}>
       
       <div className="container" style={{ maxWidth: '1240px' }}>
         
-        {/* Header Banner */}
-        <div className="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-5 pb-3" style={{ borderBottom: '1px solid rgba(245, 239, 233, 0.2)' }}>
+        {/* EDITORIAL HEADER WITH THIN ACCENT DIVIDER LINE */}
+        <div className="d-flex flex-wrap align-items-end justify-content-between gap-3 mb-4 pb-4" style={{ borderBottom: '1px solid rgba(239, 226, 211, 0.18)' }}>
           <div>
-            <span className="small text-cream-muted display-heading" style={{ letterSpacing: '0.14em', color: '#D8C8C3', fontSize: '0.8rem' }}>
+            <span className="small display-heading" style={{ letterSpacing: '0.16em', color: '#d5c3b5', fontSize: '0.8rem' }}>
               MY TRAVEL JOURNEYS
             </span>
-            <h1 className="display-heading text-cream mb-1" style={{ fontSize: '2.6rem' }}>
+            <h1 className="display-heading mb-1" style={{ fontSize: '3rem', color: '#efe2d3', lineHeight: 1.1 }}>
               My Trips Dashboard
             </h1>
-            <p className="small mb-0" style={{ color: '#D8C8C3', fontSize: '0.95rem' }}>
-              Manage your saved multi-city travel itineraries, custom budgets, and day-wise schedules.
+            <p className="small mb-0" style={{ color: '#d5c3b5', fontSize: '0.95rem' }}>
+              Explore saved travel plans, multi-city itineraries, and custom budgets.
             </p>
           </div>
 
-          <button 
-            className="btn btn-pill-cream hover-lift d-inline-flex align-items-center gap-2"
+          <motion.button 
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+            className="btn btn-pill-cream d-inline-flex align-items-center gap-2"
             onClick={() => onNavigate('planner-flow')}
-            style={{ padding: '0.75rem 1.8rem' }}
+            style={{ padding: '0.75rem 1.8rem', backgroundColor: '#efe2d3', color: '#3e181c' }}
           >
             <Plus size={18} />
             <span>Create New Trip</span>
-          </button>
+          </motion.button>
         </div>
 
-        {/* Search & Filter Bar */}
-        <div className="row g-3 align-items-center mb-4">
-          <div className="col-md-6">
-            <div className="position-relative">
-              <Search size={18} className="position-absolute top-50 start-0 translate-middle-y ms-3 text-cream-muted" />
-              <input 
-                type="text"
-                className="itinera-input w-100 ps-5"
-                style={{ backgroundColor: '#271418', border: '1px solid #4a2027', color: '#F5EFE9' }}
-                placeholder="Search by trip name or city (e.g. Paris, Tokyo)..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-              />
-            </div>
+        {/* MINIMAL SEARCH & TAB FILTER LINE BAR */}
+        <div className="d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-3 mb-5 pb-3" style={{ borderBottom: '1px solid rgba(239, 226, 211, 0.1)' }}>
+          
+          <div className="position-relative" style={{ maxWidth: '420px', width: '100%' }}>
+            <Search size={16} className="position-absolute top-50 start-0 translate-middle-y ms-2 text-cream-muted" style={{ color: '#d5c3b5' }} />
+            <input 
+              type="text"
+              className="bg-transparent border-0 border-bottom text-cream ps-4 py-2 w-100"
+              style={{ color: '#efe2d3', borderColor: 'rgba(239, 226, 211, 0.2)', outline: 'none', fontSize: '0.95rem' }}
+              placeholder="Search journeys by title or city..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+            />
           </div>
 
-          <div className="col-md-6 d-flex justify-content-md-end gap-2 flex-wrap">
+          <div className="d-flex align-items-center gap-3">
             {[
               { id: 'all', label: 'All Journeys' },
               { id: 'upcoming', label: 'Upcoming' },
@@ -171,28 +168,34 @@ export default function MyTripsPage({ onNavigate, onStartItinerary }) {
             ].map((tab) => (
               <button
                 key={tab.id}
-                className={`btn btn-sm ${activeTab === tab.id ? 'btn-pill-cream' : 'btn-pill-outline'}`}
-                style={{ 
-                  borderRadius: '9999px',
-                  padding: '0.5rem 1.2rem',
-                  backgroundColor: activeTab === tab.id ? '#F5EFE9' : '#271418',
-                  color: activeTab === tab.id ? '#3e181c' : '#F5EFE9',
-                  border: activeTab === tab.id ? 'none' : '1px solid #4a2027'
-                }}
                 onClick={() => setActiveTab(tab.id)}
+                className="btn btn-sm bg-transparent border-0 position-relative py-2 px-1 text-nowrap"
+                style={{ 
+                  color: activeTab === tab.id ? '#efe2d3' : '#d5c3b5', 
+                  fontWeight: activeTab === tab.id ? 700 : 500,
+                  fontSize: '0.9rem'
+                }}
               >
                 {tab.label}
+                {activeTab === tab.id && (
+                  <motion.div 
+                    layoutId="activeTabUnderline"
+                    className="position-absolute bottom-0 start-0 end-0"
+                    style={{ height: '2px', backgroundColor: '#efe2d3', borderRadius: '2px' }}
+                  />
+                )}
               </button>
             ))}
           </div>
+
         </div>
 
-        {/* Trips Grid */}
+        {/* CLEAN BORDERLESS LINE-BASED GRID (NO CARDS) */}
         {filteredTrips.length === 0 ? (
-          <div className="text-center py-5 my-4 rounded-4" style={{ backgroundColor: '#271418', border: '1px dashed #4a2027' }}>
-            <Compass size={48} className="text-cream-muted mb-3" />
+          <div className="text-center py-5 my-5" style={{ borderTop: '1px dashed rgba(239, 226, 211, 0.2)', borderBottom: '1px dashed rgba(239, 226, 211, 0.2)' }}>
+            <Compass size={44} className="mb-3" style={{ color: '#d5c3b5' }} />
             <h4 className="display-heading text-cream mb-2">No Journeys Found</h4>
-            <p className="small text-cream-muted mb-4" style={{ maxWidth: '400px', margin: '0 auto', color: '#D8C8C3' }}>
+            <p className="small mb-4" style={{ color: '#d5c3b5', maxWidth: '380px', margin: '0 auto' }}>
               Create your first travel plan using our step-by-step trip builder wizard.
             </p>
             <button className="btn btn-pill-cream" onClick={() => onNavigate('planner-flow')}>
@@ -200,86 +203,91 @@ export default function MyTripsPage({ onNavigate, onStartItinerary }) {
             </button>
           </div>
         ) : (
-          <div className="row g-4">
-            {filteredTrips.map((trip) => (
+          <div className="row g-5">
+            {filteredTrips.map((trip, idx) => (
               <div key={trip.id} className="col-md-6 col-lg-4">
-                <motion.div 
-                  whileHover={{ y: -6 }}
-                  transition={{ duration: 0.2 }}
-                  className="rounded-4 overflow-hidden h-100 d-flex flex-column justify-content-between position-relative"
-                  style={{
-                    backgroundColor: '#271418',
-                    border: '1px solid #4a2027',
-                    boxShadow: '0 16px 36px rgba(0,0,0,0.35)',
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.3, delay: idx * 0.08 }}
+                  whileHover="hover"
+                  onClick={() => handleOpenTrip(trip)}
+                  className="cursor-pointer d-flex flex-column h-100 position-relative pb-4"
+                  style={{ 
+                    borderBottom: '1px solid rgba(239, 226, 211, 0.18)',
                     cursor: 'pointer'
                   }}
-                  onClick={() => handleOpenTrip(trip)}
                 >
-                  {/* Card Cover Photo */}
-                  <div className="position-relative" style={{ height: '180px', overflow: 'hidden' }}>
-                    <img 
+                  {/* Image Container with Smooth Scale Animation */}
+                  <div className="position-relative overflow-hidden rounded-4 mb-3" style={{ height: '220px' }}>
+                    <motion.img 
+                      variants={{ hover: { scale: 1.05 } }}
+                      transition={{ duration: 0.4, ease: 'easeOut' }}
                       src={trip.cover_image_url || 'https://images.unsplash.com/photo-1488646953014-85cb44e25828?auto=format&fit=crop&w=800&q=80'} 
                       alt={trip.title} 
-                      style={{ width: '100%', height: '100%', objectFit: 'cover' }} 
+                      className="w-100 h-100" 
+                      style={{ objectFit: 'cover' }} 
                     />
-                    <div className="position-absolute inset-0" style={{ background: 'linear-gradient(180deg, rgba(0,0,0,0.1) 0%, rgba(39,20,24,0.95) 100%)' }} />
                     
                     {/* Delete Icon Button */}
                     <button 
                       className="position-absolute top-0 end-0 m-3 btn btn-sm rounded-circle p-2"
-                      style={{ backgroundColor: 'rgba(28, 13, 16, 0.75)', border: '1px solid #4a2027', color: '#F5EFE9' }}
+                      style={{ backgroundColor: 'rgba(28, 13, 16, 0.65)', border: '1px solid rgba(239, 226, 211, 0.2)', color: '#efe2d3' }}
                       onClick={(e) => handleDeleteTrip(trip.id, e)}
                       title="Delete Trip"
                     >
-                      <Trash2 size={15} />
+                      <Trash2 size={14} />
                     </button>
 
-                    {/* Destination Pill */}
+                    {/* Destination Tag */}
                     <div className="position-absolute bottom-0 start-0 m-3">
-                      <span className="badge px-3 py-1.5 rounded-pill" style={{ backgroundColor: '#6b262d', color: '#F5EFE9', fontSize: '0.78rem' }}>
+                      <span className="badge px-3 py-1.5 rounded-pill" style={{ backgroundColor: '#6b262d', color: '#efe2d3', fontSize: '0.78rem' }}>
                         <MapPin size={11} className="me-1" />
                         {trip.cities_list || 'Multi-City Trip'}
                       </span>
                     </div>
                   </div>
 
-                  {/* Card Content */}
-                  <div className="p-4 d-flex flex-column justify-content-between flex-grow-1">
+                  {/* Editorial Content */}
+                  <div className="d-flex flex-column justify-content-between flex-grow-1">
                     <div>
-                      <h4 className="display-heading text-cream mb-2" style={{ fontSize: '1.3rem' }}>
-                        {trip.title}
-                      </h4>
-                      
-                      <div className="d-flex align-items-center gap-2 small text-cream-muted mb-3" style={{ fontSize: '0.82rem' }}>
-                        <Calendar size={13} />
-                        <span>{trip.start_date} &rarr; {trip.end_date}</span>
+                      <div className="d-flex align-items-center justify-content-between mb-1">
+                        <span className="small text-cream-muted" style={{ fontSize: '0.78rem', color: '#d5c3b5' }}>
+                          <Calendar size={12} className="me-1" />
+                          {trip.start_date} &rarr; {trip.end_date}
+                        </span>
+                        
+                        <motion.span 
+                          variants={{ hover: { x: 4 } }}
+                          transition={{ duration: 0.2 }}
+                          className="d-inline-flex align-items-center gap-1 small fw-bold"
+                          style={{ color: '#efe2d3', fontSize: '0.85rem' }}
+                        >
+                          <span>Explore</span>
+                          <ArrowUpRight size={14} />
+                        </motion.span>
                       </div>
 
+                      <h3 className="display-heading text-cream mb-2" style={{ fontSize: '1.45rem', color: '#efe2d3', lineHeight: 1.25 }}>
+                        {trip.title}
+                      </h3>
+
                       {trip.description && (
-                        <p className="small text-cream-muted line-clamp-2 mb-3" style={{ fontSize: '0.85rem', color: '#D8C8C3', lineHeight: 1.5 }}>
+                        <p className="small mb-3" style={{ fontSize: '0.88rem', color: '#d5c3b5', lineHeight: 1.55 }}>
                           {trip.description}
                         </p>
                       )}
                     </div>
 
-                    {/* Footer Row */}
-                    <div className="pt-3 mt-2 border-top border-secondary-subtle d-flex align-items-center justify-content-between">
-                      <div>
-                        <span className="small text-cream-muted d-block" style={{ fontSize: '0.7rem', letterSpacing: '0.08em', color: '#D8C8C3' }}>ESTIMATED BUDGET</span>
-                        <strong className="text-cream" style={{ fontSize: '1.1rem' }}>
-                          {trip.base_currency === 'INR' ? '₹' : '$'} {Number(trip.total_budget || 0).toLocaleString()}
-                        </strong>
-                      </div>
-
-                      <button 
-                        className="btn btn-sm btn-pill-outline d-inline-flex align-items-center gap-1"
-                        style={{ fontSize: '0.8rem', borderRadius: '9999px', padding: '0.4rem 0.9rem' }}
-                      >
-                        <span>View Trip</span>
-                        <ChevronRight size={14} />
-                      </button>
+                    {/* Thin Line Accent & Budget */}
+                    <div className="pt-3 d-flex align-items-center justify-content-between" style={{ borderTop: '1px solid rgba(239, 226, 211, 0.12)' }}>
+                      <span className="small" style={{ fontSize: '0.78rem', color: '#d5c3b5', letterSpacing: '0.06em' }}>ESTIMATED BUDGET</span>
+                      <span className="fw-bold" style={{ fontSize: '1.15rem', color: '#efe2d3' }}>
+                        {trip.base_currency === 'INR' ? '₹' : '$'} {Number(trip.total_budget || 0).toLocaleString()}
+                      </span>
                     </div>
                   </div>
+
                 </motion.div>
               </div>
             ))}
@@ -287,6 +295,13 @@ export default function MyTripsPage({ onNavigate, onStartItinerary }) {
         )}
 
       </div>
+
+      {/* Create Trip Modal */}
+      <CreateTripModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        onTripCreated={handleTripCreated}
+      />
 
       {/* Toast Notification */}
       <AnimatePresence>
@@ -296,7 +311,7 @@ export default function MyTripsPage({ onNavigate, onStartItinerary }) {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 20 }}
             className="position-fixed bottom-0 end-0 m-4 px-4 py-3 rounded-pill shadow-lg d-flex align-items-center gap-2"
-            style={{ backgroundColor: '#F5EFE9', color: '#3e181c', zIndex: 10000, fontWeight: 600 }}
+            style={{ backgroundColor: '#efe2d3', color: '#3e181c', zIndex: 10000, fontWeight: 600 }}
           >
             <Check size={18} />
             <span>{toastMessage}</span>

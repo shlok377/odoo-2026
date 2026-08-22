@@ -6,12 +6,12 @@
   --color-burgundy-top: #68252b;
   --color-burgundy-mid: #4c1a1f;
   --color-burgundy-bottom: #331014;
-  --color-burgundy-card: #45181d;
-  --color-burgundy-input: #290d10;
-  --color-burgundy-border: #63262c;
-  --color-cream: #f5efe9;
-  --color-cream-muted: #cbb8ac;
-  --color-cream-light: #fcefe6;
+  --color-burgundy-card: #271418;
+  --color-burgundy-input: #1c0d10;
+  --color-burgundy-border: #4a2027;
+  --color-cream: #efe2d3;
+  --color-cream-muted: #d5c3b5;
+  --color-cream-light: #f4e9dd;
   --font-display: 'Plus Jakarta Sans', 'Inter', sans-serif;
   --font-body: 'Inter', sans-serif;
 }
@@ -141,7 +141,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .btn-pill-cream:hover {
-  background-color: #fcefe6;
+  background-color: var(--color-cream-light);
   transform: translateY(-1px);
   color: #2b0c0f;
 }
