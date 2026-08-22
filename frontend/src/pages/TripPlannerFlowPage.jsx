@@ -489,6 +489,108 @@ export default function TripPlannerFlowPage({ onNavigate, onStartItinerary }) {
                   })}
                 </div>
               </div>
+
+              {/* Section 3: Community Shared Itineraries */}
+              <div className="pt-4 border-top border-secondary-subtle">
+                <div className="d-flex align-items-center justify-content-between mb-4">
+                  <div>
+                    <span className="small display-heading d-block mb-1" style={{ color: '#d5c3b5', letterSpacing: '0.12em', fontSize: '0.78rem' }}>
+                      COMMUNITY SHOWCASE
+                    </span>
+                    <h4 className="display-heading text-cream mb-0" style={{ fontSize: '1.45rem' }}>
+                      Publicly Shared Itineraries
+                    </h4>
+                    <small style={{ color: '#d5c3b5' }}>Explore or fork popular itineraries crafted by fellow travelers for {selectedCity}.</small>
+                  </div>
+                </div>
+
+                <div className="row g-4">
+                  {[
+                    {
+                      id: 'pub-1',
+                      title: `7 Days Cyberpunk ${selectedCity} Exploration`,
+                      author: '@sara_travels',
+                      avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=150&q=80',
+                      city: `${selectedCity}, ${cityData.country}`,
+                      days: 7,
+                      rating: 4.9,
+                      cost: '₹ 85,000',
+                      cover: cityData.cover
+                    },
+                    {
+                      id: 'pub-2',
+                      title: `5 Days ${selectedCity} Gastronomy & Culture`,
+                      author: '@marco_eats',
+                      avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=150&q=80',
+                      city: `${selectedCity}, ${cityData.country}`,
+                      days: 5,
+                      rating: 4.8,
+                      cost: '₹ 62,000',
+                      cover: cityData.attractions[0]?.image || cityData.cover
+                    },
+                    {
+                      id: 'pub-3',
+                      title: `4 Days Romantic ${selectedCity} Walk`,
+                      author: '@elena_p',
+                      avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=150&q=80',
+                      city: `${selectedCity}, ${cityData.country}`,
+                      days: 4,
+                      rating: 4.9,
+                      cost: '₹ 54,000',
+                      cover: cityData.foodSpots[0]?.image || cityData.cover
+                    }
+                  ].map((item) => (
+                    <div key={item.id} className="col-md-4">
+                      <motion.div 
+                        whileHover={{ y: -4 }}
+                        className="cursor-pointer d-flex flex-column h-100 pb-3"
+                        style={{ borderBottom: '1px solid rgba(239, 226, 211, 0.18)' }}
+                      >
+                        <div className="position-relative mb-3 overflow-hidden rounded-4" style={{ height: '150px' }}>
+                          <img src={item.cover} alt={item.title} className="w-100 h-100" style={{ objectFit: 'cover' }} />
+                          <div className="position-absolute top-0 end-0 m-2">
+                            <span className="badge px-2.5 py-1 rounded-pill" style={{ backgroundColor: 'rgba(28, 13, 16, 0.8)', color: '#efe2d3', fontSize: '0.75rem', border: '1px solid rgba(239, 226, 211, 0.25)' }}>
+                              <Star size={11} fill="#efe2d3" className="me-1" /> {item.rating}
+                            </span>
+                          </div>
+                        </div>
+
+                        <div className="d-flex align-items-center gap-2 mb-2">
+                          <img src={item.avatar} alt={item.author} className="rounded-circle" style={{ width: '22px', height: '22px', objectFit: 'cover' }} />
+                          <span className="small" style={{ fontSize: '0.78rem', color: '#d5c3b5' }}>{item.author}</span>
+                        </div>
+
+                        <h6 className="display-heading text-cream mb-2" style={{ fontSize: '1.08rem', lineHeight: 1.3 }}>
+                          {item.title}
+                        </h6>
+
+                        <div className="d-flex align-items-center gap-2 mb-3">
+                          <span className="badge px-2.5 py-1 rounded-pill" style={{ backgroundColor: 'transparent', border: '1px solid rgba(239, 226, 211, 0.25)', color: '#efe2d3', fontSize: '0.7rem' }}>
+                            <MapPin size={10} className="me-1" /> {item.city}
+                          </span>
+                          <span className="badge px-2.5 py-1 rounded-pill" style={{ backgroundColor: '#6b262d', color: '#efe2d3', fontSize: '0.7rem' }}>
+                            {item.days} Days
+                          </span>
+                        </div>
+
+                        <div className="pt-2 mt-auto border-top border-secondary-subtle d-flex align-items-center justify-content-between">
+                          <div>
+                            <small className="d-block" style={{ fontSize: '0.68rem', color: '#d5c3b5' }}>ESTIMATED</small>
+                            <span className="fw-bold text-cream" style={{ fontSize: '0.95rem' }}>{item.cost}</span>
+                          </div>
+                          <button 
+                            className="btn btn-sm btn-pill-cream px-3 py-1" 
+                            style={{ fontSize: '0.75rem', backgroundColor: '#efe2d3', color: '#3e181c' }}
+                            onClick={() => alert(`Forked ${item.title} into your plan!`)}
+                          >
+                            Fork Trip
+                          </button>
+                        </div>
+                      </motion.div>
+                    </div>
+                  ))}
+                </div>
+              </div>
             </motion.div>
           )}
 
