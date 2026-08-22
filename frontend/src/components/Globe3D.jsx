@@ -276,7 +276,7 @@ export default function Globe3D() {
       
       // Right Side (Organic Arc)
       { name: 'compass', path: '/models/compass.glb', basePos: [3.3, 1.85, 0], rot: [0.3, -0.3, 0.1], dir: [0.3, 0.15] },
-      { name: 'earth', path: '/models/earth.glb', basePos: [4.1, 0.65, 0], rot: [0.2, -0.4, 0.1], dir: [0.3, 0.05] },
+      { name: 'taxi', path: '/models/taxi.glb', basePos: [4.1, 0.65, 0], rot: [0.2, -0.6, 0.1], dir: [0.3, 0.05] },
       { name: 'palmtree', path: '/models/palmtree.glb', basePos: [3.4, -0.55, 0], rot: [0.1, -0.3, 0], dir: [0.3, -0.05] },
       { name: 'island', path: '/models/island.glb', basePos: [3.9, -1.75, 0], rot: [0.3, -0.4, 0.1], dir: [0.3, -0.15] }
     ];
