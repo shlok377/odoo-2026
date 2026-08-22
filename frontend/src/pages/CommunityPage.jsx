@@ -171,7 +171,7 @@ export default function CommunityPage({ onNavigate, onStartItinerary }) {
         background: 'linear-gradient(180deg, #591d26 0%, #4d1921 48%, #42151c 100%)', 
         color: '#c9b7ac', 
         minHeight: '100vh', 
-        fontFamily: "'Neuton', serif" 
+        fontFamily: "'Plus Jakarta Sans', system-ui, -apple-system, sans-serif" 
       }}
     >
       {/* Toast Notification */}
@@ -194,10 +194,10 @@ export default function CommunityPage({ onNavigate, onStartItinerary }) {
         {/* HEADER SECTION */}
         <div className="d-flex flex-column flex-md-row justify-content-between align-items-md-end gap-3 mb-4 pb-2">
           <div>
-            <div style={{ fontFamily: "'Pangolin', cursive", color: '#a9938b', fontSize: '1.1rem' }}>
+            <div style={{ color: '#a9938b', fontSize: '0.85rem', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase' }}>
               TRAVEL TOGETHER
             </div>
-            <h1 className="m-0 fw-bold" style={{ fontSize: 'clamp(2.8rem, 5vw, 4.5rem)', color: '#c9b7ac', lineHeight: 1 }}>
+            <h1 className="m-0 fw-bold" style={{ fontSize: 'clamp(2.8rem, 5vw, 4.5rem)', color: '#efe2d3', lineHeight: 1, letterSpacing: '-0.02em' }}>
               Community
             </h1>
             <p className="m-0 mt-2" style={{ maxWidth: '650px', color: '#a99189', fontSize: '1.1rem', lineHeight: 1.45 }}>
@@ -290,7 +290,7 @@ export default function CommunityPage({ onNavigate, onStartItinerary }) {
                     <div className="d-flex align-items-center gap-3">
                       <div 
                         className="rounded-circle d-flex align-items-center justify-content-center fw-bold" 
-                        style={{ width: '42px', height: '42px', backgroundColor: '#591d26', color: '#c9b7ac', fontFamily: "'Pangolin', cursive", fontSize: '18px' }}
+                        style={{ width: '42px', height: '42px', backgroundColor: '#591d26', color: '#c9b7ac', fontSize: '18px' }}
                       >
                         {post.avatar}
                       </div>
@@ -437,7 +437,7 @@ export default function CommunityPage({ onNavigate, onStartItinerary }) {
                   <div key={i} className="d-flex align-items-center gap-3 py-2 border-bottom" style={{ borderColor: '#64303a' }}>
                     <div 
                       className="rounded-circle d-flex align-items-center justify-content-center fw-bold"
-                      style={{ width: '36px', height: '36px', backgroundColor: '#6a2b35', color: '#c9b7ac', fontFamily: "'Pangolin', cursive" }}
+                      style={{ width: '36px', height: '36px', backgroundColor: '#6a2b35', color: '#c9b7ac' }}
                     >
                       {c.avatar}
                     </div>
