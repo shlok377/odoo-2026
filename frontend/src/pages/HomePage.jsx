@@ -108,7 +108,7 @@ export default function HomePage({ onNavigate }) {
           </div>
         </motion.div>
 
-        {/* Masterpiece 3D Globe Container with Real 3D Models (.glb) from /assets */}
+        {/* Masterpiece 3D Globe Container */}
         <div className="w-100 position-relative my-2" style={{ zIndex: 5, minHeight: '560px' }}>
           <Globe3D />
         </div>
@@ -116,7 +116,7 @@ export default function HomePage({ onNavigate }) {
       </section>
 
 
-      {/* SECTION 2: CONNECTED TIMELINE TUTORIAL SECTION */}
+      {/* SECTION 2: CONNECTED TIMELINE TUTORIAL SECTION (SOLID MATTE #120608) */}
       <section className="py-5 px-3" style={{ background: '#120608', borderTop: '1px solid #2a0d10', borderBottom: '1px solid #2a0d10' }}>
         <div className="container py-4">
           
@@ -138,7 +138,7 @@ export default function HomePage({ onNavigate }) {
             </p>
           </motion.div>
 
-          {/* 4 Interactive Cards */}
+          {/* 4 Interactive Cards (SOLID MATTE SURFACES) */}
           <motion.div 
             initial="hidden"
             whileInView="visible"
@@ -252,152 +252,47 @@ export default function HomePage({ onNavigate }) {
 
           </motion.div>
 
-          {/* Stats Counter Section */}
-          <motion.div 
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            variants={fadeInUp}
-            className="row g-3 mt-5 pt-3 text-center"
-          >
-            <div className="col-4">
-              <h3 className="display-heading text-cream mb-0" style={{ fontSize: '2rem' }}>10,000+</h3>
-              <small style={{ color: '#cbb8ac', fontSize: '0.82rem' }}>Global Cities Catalog</small>
-            </div>
-            <div className="col-4">
-              <h3 className="display-heading text-cream mb-0" style={{ fontSize: '2rem' }}>99.4%</h3>
-              <small style={{ color: '#cbb8ac', fontSize: '0.82rem' }}>Rain Check Accuracy</small>
-            </div>
-            <div className="col-4">
-              <h3 className="display-heading text-cream mb-0" style={{ fontSize: '2rem' }}>&lt; 0.2s</h3>
-              <small style={{ color: '#cbb8ac', fontSize: '0.82rem' }}>Relational SQL Query Time</small>
-            </div>
-          </motion.div>
-
         </div>
       </section>
 
 
-      {/* SECTION 3: ATTRACTIVE TUTORIAL VIDEO & PLATFORM SHOWCASE */}
-      <section className="py-5 px-3" style={{ background: '#1c080a', borderBottom: '1px solid #3d1418' }}>
-        <div className="container py-4">
-          
-          <motion.div 
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            variants={fadeInUp}
-            className="text-center mb-4"
-          >
-            <span className="badge rounded-pill mb-2 px-3 py-2" style={{ background: '#532328', color: '#f5efe9', fontSize: '0.85rem' }}>
-              Interactive Walkthrough
-            </span>
-            <h2 className="display-4 display-heading text-cream" style={{ fontSize: '2.5rem' }}>
-              Watch Itinera in Action
-            </h2>
-            <p className="small text-cream-muted mx-auto" style={{ maxWidth: '580px', color: '#cbb8ac' }}>
-              Explore how seamless travel planning works with our interactive video showcase and feature chapters.
-            </p>
-          </motion.div>
-
-          {/* Interactive Widescreen Video Player Card */}
-          <motion.div 
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            variants={fadeInUp}
-            className="mx-auto rounded-4 overflow-hidden position-relative"
-            style={{ maxWidth: '940px', background: '#2e0d11', border: '1.5px solid #572227', boxShadow: '0 20px 45px rgba(0,0,0,0.5)' }}
-          >
-            {/* Widescreen Preview Area */}
-            <div className="position-relative" style={{ height: '420px', overflow: 'hidden' }}>
-              <img 
-                src={videoChapters[activeVideoChapter].previewImg} 
-                alt="Itinera Tutorial Showcase" 
-                style={{ width: '100%', height: '100%', objectFit: 'cover', filter: 'brightness(0.75)' }} 
-              />
-
-              {/* Overlay Content */}
-              <div className="position-absolute inset-0 d-flex flex-column justify-content-between p-4" style={{ background: 'linear-gradient(180deg, rgba(30,9,12,0.4) 0%, rgba(20,6,8,0.85) 100%)' }}>
-                
-                <div className="d-flex justify-content-between align-items-center">
-                  <span className="badge px-3 py-2 rounded-pill" style={{ background: '#532328', color: '#f5efe9', fontSize: '0.8rem', fontWeight: 600 }}>
-                    {videoChapters[activeVideoChapter].tag}
-                  </span>
-                  <span className="small text-cream" style={{ fontSize: '0.8rem' }}>2 Min Overview</span>
-                </div>
-
-                {/* Center Play Button Icon */}
-                <div className="d-flex justify-content-center align-items-center my-auto">
-                  <button 
-                    onClick={() => setIsPlaying(!isPlaying)} 
-                    className="btn btn-pill-cream rounded-circle p-4 hover-lift d-flex align-items-center justify-content-center"
-                    style={{ width: '72px', height: '72px', background: '#f5efe9', color: '#3d1418', boxShadow: '0 10px 25px rgba(0,0,0,0.5)' }}
-                  >
-                    {isPlaying ? <Pause size={32} /> : <Play size={32} className="ms-1" />}
-                  </button>
-                </div>
-
-                {/* Chapter Title & Description */}
-                <div>
-                  <h4 className="display-heading text-cream mb-1" style={{ fontSize: '1.5rem' }}>
-                    {videoChapters[activeVideoChapter].title}
-                  </h4>
-                  <p className="small mb-0 text-cream-muted" style={{ color: '#d9c9bf', maxWidth: '600px' }}>
-                    {videoChapters[activeVideoChapter].desc}
-                  </p>
-                </div>
-
-              </div>
-            </div>
-
-            {/* Video Chapter Selector Tabs */}
-            <div className="p-3 d-flex flex-wrap gap-2" style={{ background: '#1a0608', borderTop: '1px solid #3d1418' }}>
-              {videoChapters.map((chap, idx) => (
-                <button 
-                  key={chap.id} 
-                  onClick={() => setActiveVideoChapter(idx)} 
-                  className={`btn btn-sm ${activeVideoChapter === idx ? 'btn-pill-cream' : 'btn-pill-outline'} flex-grow-1 text-start`}
-                  style={{ borderRadius: '12px', padding: '0.6rem 1rem', fontSize: '0.85rem' }}
-                >
-                  <span className="fw-semibold">{chap.title}</span>
-                </button>
-              ))}
-            </div>
-
-          </motion.div>
-
-        </div>
-      </section>
-
-
-      {/* SECTION 4: BLACK ROW 2 — CALL TO ACTION BANNER */}
+      {/* SECTION 3: MEANINGFULLY PLACED REFERENCE CTA CARD (SOLID MATTE GRADIENT, ZERO GLASSMORPHISM) */}
       <section className="py-5 px-3" style={{ background: '#0e0406', borderTop: '1px solid #2a0d10' }}>
-        <div className="container text-center py-4">
+        <div className="container py-4">
           <motion.div 
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true }}
             variants={fadeInUp}
-            style={{ maxWidth: '700px' }}
-            className="mx-auto"
+            className="rounded-5 text-center p-5 mx-auto position-relative overflow-hidden"
+            style={{
+              maxWidth: '920px',
+              background: 'linear-gradient(180deg, #70262d 0%, #521c22 60%, #3e1418 100%)',
+              borderRadius: '36px',
+              border: '1.5px solid #7d2e35',
+              boxShadow: '0 24px 50px rgba(0, 0, 0, 0.45)',
+              padding: '4.5rem 3rem'
+            }}
           >
-            <h2 className="display-4 display-heading text-cream mb-3" style={{ fontSize: '2.5rem' }}>
-              Ready to Start Your Journey?
+            <h2 className="display-3 display-heading text-cream mb-3 mx-auto" style={{ fontSize: '3.1rem', maxWidth: '680px', lineHeight: 1.15 }}>
+              Never miss a moment <br /> on your journey again.
             </h2>
-            <p className="small text-cream-muted mb-4" style={{ color: '#cbb8ac', fontSize: '1.05rem' }}>
-              Sign up now or test with our 1-click evaluation account to experience Itinera.
+            <p className="lead mx-auto mb-4" style={{ color: '#e2d5c8', maxWidth: '580px', fontSize: '1.15rem', lineHeight: 1.65 }}>
+              Itinera organizes your routes, weather rain checks, and multi-currency budgets automatically.
             </p>
 
-            <div className="d-flex flex-wrap justify-content-center gap-3">
+            <div className="d-flex justify-content-center mb-4">
               <button 
-                onClick={() => onNavigate('auth-register')} 
+                onClick={() => onNavigate('planner-flow')} 
                 className="btn btn-pill-cream hover-lift d-inline-flex align-items-center gap-2"
-                style={{ width: 'auto', padding: '0.85rem 2.2rem' }}
+                style={{ padding: '0.9rem 2.5rem', background: '#f5efe9', color: '#3e181c', fontWeight: 700 }}
               >
-                <span>Create Free Account</span>
-                <ChevronRight size={18} />
+                <span>Get started free &rarr;</span>
               </button>
+            </div>
+
+            <div className="small text-cream-muted" style={{ color: '#cbb8ac', fontSize: '0.85rem', letterSpacing: '0.05em' }}>
+              Instant setup &bull; Automated rain check &bull; Multi-currency budget split
             </div>
           </motion.div>
         </div>

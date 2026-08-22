@@ -128,7 +128,7 @@ export default function TripPlannerFlowPage({ onNavigate, onStartItinerary }) {
       
       <div className="container" style={{ maxWidth: '960px' }}>
         
-        {/* STEPPER PROGRESS NAVIGATION HEADER */}
+        {/* STEPPER PROGRESS NAVIGATION HEADER (SOLID MATTE SURFACES) */}
         <div className="d-flex flex-wrap align-items-center justify-content-between mb-5 pb-3" style={{ borderBottom: '1px solid rgba(245, 239, 233, 0.22)' }}>
           <div>
             <span className="small text-cream-muted display-heading" style={{ letterSpacing: '0.14em', color: '#D8C8C3' }}>
@@ -211,7 +211,7 @@ export default function TripPlannerFlowPage({ onNavigate, onStartItinerary }) {
                 </div>
               </div>
 
-              {/* Clean Interactive Map */}
+              {/* Clean Interactive Map Container */}
               <div className="p-4 rounded-4" style={{ background: '#3e181c', border: '1.5px solid #63262c' }}>
                 <div className="d-flex align-items-center justify-content-between mb-3">
                   <div>
@@ -359,7 +359,7 @@ export default function TripPlannerFlowPage({ onNavigate, onStartItinerary }) {
             </motion.div>
           )}
 
-          {/* STEP 3: FAMOUS FOOD PLACES & HIGH IMPACT CTA CARD (MATCHING REFERENCE IMAGE) */}
+          {/* STEP 3: FAMOUS FOOD PLACES SELECTION */}
           {wizardStep === 3 && (
             <motion.div
               key="step3"
@@ -369,7 +369,6 @@ export default function TripPlannerFlowPage({ onNavigate, onStartItinerary }) {
               transition={{ duration: 0.3 }}
               className="d-flex flex-column gap-4"
             >
-              {/* Food Places Grid */}
               <div className="p-4 rounded-4" style={{ background: '#3e181c', border: '1.5px solid #63262c' }}>
                 <div className="d-flex align-items-center justify-content-between mb-4">
                   <div>
@@ -431,40 +430,6 @@ export default function TripPlannerFlowPage({ onNavigate, onStartItinerary }) {
                   })}
                 </div>
               </div>
-
-              {/* HIGH-IMPACT SOLID MATTE CARD (MATCHING USER REFERENCE IMAGE WITH ZERO GLASSMORPHISM) */}
-              <div 
-                className="rounded-5 text-center p-5 position-relative overflow-hidden my-2"
-                style={{
-                  background: 'linear-gradient(180deg, #70262d 0%, #521c22 60%, #3e1418 100%)',
-                  borderRadius: '36px',
-                  border: '1.5px solid #7d2e35',
-                  boxShadow: '0 24px 50px rgba(0, 0, 0, 0.45)',
-                  padding: '4.5rem 3rem'
-                }}
-              >
-                <h2 className="display-3 display-heading text-cream mb-3 mx-auto" style={{ fontSize: '3.1rem', maxWidth: '680px', lineHeight: 1.15 }}>
-                  Never miss a moment <br /> on your journey again.
-                </h2>
-                <p className="lead mx-auto mb-4" style={{ color: '#e2d5c8', maxWidth: '580px', fontSize: '1.15rem', lineHeight: 1.65 }}>
-                  Itinera organizes your sights, dining spots, rain checks, and multi-currency budgets automatically.
-                </p>
-
-                <div className="d-flex justify-content-center mb-4">
-                  <button 
-                    onClick={handleProceedToNextStep}
-                    className="btn btn-pill-cream hover-lift d-inline-flex align-items-center gap-2"
-                    style={{ padding: '0.9rem 2.5rem', background: '#f5efe9', color: '#3e181c', fontWeight: 700 }}
-                  >
-                    <span>Generate Itinerary Builder</span>
-                    <ArrowRight size={18} />
-                  </button>
-                </div>
-
-                <div className="small text-cream-muted" style={{ color: '#cbb8ac', fontSize: '0.85rem', letterSpacing: '0.05em' }}>
-                  Instant setup &bull; Automated rain check &bull; Multi-currency budget split
-                </div>
-              </div>
             </motion.div>
           )}
 
@@ -482,16 +447,14 @@ export default function TripPlannerFlowPage({ onNavigate, onStartItinerary }) {
             </button>
           ) : <div />}
 
-          {wizardStep < 3 && (
-            <button 
-              className="btn btn-pill-cream hover-lift d-inline-flex align-items-center gap-2"
-              onClick={handleProceedToNextStep}
-              style={{ padding: '0.85rem 2.2rem' }}
-            >
-              <span>Continue to Next Step</span>
-              <ChevronRight size={18} />
-            </button>
-          )}
+          <button 
+            className="btn btn-pill-cream hover-lift d-inline-flex align-items-center gap-2"
+            onClick={handleProceedToNextStep}
+            style={{ padding: '0.85rem 2.2rem' }}
+          >
+            <span>{wizardStep === 3 ? 'Generate Itinerary Builder &rarr;' : 'Continue to Next Step'}</span>
+            <ChevronRight size={18} />
+          </button>
         </div>
 
       </div>
